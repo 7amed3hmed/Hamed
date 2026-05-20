@@ -1,4 +1,5 @@
 import { Internship } from '@/types';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -17,6 +18,11 @@ const modeIcons = { online: Monitor, offline: MapPin, hybrid: Building2 };
 export function InternshipCard({ internship, skillMatch, showApply = true }: InternshipCardProps) {
   const navigate = useNavigate();
   const ModeIcon = modeIcons[internship.mode];
+  const [logoError, setLogoError] = useState(false);
+
+  useEffect(() => {
+    setLogoError(false);
+  }, [internship]);
 
   return (
     <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-border/50">
@@ -24,8 +30,13 @@ export function InternshipCard({ internship, skillMatch, showApply = true }: Int
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-center gap-3 flex-1 min-w-0">
             <div className="w-10 h-10 rounded-lg bg-accent shrink-0 border border-border overflow-hidden flex items-center justify-center">
-               {getImageUrl((internship as any).companyId?.logo || internship.companyLogo) ? (
-                 <img src={getImageUrl((internship as any).companyId?.logo || internship.companyLogo)} className="w-full h-full object-cover" alt="" />
+               {getImageUrl((internship as any).companyId?.logo || internship.companyLogo) && !logoError ? (
+                 <img
+                   src={getImageUrl((internship as any).companyId?.logo || internship.companyLogo)}
+                   className="w-full h-full object-cover"
+                   alt=""
+                   onError={() => setLogoError(true)}
+                 />
                ) : <Building2 className="h-5 w-5 text-muted-foreground" />}
             </div>
             <div className="min-w-0">

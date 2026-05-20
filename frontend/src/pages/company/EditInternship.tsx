@@ -110,8 +110,8 @@ export default function EditOpportunity() {
       return;
     }
 
-    if (form.volunteerHours < 1 || form.volunteerHours > 140) {
-      toast.error('Volunteer hours must be between 1 and 140');
+    if (form.volunteerHours < 1) {
+      toast.error('Volunteer hours must be a positive number');
       return;
     }
     setLoading(true);
@@ -231,9 +231,9 @@ export default function EditOpportunity() {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="volunteerHours">Volunteer Hours *</Label>
-                  <Input id="volunteerHours" type="number" min={1} max={140} placeholder="Max 140 hours" value={form.volunteerHours || ''}
+                  <Input id="volunteerHours" type="number" min={1} placeholder="Estimated volunteer hours" value={form.volunteerHours || ''}
                     onChange={e => update('volunteerHours', Number(e.target.value))} className="rounded-xl" required />
-                  <p className="text-[10px] text-muted-foreground px-1">Maximum 140 hours allowed.</p>
+                  <p className="text-[10px] text-muted-foreground px-1">Enter the estimated volunteer hours.</p>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="seats">Available Seats</Label>

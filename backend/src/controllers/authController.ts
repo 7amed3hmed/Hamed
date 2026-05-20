@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/User';
+import Internship from '../models/Internship';
 import { sendSuccess, sendError } from '../utils/responseWrapper';
 import { AuthRequest } from '../middlewares/auth';
 import nodemailer from 'nodemailer';
@@ -176,11 +177,6 @@ export const updateProfile = async (req: AuthRequest, res: Response) => {
       'taxRegister', 'description', 'skills', 'extractedSkills', 'cvUrl'
     ];
 
-    // Process form-data for files if attached
-    // This is simple JSON update to start with. Wait, frontend uses config: { headers: { 'Content-Type': 'multipart/form-data' } }
-    // which means multer must parse req.body!
-    // Since req.body is filled by multer if configured, we can map fields:
-
     updatableFields.forEach(field => {
       if (req.body[field] !== undefined) {
         // @ts-ignore
@@ -192,13 +188,16 @@ export const updateProfile = async (req: AuthRequest, res: Response) => {
       const filePath = `/uploads/${req.file.filename}`;
       if (user.role === 'company') {
         user.logo = filePath;
+        // Propagate company logo to all their opportunities
+        await Internship.updateMany({ companyId: user._id }, { companyLogo: filePath });
       } else {
         user.profileImage = filePath;
       }
     }
 
     await user.save();
-    return sendSuccess(res, 200, user, 'Profile updated successfully');
+    const userObj = user.toObject();
+    return sendSuccess(res, 200, userObj, 'Profile updated successfully');
   } catch (error: any) {
     return sendError(res, 500, error.message);
   }

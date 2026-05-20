@@ -63,7 +63,7 @@ export default function VerifyEmailPage() {
       <Card className="w-full max-w-md shadow-xl border-border/50">
         <CardHeader className="text-center space-y-4">
           <Link to="/" className="flex justify-center">
-            <img src={logo} alt="Interno" className="h-12 w-auto mx-auto" />
+            <img src={logo} alt="inPlace" className="h-12 w-auto mx-auto" />
           </Link>
           <CardTitle className="text-2xl">Verify Your Email</CardTitle>
           <CardDescription>

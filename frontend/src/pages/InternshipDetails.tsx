@@ -19,6 +19,11 @@ export default function InternshipDetails() {
   const [opportunity, setOpportunity] = useState<Opportunity | null>(null);
   const [loading, setLoading] = useState(true);
   const [applying, setApplying] = useState(false);
+  const [logoError, setLogoError] = useState(false);
+
+  useEffect(() => {
+    setLogoError(false);
+  }, [opportunity]);
 
   useEffect(() => {
     if (id) {
@@ -93,8 +98,13 @@ export default function InternshipDetails() {
           <div className="flex flex-col md:flex-row gap-6 items-start justify-between">
             <div className="flex gap-6 items-start">
               <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-card flex items-center justify-center shrink-0 border border-border shadow-sm overflow-hidden">
-                {getImageUrl((opportunity as any).companyId?.logo || opportunity.companyLogo) ? (
-                  <img src={getImageUrl((opportunity as any).companyId?.logo || opportunity.companyLogo)} alt={opportunity.companyName} className="w-full h-full object-cover" />
+                {getImageUrl((opportunity as any).companyId?.logo || opportunity.companyLogo) && !logoError ? (
+                  <img
+                    src={getImageUrl((opportunity as any).companyId?.logo || opportunity.companyLogo)}
+                    alt={opportunity.companyName}
+                    className="w-full h-full object-cover"
+                    onError={() => setLogoError(true)}
+                  />
                 ) : (
                   <Briefcase className="h-10 w-10 text-muted-foreground" />
                 )}

@@ -10,7 +10,7 @@ export const sendOtpEmail = async (email: string, otp: string) => {
 
   const sender = {
     email: "hello@demomailtrap.co",
-    name: "Interno Authentication",
+    name: "inPlace Authentication",
   };
 
   try {
@@ -18,11 +18,11 @@ export const sendOtpEmail = async (email: string, otp: string) => {
       from: sender,
       to: [{ email }],
       category: "OTP Verification",
-      subject: "Your OTP for Interno",
-      text: `Your Interno OTP code is: ${otp}. It will expire in 10 minutes.`,
+      subject: "Your OTP for inPlace",
+      text: `Your inPlace OTP code is: ${otp}. It will expire in 10 minutes.`,
       html: `
         <div style="font-family: Arial, sans-serif; padding: 20px;">
-          <h2>Interno Verification</h2>
+          <h2>inPlace Verification</h2>
           <p>Your OTP code is: <b style="font-size: 24px; color: #4F46E5;">${otp}</b></p>
           <p>It will expire in 10 minutes.</p>
         </div>

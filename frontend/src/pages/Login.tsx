@@ -54,8 +54,8 @@ export default function LoginPage() {
       <Card className="w-full max-w-md shadow-xl border-border/50">
         <CardHeader className="text-center space-y-4">
           <Link to="/" className="flex items-center justify-center gap-2">
-            <img src={logo} alt="Interno" className="h-12 w-auto" />
-            <span className="text-2xl font-bold gradient-primary-text">Interno</span>
+            <img src={logo} alt="inPlace" className="h-12 w-auto" />
+            <span className="text-2xl font-bold gradient-primary-text">inPlace</span>
           </Link>
           <CardTitle className="text-2xl">Welcome Back</CardTitle>
           <CardDescription>Sign in to your account</CardDescription>

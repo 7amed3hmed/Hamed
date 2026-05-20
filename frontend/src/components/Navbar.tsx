@@ -8,7 +8,7 @@ import {
 import { User, LogOut, Settings, Menu, Bookmark } from 'lucide-react';
 import { NotificationBell } from '@/components/NotificationBell';
 import logo from '@/assets/logo.png';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getImageUrl } from '@/utils/imageUrl';
 
 export function Navbar() {
@@ -16,6 +16,7 @@ export function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [imgError, setImgError] = useState(false);
 
   const handleLogout = () => { logout(); navigate('/login'); };
 
@@ -51,6 +52,10 @@ export function Navbar() {
 
   const profileImage = getImageUrl((user as any)?.profileImage || (user as any)?.logo);
 
+  useEffect(() => {
+    setImgError(false);
+  }, [profileImage]);
+
   const displayNavLinks = (isAuthenticated && isStudent && !hasOnboarded) ? [] : navLinks;
 
   return (
@@ -69,8 +74,8 @@ export function Navbar() {
                 key={link.path}
                 to={link.path}
                 className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${location.pathname === link.path
-                    ? 'bg-primary/10 text-primary'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-accent'
+                  ? 'bg-primary/10 text-primary'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-accent'
                   }`}
               >
                 {link.label}
@@ -110,11 +115,12 @@ export function Navbar() {
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="gap-2 pl-2 pr-4 rounded-full border border-border hover:border-primary/50 transition-colors">
                       <div className="h-8 w-8 rounded-full gradient-primary flex items-center justify-center overflow-hidden">
-                        {profileImage ? (
+                        {profileImage && !imgError ? (
                           <img
                             src={profileImage}
                             alt={displayName || 'User'}
                             className="w-full h-full object-cover"
+                            onError={() => setImgError(true)}
                           />
                         ) : (
                           <User className="h-4 w-4 text-white" />
@@ -162,8 +168,8 @@ export function Navbar() {
                 to={link.path}
                 onClick={() => setMobileOpen(false)}
                 className={`block px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${location.pathname === link.path
-                    ? 'bg-primary/10 text-primary'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-accent'
+                  ? 'bg-primary/10 text-primary'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-accent'
                   }`}
               >
                 {link.label}

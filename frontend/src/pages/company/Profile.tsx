@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AppLayout } from '@/components/AppLayout';
 import { useAuthStore } from '@/store/authStore';
 import type { CompanyProfile } from '@/types';
@@ -21,10 +21,19 @@ export default function CompanyProfilePage() {
     website: company.website || '',
   });
 
-   const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [logoFile, setLogoFile] = useState<File | null>(null);
   const [logoPreview, setLogoPreview] = useState<string | null>(
     getImageUrl(company.logo)
   );
+  const [logoError, setLogoError] = useState(false);
+
+  useEffect(() => {
+    setLogoPreview(getImageUrl(company.logo));
+  }, [company.logo]);
+
+  useEffect(() => {
+    setLogoError(false);
+  }, [logoPreview]);
 
   const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -43,7 +52,7 @@ export default function CompanyProfilePage() {
       if (logoFile) {
         fd.append('profileImage', logoFile);
       }
-      
+
       await updateProfile(fd);
       toast.success('Organization profile updated!');
     } catch (err: any) {
@@ -71,13 +80,13 @@ export default function CompanyProfilePage() {
             <CardTitle>Public Information</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            
+
             <div className="flex flex-col sm:flex-row gap-6 items-start">
               <div className="space-y-2 shrink-0 text-center">
                 <Label>Organization Logo</Label>
                 <div className="w-32 h-32 rounded-xl border-2 border-dashed border-border flex items-center justify-center overflow-hidden bg-muted/30 relative group">
-                  {logoPreview ? (
-                    <img src={logoPreview} alt="Logo" className="w-full h-full object-cover" />
+                  {logoPreview && !logoError ? (
+                    <img src={logoPreview} alt="Logo" className="w-full h-full object-cover" onError={() => setLogoError(true)} />
                   ) : (
                     <Building2 className="h-10 w-10 text-muted-foreground" />
                   )}
@@ -94,7 +103,7 @@ export default function CompanyProfilePage() {
                   <Label>Organization Name</Label>
                   <Input value={formData.companyName} onChange={e => setFormData({ ...formData, companyName: e.target.value })} className="bg-muted/50" />
                 </div>
-                
+
                 <div className="space-y-2">
                   <Label>Email <span className="text-xs text-muted-foreground">(Used for login, cannot be changed)</span></Label>
                   <Input value={company.email} disabled className="bg-muted/50" />
@@ -109,11 +118,11 @@ export default function CompanyProfilePage() {
 
             <div className="space-y-2">
               <Label>About the Organization</Label>
-              <Textarea 
-                value={formData.description} 
-                onChange={e => setFormData({ ...formData, description: e.target.value })} 
+              <Textarea
+                value={formData.description}
+                onChange={e => setFormData({ ...formData, description: e.target.value })}
                 placeholder="Describe your mission, values, and the impact volunteers can make..."
-                rows={6} 
+                rows={6}
                 className="bg-muted/50"
               />
             </div>

@@ -19,6 +19,11 @@ export function OpportunityCard({ opportunity, onSaveToggle }: OpportunityCardPr
   const { user, toggleSavedOpportunityState } = useAuthStore();
   const [isSaved, setIsSaved] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [logoError, setLogoError] = useState(false);
+
+  useEffect(() => {
+    setLogoError(false);
+  }, [opportunity]);
 
   useEffect(() => {
     if (user?.role === 'student') {
@@ -115,8 +120,13 @@ export function OpportunityCard({ opportunity, onSaveToggle }: OpportunityCardPr
         <CardContent className="p-6 flex flex-col flex-grow">
           <div className="flex gap-4 mb-4">
             <div className="w-14 h-14 rounded-xl bg-accent flex items-center justify-center shrink-0 border border-border shadow-sm group-hover:scale-105 transition-transform overflow-hidden">
-              {getImageUrl((opportunity as any).companyId?.logo || opportunity.companyLogo) ? (
-                <img src={getImageUrl((opportunity as any).companyId?.logo || opportunity.companyLogo)} alt={opportunity.companyName} className="w-full h-full object-cover" />
+              {getImageUrl((opportunity as any).companyId?.logo || opportunity.companyLogo) && !logoError ? (
+                <img
+                  src={getImageUrl((opportunity as any).companyId?.logo || opportunity.companyLogo)}
+                  alt={opportunity.companyName}
+                  className="w-full h-full object-cover"
+                  onError={() => setLogoError(true)}
+                />
               ) : (
                 <Briefcase className="h-6 w-6 text-muted-foreground" />
               )}

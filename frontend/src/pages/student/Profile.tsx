@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AppLayout } from '@/components/AppLayout';
 import { useAuthStore } from '@/store/authStore';
 import type { StudentProfile } from '@/types';
@@ -10,8 +10,10 @@ import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from 'sonner';
 import { Upload, X, Plus, Sparkles, User as UserIcon } from 'lucide-react';
-import { aiService, authService } from '@/services/api';
+import { aiService, authService, API_BASE_URL } from '@/services/api';
 import { getImageUrl } from '@/utils/imageUrl';
+
+const API_ORIGIN = API_BASE_URL.replace(/\/api\/?$/, '');
 
 export default function StudentProfile() {
   const { user, updateProfile, updateSkills } = useAuthStore();
@@ -26,6 +28,15 @@ export default function StudentProfile() {
     profileImage: getImageUrl(student.profileImage)
   });
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [profileImageError, setProfileImageError] = useState(false);
+
+  useEffect(() => {
+    setFormData(prev => ({ ...prev, profileImage: getImageUrl(student.profileImage) }));
+  }, [student.profileImage]);
+
+  useEffect(() => {
+    setProfileImageError(false);
+  }, [formData.profileImage]);
 
   const handleAddSkill = () => {
     if (newSkill.trim() && !student.skills.includes(newSkill.trim())) {
@@ -101,8 +112,8 @@ export default function StudentProfile() {
             <div className="flex flex-col sm:flex-row items-center gap-6 pb-4 border-b border-border/50">
               <div className="relative group">
                 <div className="w-24 h-24 rounded-2xl bg-muted overflow-hidden border-2 border-violet-100 group-hover:border-violet-300 transition-colors">
-                  {formData.profileImage ? (
-                    <img src={formData.profileImage} className="w-full h-full object-cover" alt="" />
+                  {formData.profileImage && !profileImageError ? (
+                    <img src={formData.profileImage} className="w-full h-full object-cover" alt="" onError={() => setProfileImageError(true)} />
                   ) : <UserIcon className="h-10 w-10 text-muted-foreground/40 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />}
                 </div>
                 <label className="absolute inset-0 flex items-center justify-center bg-black/40 text-white opacity-0 group-hover:opacity-100 cursor-pointer rounded-2xl transition-opacity">
@@ -162,7 +173,7 @@ export default function StudentProfile() {
               <p className="text-sm text-muted-foreground">Upload your CV (PDF/DOC)</p>
               <Input type="file" accept=".pdf,.doc,.docx" className="mt-2 text-sm text-muted-foreground max-w-xs mx-auto" onChange={handleExtractSkills} disabled={extracting} />
               {student.cvUrl && (
-                <p className="mt-2 text-xs text-primary font-medium">✅ CV Uploaded: <a href={`http://localhost:8000${student.cvUrl}`} target="_blank" rel="noreferrer" className="underline hover:text-primary/80">View CV</a></p>
+                <p className="mt-2 text-xs text-primary font-medium">✅ CV Uploaded: <a href={`${API_ORIGIN}${student.cvUrl}`} target="_blank" rel="noreferrer" className="underline hover:text-primary/80">View CV</a></p>
               )}
             </div>
             {extracting && (

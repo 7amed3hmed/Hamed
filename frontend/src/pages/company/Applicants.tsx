@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { applicationService, opportunityService } from '@/services/api';
+import { applicationService, opportunityService, API_BASE_URL } from '@/services/api';
+const API_ORIGIN = API_BASE_URL.replace(/\/api\/?$/, '');
 import { AppLayout } from '@/components/AppLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -12,6 +13,15 @@ import { User, FileText, CheckCircle, XCircle, Clock, ArrowLeft, Star, Sparkles 
 import { getImageUrl } from '@/utils/imageUrl';
 import { Application, Opportunity } from '@/types';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
+
+function StudentAppAvatar({ src, name }: { src?: string; name: string }) {
+  const [error, setError] = useState(false);
+  const imageUrl = getImageUrl(src);
+  if (imageUrl && !error) {
+    return <img src={imageUrl} className="w-full h-full object-cover" alt={name} onError={() => setError(true)} />;
+  }
+  return <>{name.charAt(0).toUpperCase()}</>;
+}
 
 export default function ApplicantsView() {
   const { internshipId } = useParams<{ internshipId: string }>();
@@ -122,11 +132,7 @@ export default function ApplicantsView() {
                   <div className="flex justify-between items-start mb-4">
                     <div className="flex items-center gap-3">
                       <div className="w-12 h-12 rounded-full gradient-primary flex items-center justify-center text-white font-bold text-lg overflow-hidden">
-                        {getImageUrl((app as any).studentId?.profileImage) ? (
-                          <img src={getImageUrl((app as any).studentId?.profileImage)} className="w-full h-full object-cover" alt="" />
-                        ) : (
-                          app.studentName.charAt(0).toUpperCase()
-                        )}
+                        <StudentAppAvatar src={(app as any).studentId?.profileImage} name={app.studentName} />
                       </div>
                       <div>
                         <h3 className="font-bold text-lg leading-tight">{app.studentName}</h3>
@@ -212,7 +218,7 @@ export default function ApplicantsView() {
                         <p><span className="text-muted-foreground w-16 inline-block">Phone:</span> {selectedApp.studentPhone || 'Not provided'}</p>
                       </div>
                       {selectedApp.cvUrl && (
-                        <Button variant="outline" className="mt-4 w-full justify-start" onClick={() => window.open(`http://localhost:8000${selectedApp.cvUrl}`, '_blank')}>
+                        <Button variant="outline" className="mt-4 w-full justify-start" onClick={() => window.open(`${API_ORIGIN}${selectedApp.cvUrl}`, '_blank')}>
                           <FileText className="mr-2 h-4 w-4 text-primary" /> View Resume
                         </Button>
                       )}

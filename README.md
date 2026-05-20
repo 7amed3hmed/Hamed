@@ -194,6 +194,28 @@ Start-Service -Name MongoDB
 
 ---
 
+## 📦 Production Build
+
+To build both the backend and frontend for production, execute the following commands in their respective directories:
+
+### Backend Build
+```powershell
+cd backend
+npm install
+npm run build
+```
+This compiles the TypeScript code in `src/` to JavaScript under the `dist/` directory.
+
+### Frontend Build
+```powershell
+cd frontend
+npm install
+npm run build
+```
+This builds and bundles the React Vite client to optimized static assets under the `dist/` directory.
+
+---
+
 ## 🎨 Development Guidelines
 - **Branding**: Always use **inPlace** for public-facing text.
 - **Design**: Stick to the purple (`#7c3aed`) and indigo color palette.

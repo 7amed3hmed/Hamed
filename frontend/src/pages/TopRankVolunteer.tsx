@@ -18,6 +18,22 @@ interface VolunteerRank {
   rank?: number;
 }
 
+function VolunteerAvatar({ src, username, className }: { src?: string; username?: string; className?: string }) {
+  const [error, setError] = useState(false);
+  const imageUrl = getImageUrl(src);
+  if (imageUrl && !error) {
+    return (
+      <img
+        src={imageUrl}
+        className="w-full h-full object-cover"
+        alt={username || ''}
+        onError={() => setError(true)}
+      />
+    );
+  }
+  return <User className={className || "h-10 w-10 text-muted-foreground"} />;
+}
+
 export default function TopRankVolunteerPage() {
   const [volunteers, setVolunteers] = useState<VolunteerRank[]>([]);
   const [loading, setLoading] = useState(true);
@@ -57,7 +73,7 @@ export default function TopRankVolunteerPage() {
       >
         <div className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full bg-violet-300/20 blur-[130px] pointer-events-none" />
         <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-amber-300/15 blur-[100px] pointer-events-none" />
-        
+
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-4 mb-16 animate-fade-in">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/70 backdrop-blur-md border border-violet-200 text-sm font-semibold text-violet-700 shadow-sm">
@@ -94,17 +110,18 @@ export default function TopRankVolunteerPage() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto items-end pb-8">
                 {/* 2nd Place */}
                 {top3[1] && (
-                  <div 
-                    onClick={() => navigate(`/volunteers/${top3[1]._id}`)}
+                  <div
+                    onClick={() => {
+                      const volunteerId = top3[1]?.id || top3[1]?._id;
+                      if (volunteerId) navigate(`/volunteers/${volunteerId}`);
+                    }}
                     className="order-2 md:order-1 cursor-pointer group"
                   >
                     <div className="relative bg-white dark:bg-card rounded-3xl p-8 border border-border shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 text-center flex flex-col items-center">
                       <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-amber-400 text-amber-950 text-xs font-bold rounded-full shadow-lg">2ND PLACE</div>
                       <div className="w-24 h-24 rounded-full p-1 bg-gradient-to-tr from-amber-300 to-amber-500 mb-6 shadow-lg shadow-amber-200/50">
                         <div className="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden">
-                          {top3[1].profileImage ? (
-                            <img src={getImageUrl(top3[1].profileImage)} className="w-full h-full object-cover" alt="" />
-                          ) : <User className="h-10 w-10 text-muted-foreground" />}
+                          <VolunteerAvatar src={top3[1].profileImage} username={top3[1].username} className="h-10 w-10 text-muted-foreground" />
                         </div>
                       </div>
                       <h3 className="text-xl font-bold mb-1 truncate w-full">{top3[1].username}</h3>
@@ -127,17 +144,18 @@ export default function TopRankVolunteerPage() {
 
                 {/* 1st Place */}
                 {top3[0] && (
-                  <div 
-                    onClick={() => navigate(`/volunteers/${top3[0].id || top3[0]._id}`)}
+                  <div
+                    onClick={() => {
+                      const volunteerId = top3[0]?.id || top3[0]?._id;
+                      if (volunteerId) navigate(`/volunteers/${volunteerId}`);
+                    }}
                     className="order-1 md:order-2 cursor-pointer group"
                   >
                     <div className="relative bg-white dark:bg-card rounded-[2.5rem] p-10 border-2 border-violet-200 shadow-2xl hover:shadow-violet-200/50 hover:-translate-y-3 transition-all duration-500 text-center flex flex-col items-center scale-110 z-10">
                       <div className="absolute -top-5 left-1/2 -translate-x-1/2 px-6 py-1.5 bg-violet-600 text-white text-sm font-black rounded-full shadow-xl animate-bounce">1ST PLACE</div>
                       <div className="w-32 h-32 rounded-full p-1.5 bg-gradient-to-tr from-slate-200 via-violet-500 to-slate-400 mb-6 shadow-2xl shadow-violet-200">
                         <div className="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden">
-                          {top3[0].profileImage ? (
-                            <img src={getImageUrl(top3[0].profileImage)} className="w-full h-full object-cover" alt="" />
-                          ) : <User className="h-14 w-14 text-muted-foreground" />}
+                          <VolunteerAvatar src={top3[0].profileImage} username={top3[0].username} className="h-14 w-14 text-muted-foreground" />
                         </div>
                       </div>
                       <h3 className="text-2xl font-black mb-1 truncate w-full text-violet-900">{top3[0].username}</h3>
@@ -160,17 +178,18 @@ export default function TopRankVolunteerPage() {
 
                 {/* 3rd Place */}
                 {top3[2] && (
-                  <div 
-                    onClick={() => navigate(`/volunteers/${top3[2].id || top3[2]._id}`)}
+                  <div
+                    onClick={() => {
+                      const volunteerId = top3[2]?.id || top3[2]?._id;
+                      if (volunteerId) navigate(`/volunteers/${volunteerId}`);
+                    }}
                     className="order-3 cursor-pointer group"
                   >
                     <div className="relative bg-white dark:bg-card rounded-3xl p-8 border border-border shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 text-center flex flex-col items-center">
                       <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-orange-500 text-white text-xs font-bold rounded-full shadow-lg">3RD PLACE</div>
                       <div className="w-24 h-24 rounded-full p-1 bg-gradient-to-tr from-orange-400 to-orange-600 mb-6 shadow-lg shadow-orange-200/50">
                         <div className="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden">
-                          {top3[2].profileImage ? (
-                            <img src={getImageUrl(top3[2].profileImage)} className="w-full h-full object-cover" alt="" />
-                          ) : <User className="h-10 w-10 text-muted-foreground" />}
+                          <VolunteerAvatar src={top3[2].profileImage} username={top3[2].username} className="h-10 w-10 text-muted-foreground" />
                         </div>
                       </div>
                       <h3 className="text-xl font-bold mb-1 truncate w-full">{top3[2].username}</h3>
@@ -202,17 +221,18 @@ export default function TopRankVolunteerPage() {
                     <span className="w-32 text-right">Total Hours</span>
                   </div>
                   {others.map((v, i) => (
-                    <div 
-                      key={v._id}
-                      onClick={() => navigate(`/volunteers/${v.id || v._id}`)}
+                    <div
+                      key={v.id || v._id}
+                      onClick={() => {
+                        const volunteerId = v.id || v._id;
+                        if (volunteerId) navigate(`/volunteers/${volunteerId}`);
+                      }}
                       className="group flex items-center px-8 py-5 bg-white dark:bg-card border border-border/50 rounded-2xl hover:border-violet-300 hover:shadow-lg hover:shadow-violet-100/50 hover:-translate-x-1 transition-all duration-200 cursor-pointer"
                     >
                       <span className="w-16 font-black text-violet-300 text-xl group-hover:text-violet-500 transition-colors">#{i + 4}</span>
                       <div className="flex-1 flex items-center gap-4">
                         <div className="w-12 h-12 rounded-full border border-border overflow-hidden bg-muted flex items-center justify-center shrink-0">
-                          {v.profileImage ? (
-                            <img src={getImageUrl(v.profileImage)} className="w-full h-full object-cover" alt="" />
-                          ) : <User className="h-5 w-5 text-muted-foreground" />}
+                          <VolunteerAvatar src={v.profileImage} username={v.username} className="h-5 w-5 text-muted-foreground" />
                         </div>
                         <span className="font-bold text-foreground group-hover:text-violet-700 transition-colors">{v.username}</span>
                       </div>
@@ -229,7 +249,7 @@ export default function TopRankVolunteerPage() {
               )}
             </div>
           )}
-          
+
           <div className="mt-24 text-center py-16 bg-white/40 backdrop-blur-sm rounded-[3rem] border border-white/60 max-w-4xl mx-auto shadow-sm">
             <h2 className="text-3xl font-black mb-4">Ready to climb the ranks?</h2>
             <p className="text-muted-foreground mb-10 max-w-md mx-auto">Join the mission today. Every hour you contribute helps a great cause and improves your global ranking.</p>

@@ -13,10 +13,37 @@ import { getImageUrl } from '@/utils/imageUrl';
 
 
 
+function VolunteerAvatar({ src, username, className }: { src?: string; username?: string; className?: string }) {
+  const [error, setError] = useState(false);
+  const imageUrl = getImageUrl(src);
+  if (imageUrl && !error) {
+    return (
+      <img
+        src={imageUrl}
+        className="w-full h-full object-cover"
+        alt={username || ''}
+        onError={() => setError(true)}
+      />
+    );
+  }
+  return <User className={className || "h-16 w-16 text-muted-foreground/40"} />;
+}
+
 export default function VolunteerProfilePage() {
   const { id } = useParams<{ id: string }>();
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+
+  const safeFormatDate = (dateVal: any, formatStr: string, fallback: string = 'N/A') => {
+    if (!dateVal) return fallback;
+    try {
+      const d = new Date(dateVal);
+      if (isNaN(d.getTime())) return fallback;
+      return format(d, formatStr);
+    } catch {
+      return fallback;
+    }
+  };
 
   useEffect(() => {
     if (!id) return;
@@ -60,7 +87,7 @@ export default function VolunteerProfilePage() {
   }
 
   const { profile, applications, rank, totalHours, opportunitiesCount } = data;
-  
+
   const getBadgeInfo = (r: number) => {
     if (r === 1) return { label: 'Platinum Rank', icon: <Medal className="h-5 w-5 text-slate-500" />, color: 'bg-slate-100 text-slate-800 border-slate-300' };
     if (r === 2) return { label: 'Gold Rank', icon: <Trophy className="h-5 w-5 text-amber-500" />, color: 'bg-amber-100 text-amber-800 border-amber-300' };
@@ -76,19 +103,17 @@ export default function VolunteerProfilePage() {
 
       <main className="py-12">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-          
+
           {/* Header Profile Section */}
           <div className="relative bg-white dark:bg-card border border-border/50 rounded-[2.5rem] p-8 md:p-12 shadow-sm overflow-hidden animate-fade-in">
             <div className="absolute top-0 right-0 w-64 h-64 bg-violet-100/30 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-amber-50/40 rounded-full blur-3xl -ml-20 -mb-20 pointer-events-none" />
-            
+
             <div className="relative flex flex-col md:flex-row items-center md:items-start gap-10">
               <div className="relative">
                 <div className="w-40 h-40 rounded-[2.5rem] p-1.5 bg-gradient-to-tr from-violet-200 via-violet-500 to-amber-200 shadow-xl overflow-hidden">
                   <div className="w-full h-full rounded-[2.2rem] bg-white flex items-center justify-center overflow-hidden">
-                    {profile.profileImage ? (
-                      <img src={getImageUrl(profile.profileImage)} className="w-full h-full object-cover" alt="" />
-                    ) : <User className="h-16 w-16 text-muted-foreground/40" />}
+                    <VolunteerAvatar src={profile.profileImage} username={profile.username} className="h-16 w-16 text-muted-foreground/40" />
                   </div>
                 </div>
                 {rank <= 3 && (
@@ -114,15 +139,15 @@ export default function VolunteerProfilePage() {
                     <span className="flex items-center gap-1.5"><Clock className="h-4 w-4" /> {profile.availability.charAt(0).toUpperCase() + profile.availability.slice(1)}</span>
                   )}
                   {profile.createdAt && (
-                    <span className="flex items-center gap-1.5"><Calendar className="h-4 w-4" /> Joined {format(new Date(profile.createdAt), 'MMMM yyyy')}</span>
+                    <span className="flex items-center gap-1.5"><Calendar className="h-4 w-4" /> Joined {safeFormatDate(profile.createdAt, 'MMMM yyyy', 'Recently')}</span>
                   )}
                 </div>
 
                 <div className="pt-4 flex flex-wrap justify-center md:justify-start gap-2">
-                  {profile.interests?.map((interest: string) => (
+                  {(profile.interests || []).map((interest: string) => (
                     <Badge key={interest} variant="secondary" className="px-4 py-1 rounded-full font-bold bg-violet-50 text-violet-700 border-violet-100">{interest}</Badge>
                   ))}
-                  {profile.skills?.map((skill: string) => (
+                  {(profile.skills || []).map((skill: string) => (
                     <Badge key={skill} variant="outline" className="px-4 py-1 rounded-full font-bold border-violet-200 text-violet-800">{skill}</Badge>
                   ))}
                 </div>
@@ -229,7 +254,7 @@ export default function VolunteerProfilePage() {
                       {idx !== applications.length - 1 && (
                         <div className="absolute left-6 top-12 bottom-0 w-0.5 bg-violet-100 group-hover:bg-violet-300 transition-colors" />
                       )}
-                      
+
                       <div className="shrink-0 w-12 h-12 rounded-2xl bg-white border-2 border-violet-100 flex items-center justify-center text-violet-600 font-black z-10 group-hover:bg-violet-600 group-hover:text-white transition-all duration-300">
                         {idx + 1}
                       </div>
@@ -238,12 +263,12 @@ export default function VolunteerProfilePage() {
                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                           <div className="space-y-1">
                             <div className="flex items-center gap-2 text-[10px] font-black text-violet-400 uppercase tracking-widest">
-                              <Calendar className="h-3 w-3" /> {app.acceptedAt ? format(new Date(app.acceptedAt), 'MMM dd, yyyy') : 'Accepted'}
+                              <Calendar className="h-3 w-3" /> {safeFormatDate(app.acceptedAt, 'MMM dd, yyyy', 'Completed')}
                             </div>
                             <h4 className="text-xl font-black text-foreground group-hover:text-violet-700 transition-colors">{app.internshipTitle}</h4>
                             <p className="text-muted-foreground font-bold flex items-center gap-1.5"><MapPin className="h-3.5 w-3.5" /> {app.companyName}</p>
                           </div>
-                          
+
                           <div className="flex items-center gap-3">
                             <div className="text-right">
                               <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Earned</p>

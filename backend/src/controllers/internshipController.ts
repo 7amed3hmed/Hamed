@@ -29,7 +29,7 @@ export const getInternships = async (req: AuthRequest, res: Response) => {
     const internships = await Internship.find(filters)
       .populate('companyId', 'companyName logo')
       .sort({ createdAt: -1 });
-  return sendSuccess(res, 200, internships, 'Opportunities fetched successfully');
+    return sendSuccess(res, 200, internships, 'Opportunities fetched successfully');
   } catch (error: any) {
     return sendError(res, 500, error.message);
   }
@@ -55,7 +55,7 @@ export const getMyInternships = async (req: AuthRequest, res: Response) => {
 
 export const getInternshipById = async (req: AuthRequest, res: Response) => {
   try {
-    const internship = await Internship.findById(req.params.id);
+    const internship = await Internship.findById(req.params.id).populate('companyId', 'companyName logo');
     if (!internship) return sendError(res, 404, 'Internship not found');
 
     // Do not return exam correct answers
@@ -82,8 +82,8 @@ export const createInternship = async (req: AuthRequest, res: Response) => {
     } = req.body;
 
     const vh = Number(volunteerHours);
-    if (!volunteerHours || isNaN(vh) || vh < 1 || vh > 140) {
-      return sendError(res, 400, 'Volunteer hours must be between 1 and 140');
+    if (!volunteerHours || !Number.isFinite(vh) || vh < 1) {
+      return sendError(res, 400, 'Volunteer hours must be a positive number');
     }
 
     // Use _id from live Mongoose Document (never deleted by toJSON since this is the Document instance)
@@ -150,8 +150,8 @@ export const updateInternship = async (req: AuthRequest, res: Response) => {
 
     if (req.body.volunteerHours !== undefined) {
       const vh = Number(req.body.volunteerHours);
-      if (isNaN(vh) || vh < 1 || vh > 140) {
-        return sendError(res, 400, 'Volunteer hours must be between 1 and 140');
+      if (!Number.isFinite(vh) || vh < 1) {
+        return sendError(res, 400, 'Volunteer hours must be a positive number');
       }
     }
 

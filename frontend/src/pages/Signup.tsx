@@ -59,11 +59,11 @@ export default function SignupPage() {
       <Card className="w-full max-w-md shadow-xl border-border/50">
         <CardHeader className="text-center space-y-4">
           <Link to="/" className="flex items-center justify-center gap-2">
-            <img src={logo} alt="Interno" className="h-12 w-auto" />
-            <span className="text-2xl font-bold gradient-primary-text">Interno</span>
+            <img src={logo} alt="inPlace" className="h-12 w-auto" />
+            <span className="text-2xl font-bold gradient-primary-text">inPlace</span>
           </Link>
           <CardTitle className="text-2xl">Create Account</CardTitle>
-          <CardDescription>Join Interno today</CardDescription>
+          <CardDescription>Join inPlace today</CardDescription>
           <div className="flex rounded-lg border border-border p-1">
             <button onClick={() => setRole('student')}
               className={`flex-1 rounded-md py-2 text-sm font-medium transition-all ${role === 'student' ? 'gradient-primary text-primary-foreground shadow-sm' : 'text-muted-foreground'}`}

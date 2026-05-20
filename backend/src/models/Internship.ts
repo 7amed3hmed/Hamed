@@ -14,7 +14,7 @@ export interface IInternship extends Document {
   title: string;
   description: string;
   requiredSkills: string[];
-  duration: string;
+  duration?: string;
   isPaid: boolean;
   salaryMin?: number;
   salaryMax?: number;
@@ -56,7 +56,7 @@ const InternshipSchema = new Schema<IInternship>({
   location: { type: String },
   category: { type: String, enum: ['Frontend Development', 'Backend Development', 'Database Development'], default: 'Frontend Development' },
   roleTitle: { type: String, default: '' },
-  volunteerHours: { type: Number, default: 0 },
+  volunteerHours: { type: Number, required: true, min: 1 },
   seatsAvailable: { type: Number, default: 5 },
   applicationDeadline: { type: String, required: true },
   status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending' },

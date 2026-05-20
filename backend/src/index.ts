@@ -25,12 +25,19 @@ const app: Express = express();
 const PORT = process.env.PORT || 8000;
 
 // Connect to MongoDB
-const dbUri = process.env.MONGODB_URI as string;
-console.log(`Attempting to connect to MongoDB at: ${dbUri.replace(/:([^:@]+)@/, ':****@')}`);
+const dbUri = (process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/inpalce2') as string;
+const maskMongoUri = (uri: string): string => {
+  try {
+    return uri.replace(/^(mongodb(?:\+srv)?:\/\/)([^:]+):([^@]+)@/, '$1****:****@');
+  } catch {
+    return 'hidden';
+  }
+};
+console.log(`Attempting to connect to MongoDB at: ${maskMongoUri(dbUri)}`);
 
 mongoose.connect(dbUri)
   .then(async () => {
-    console.log('Connected to Database successfuly');
+    console.log('Connected to Database successfully');
     
     // Auto-seed admin user
     try {
@@ -52,7 +59,8 @@ mongoose.connect(dbUri)
     }
   })
   .catch((err) => {
-    console.error('Failed to connect to Database', err);
+    console.error(`Failed to connect to Database at ${maskMongoUri(dbUri)}:`, err);
+    console.error('MongoDB is not running. Start MongoDB locally or set MONGODB_URI to MongoDB Atlas.');
     process.exit(1);
   });
 

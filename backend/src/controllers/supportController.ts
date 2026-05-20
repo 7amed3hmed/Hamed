@@ -3,6 +3,8 @@ import nodemailer from 'nodemailer';
 import SupportMessage from '../models/SupportMessage';
 import { sendSuccess, sendError } from '../utils/responseWrapper';
 
+const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -74,7 +76,7 @@ const AUTO_REPLY_HTML = (name: string) => `
         We typically respond within <strong style="color:#7c3aed;">24–48 hours</strong>. If your issue is urgent, please mention that in your follow-up.
       </p>
       <div style="text-align:center;margin:28px 0;">
-        <a href="http://localhost:5173/internships" style="background:linear-gradient(135deg,#7c3aed,#a855f7);color:white;padding:12px 28px;border-radius:100px;text-decoration:none;font-weight:600;font-size:15px;">
+        <a href="${frontendUrl}/internships" style="background:linear-gradient(135deg,#7c3aed,#a855f7);color:white;padding:12px 28px;border-radius:100px;text-decoration:none;font-weight:600;font-size:15px;">
           Explore Opportunities
         </a>
       </div>
