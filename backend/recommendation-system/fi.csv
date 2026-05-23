@@ -1,0 +1,501 @@
+user_id,organization_id,organization_name,Duration,programming_track,language_skills,required_language,experience_years,Feedback,Openness,Conscientiousness,Extraversion,Agreeableness,Neuroticism,Communication_Skills,Presentation_Skills
+1,1,Code for Cause,4 months,Database,"MySQL, Oracle, MongoDB",MongoDB,4,4,2,5,3,3,2,2,2
+2,2,Tech Relief,3 months,Back_end,PHP,"PHP, Python",2,4,3,3,2,3,5,2,2
+3,3,Alexandria Coding Academy,6 months,Back_end,"PHP, Node.js","Node.js, PHP",5,5,5,4,3,4,4,3,4
+4,4,OpenSource Builders,2 months,Database,"MySQL, PostgreSQL, Oracle","Oracle, MySQL, MongoDB",1,1,2,3,1,2,3,1,1
+5,5,Digital Hope Initiative,4 months,Front_end,"JavaScript, HTML, React","React, JavaScript, CSS",3,2,4,3,3,4,2,3,4
+6,6,Future Coders Club,3 months,Front_end,CSS,"CSS, HTML",2,3,3,3,3,4,2,2,3
+7,7,Web Pioneers,6 months,Database,PostgreSQL,"PostgreSQL, MySQL",5,3,3,5,3,4,1,3,3
+8,8,Data Science Collective,5 months,Back_end,"Laravel, PHP, Node.js","Node.js, PHP, .NET",4,5,4,4,2,3,4,2,3
+9,9,Software Bridge,2 months,Database,"PostgreSQL, Oracle, MySQL","MySQL, Oracle, PostgreSQL",1,3,2,3,1,2,3,1,1
+10,10,Innovate Tech Lab,4 months,Database,"MySQL, Oracle",Oracle,3,3,2,4,2,3,4,2,2
+11,11,Global Dev Network,6 months,Database,"Oracle, PostgreSQL","MongoDB, Oracle",5,3,3,5,3,3,1,2,3
+12,12,Clean Code Society,3 months,Back_end,"Node.js, Python","PHP, Node.js, Python",2,3,4,3,2,2,5,1,2
+13,13,Backend Warriors,5 months,Back_end,"Node.js, Python, Laravel","Python, Node.js",4,4,4,4,3,3,4,3,3
+14,14,Frontend United,2 months,Database,"PostgreSQL, MySQL, Oracle",PostgreSQL,1,3,2,3,1,2,2,1,1
+15,15,The Algorithm Lab,3 months,Database,"PostgreSQL, MySQL",PostgreSQL,3,2,2,4,1,3,2,1,2
+16,16,Silicon Oasis Volunteers,6 months,Database,Oracle,"Oracle, MySQL",5,3,3,5,3,3,2,2,3
+17,17,Cairo Dev Circle,3 months,Database,"MongoDB, MySQL","PostgreSQL, Oracle, MongoDB",2,2,2,3,1,3,2,1,2
+18,18,Binary Stars,5 months,Front_end,"React, JavaScript, HTML","Tailwind CSS, JavaScript",4,3,5,3,3,4,3,3,4
+19,19,Mega Systems Foundation,2 months,Back_end,PHP,"Node.js, PHP",1,1,3,2,1,2,3,1,2
+20,20,Cloud Solutions Hub,4 months,Front_end,"React, HTML, CSS","Tailwind CSS, React",3,3,4,3,3,4,2,3,4
+21,21,Nexus Tech Group,3 months,Back_end,"Python, .NET, Java","Python, .NET, PHP",2,2,4,3,2,3,3,2,2
+22,22,Pixel Perfect Org,6 months,Back_end,"PHP, Python","Node.js, Laravel, PHP",5,4,5,5,3,4,1,3,4
+23,23,Logic Gate Charity,5 months,Front_end,"JavaScript, CSS, Tailwind CSS",JavaScript,4,4,4,3,4,4,2,4,4
+24,24,Smart Solutions Squad,2 months,Back_end,"Express, Node.js, PHP","Node.js, PHP",1,3,3,3,2,2,2,2,1
+25,25,DevOps Builders,3 months,Database,"PostgreSQL, MongoDB, MySQL",PostgreSQL,3,3,2,3,1,3,3,1,2
+26,26,Database Ninjas,3 months,Database,"MongoDB, MySQL",MySQL,2,2,2,4,2,3,4,2,1
+27,27,AI Visionaries,6 months,Front_end,React,"Tailwind CSS, React",5,3,5,3,4,5,2,4,5
+28,28,Web Flow Founders,5 months,Front_end,React,"React, CSS",4,4,4,3,4,4,3,4,4
+29,29,Byte Sized Impact,2 months,Front_end,"React, CSS, JavaScript","CSS, JavaScript, Tailwind CSS",1,2,3,2,2,3,3,2,3
+30,30,Infinite Loop Org,4 months,Database,"PostgreSQL, MongoDB, Oracle",MongoDB,3,3,3,4,2,3,1,2,2
+31,31,Tech Talents,6 months,Database,MySQL,"MySQL, PostgreSQL",5,5,3,5,3,4,3,3,3
+32,32,Script Masters,3 months,Back_end,"Node.js, Java, PHP",PHP,2,3,4,3,2,3,2,2,2
+33,33,The Debuggers,5 months,Front_end,HTML,"JavaScript, HTML",4,5,4,3,4,4,1,4,4
+34,34,System Architects,2 months,Back_end,"Node.js, Python, Laravel","Node.js, Java",1,2,3,3,1,2,5,1,1
+35,35,Global Tech Bridge,3 months,Back_end,"Laravel, PHP","Laravel, Node.js",3,4,3,3,2,3,5,2,2
+36,36,Alex Tech Hub,6 months,Database,MySQL,"MySQL, Oracle",5,5,3,5,3,3,4,3,3
+37,37,Smart City Coders,3 months,Back_end,"PHP, Node.js","PHP, Laravel, Python",2,2,4,3,2,2,2,2,2
+38,38,Innovate Alexandria,5 months,Front_end,CSS,CSS,4,5,4,3,4,4,1,4,4
+39,39,Digital Wings,2 months,Back_end,"Laravel, Node.js, Python","Python, Node.js",1,3,3,3,2,2,3,1,2
+40,40,Tech For All,4 months,Back_end,PHP,"Node.js, PHP",3,3,4,3,2,4,3,2,3
+41,41,Code Miners,5 months,Front_end,Tailwind CSS,"HTML, Tailwind CSS",4,3,4,3,4,4,1,4,4
+42,42,The Syntax Club,2 months,Back_end,Laravel,"Laravel, Node.js",1,2,3,3,2,2,3,1,1
+43,43,Web Wizards,6 months,Database,"MySQL, Oracle","MySQL, MongoDB",5,4,3,5,3,3,1,3,3
+44,44,Software Scholars,3 months,Front_end,"React, JavaScript","Tailwind CSS, React",2,1,3,2,3,3,5,3,3
+45,45,Data Driven Society,5 months,Back_end,Node.js,"Node.js, PHP",3,2,5,3,3,3,2,3,3
+46,46,Cloud Natives,5 months,Back_end,"PHP, .NET","PHP, .NET",4,2,4,4,3,3,3,3,3
+47,47,Tech Makers,4 months,Database,"Oracle, PostgreSQL, MySQL",MySQL,2,3,2,4,2,3,2,1,1
+48,48,Dev Community,2 months,Front_end,HTML,"HTML, CSS",1,3,3,2,2,3,3,2,3
+49,49,Open Source Egypt,6 months,Back_end,Node.js,Node.js,5,5,5,4,3,4,3,3,3
+50,50,Future Devs,3 months,Front_end,"HTML, Tailwind CSS, CSS","Tailwind CSS, JavaScript, CSS",3,3,4,3,3,4,2,3,3
+51,51,Code Builders,5 months,Back_end,Python,Python,4,5,4,4,2,3,5,2,3
+52,52,Tech Pioneers,4 months,Front_end,"CSS, JavaScript","JavaScript, HTML",2,1,3,2,3,3,4,3,3
+53,53,Digital Leaders,6 months,Front_end,React,"React, Tailwind CSS",5,2,5,3,5,5,5,5,5
+54,54,Web Craft,2 months,Back_end,"Node.js, Python, PHP","PHP, Node.js",1,2,3,2,1,2,4,1,2
+55,55,Software Stars,5 months,Database,"PostgreSQL, MySQL","PostgreSQL, Oracle",3,3,3,4,2,3,3,2,2
+56,56,Data Giants,4 months,Front_end,"Tailwind CSS, HTML, JavaScript","JavaScript, HTML, React",2,3,3,3,2,4,5,2,4
+57,57,Cloud Masters,5 months,Front_end,"HTML, Tailwind CSS","Tailwind CSS, CSS, React",4,2,5,3,4,4,1,4,4
+58,58,Tech Experts,2 months,Database,"MongoDB, PostgreSQL","MongoDB, PostgreSQL",1,2,1,3,1,2,2,1,1
+59,59,Dev Solutions,6 months,Front_end,"JavaScript, React, CSS","HTML, CSS",5,3,5,3,4,4,1,4,5
+60,60,Open Web Org,5 months,Database,"PostgreSQL, MySQL",PostgreSQL,3,4,3,4,2,3,2,2,2
+61,61,Future Systems,5 months,Front_end,JavaScript,"React, JavaScript",4,4,4,3,4,4,2,4,4
+62,62,Code Experts,2 months,Database,"MySQL, Oracle, PostgreSQL","MongoDB, PostgreSQL, MySQL",1,1,2,3,1,2,2,1,1
+63,63,Tech Innovators,6 months,Front_end,"Tailwind CSS, CSS","CSS, HTML",5,4,5,4,5,5,4,5,5
+64,64,Digital Builders,4 months,Database,"PostgreSQL, MySQL","MongoDB, PostgreSQL",2,1,2,3,2,2,2,2,2
+65,65,Web Experts,4 months,Database,MySQL,"MySQL, Oracle",3,2,2,3,2,3,2,1,2
+66,66,Software Solutions,5 months,Database,MongoDB,"Oracle, MongoDB",4,4,2,5,2,3,3,2,2
+67,67,Data Masters,4 months,Back_end,Python,"Node.js, Python",2,2,4,3,2,3,1,2,2
+68,68,Cloud Experts,6 months,Database,MySQL,"MySQL, MongoDB",5,4,3,5,3,3,4,3,3
+69,69,Tech Scholars,2 months,Back_end,Node.js,"Node.js, Python",1,1,3,2,1,2,1,1,2
+70,70,Dev Stars,5 months,Database,MySQL,"MySQL, MongoDB",3,2,3,4,2,3,5,2,2
+71,71,Open Logic,5 months,Back_end,Python,"Python, Node.js",4,3,5,4,3,3,4,3,3
+72,72,Future Code,4 months,Front_end,HTML,"HTML, CSS",2,2,3,3,3,3,2,3,4
+73,73,Code Creators,2 months,Database,Oracle,"Oracle, PostgreSQL",1,1,1,3,1,2,1,1,1
+74,74,Tech Masters,6 months,Back_end,"Express, Node.js","PHP, Laravel, Express",5,2,5,5,3,4,4,3,3
+75,75,Digital Scholars,5 months,Database,"MongoDB, Oracle, PostgreSQL",PostgreSQL,3,5,2,4,2,3,4,2,2
+76,76,Web Stars,5 months,Database,"PostgreSQL, Oracle, MySQL","PostgreSQL, Oracle, MongoDB",4,3,2,4,2,3,4,2,2
+77,77,Software Experts,2 months,Database,"Oracle, MongoDB, PostgreSQL","PostgreSQL, Oracle, MySQL",1,1,1,3,1,2,4,1,1
+78,78,Data Scholars,6 months,Front_end,React,"React, CSS",5,4,5,3,4,5,1,4,5
+79,79,Cloud Logic,4 months,Back_end,"Python, Laravel, PHP",Python,2,3,3,3,2,2,2,2,2
+80,80,Tech Logic,5 months,Database,"MongoDB, Oracle","PostgreSQL, MongoDB, Oracle",3,3,3,4,3,3,1,2,2
+81,81,Dev Experts,5 months,Back_end,"Node.js, Laravel","Node.js, PHP, Python",4,4,5,4,3,3,4,3,3
+82,82,Open Systems,6 months,Front_end,"Tailwind CSS, JavaScript, HTML",JavaScript,5,5,5,4,5,5,3,4,5
+83,83,Future Logic,2 months,Front_end,CSS,"HTML, CSS",1,1,3,2,2,3,2,2,3
+84,84,Code Logic,3 months,Front_end,React,"React, HTML",2,2,3,3,3,4,1,3,3
+85,85,Tech Systems,5 months,Front_end,"Tailwind CSS, CSS, JavaScript","React, Tailwind CSS, CSS",3,3,5,3,3,4,2,3,4
+86,86,Digital Logic,5 months,Back_end,Node.js,"Node.js, PHP",4,2,4,4,2,3,2,2,3
+87,87,Web Logic,6 months,Front_end,CSS,"CSS, Tailwind CSS",5,2,5,4,5,4,4,4,5
+88,88,Software Logic,2 months,Back_end,Laravel,Laravel,1,4,3,3,1,2,3,1,1
+89,89,Data Logic,3 months,Database,"PostgreSQL, MongoDB, Oracle","Oracle, MySQL, MongoDB",2,3,2,3,2,3,4,1,1
+90,90,Cloud Systems,5 months,Database,"PostgreSQL, MySQL","PostgreSQL, Oracle, MongoDB",3,2,3,5,2,3,3,2,2
+91,91,Tech Solutions,2 months,Back_end,"Node.js, Python, Express",Python,1,3,3,3,2,2,1,1,1
+92,92,Dev Logic,3 months,Database,PostgreSQL,"PostgreSQL, Oracle",2,2,2,4,1,2,4,1,2
+93,93,Open Experts,5 months,Back_end,Node.js,Node.js,3,5,4,4,3,3,4,2,3
+94,94,Future Experts,5 months,Front_end,"CSS, Tailwind CSS","React, Tailwind CSS",4,4,5,3,4,4,3,4,4
+95,95,Code Solutions,6 months,Database,"Oracle, MongoDB",MongoDB,5,4,3,5,3,4,4,2,3
+96,96,Tech Stars,2 months,Back_end,"Laravel, .NET","Laravel, PHP, .NET",1,1,3,3,1,2,3,1,2
+97,97,Digital Stars,3 months,Front_end,"JavaScript, React","Tailwind CSS, CSS, React",2,1,4,2,3,4,3,3,3
+98,98,Web Solutions,5 months,Front_end,JavaScript,"JavaScript, React",3,3,4,3,4,4,3,4,4
+99,99,Software Systems,5 months,Front_end,"React, CSS","CSS, HTML",4,3,4,3,4,4,1,4,4
+100,100,Data Systems,6 months,Front_end,"Tailwind CSS, HTML","React, Tailwind CSS",5,3,5,3,4,5,1,4,5
+101,101,Tech Final,5 months,Database,"MongoDB, MySQL","Oracle, MongoDB",4,2,2,4,2,3,1,2,2
+102,102,Cloud Logic,4 months,Database,Oracle,"Oracle, PostgreSQL",2,1,2,3,2,2,3,2,2
+103,103,Tech Logic,6 months,Database,"PostgreSQL, MySQL","MySQL, PostgreSQL",5,5,3,5,3,4,2,2,3
+104,104,Dev Experts,2 months,Database,"MySQL, MongoDB, Oracle","MySQL, PostgreSQL, Oracle",1,3,2,3,1,2,3,1,1
+105,105,Open Systems,5 months,Back_end,Node.js,"PHP, Node.js",3,3,4,4,2,3,5,2,3
+106,106,Future Logic,5 months,Front_end,CSS,"HTML, CSS",4,5,4,3,4,4,2,4,4
+107,107,Code Logic,4 months,Database,"PostgreSQL, MongoDB","MySQL, PostgreSQL",2,2,2,4,2,2,3,1,2
+108,108,Tech Systems,2 months,Database,"MySQL, PostgreSQL",PostgreSQL,1,1,2,3,1,2,4,1,1
+109,109,Digital Logic,6 months,Back_end,"Laravel, Express, Python","PHP, Python",5,5,5,4,3,4,2,3,4
+110,110,Web Logic,5 months,Database,"MongoDB, MySQL, Oracle","MySQL, PostgreSQL, Oracle",3,3,3,4,3,3,1,2,2
+111,111,Software Logic,5 months,Database,"Oracle, PostgreSQL","MySQL, PostgreSQL",4,2,2,4,3,3,2,2,2
+112,112,Data Logic,2 months,Front_end,"JavaScript, HTML, CSS","HTML, React",1,2,3,2,2,3,2,2,3
+113,113,Cloud Systems,6 months,Database,"Oracle, PostgreSQL",Oracle,5,3,3,5,3,3,5,3,3
+114,114,Tech Solutions,4 months,Back_end,Laravel,"Laravel, Python",2,1,4,3,2,2,4,1,2
+115,115,Dev Logic,5 months,Back_end,"Laravel, Python, Node.js","PHP, Python",3,4,4,4,2,3,3,2,3
+116,116,Open Experts,5 months,Back_end,"Node.js, Laravel","PHP, Laravel, Node.js",4,5,5,4,3,3,4,3,3
+117,117,Future Experts,4 months,Front_end,React,"CSS, React",2,1,3,3,3,3,4,3,3
+118,118,Code Solutions,6 months,Database,PostgreSQL,"PostgreSQL, MongoDB",5,4,3,5,3,3,2,3,3
+119,119,Tech Stars,2 months,Back_end,"Python, PHP, .NET",PHP,1,2,3,3,2,2,4,1,1
+120,120,Digital Stars,5 months,Back_end,Laravel,"Laravel, Express",3,3,4,4,2,4,3,2,3
+121,121,Web Solutions,5 months,Database,"Oracle, MongoDB, MySQL","PostgreSQL, Oracle",4,3,3,4,2,3,4,2,2
+122,122,Software Systems,2 months,Database,"MongoDB, Oracle","PostgreSQL, MongoDB, Oracle",1,1,2,3,1,2,4,1,1
+123,123,Data Systems,6 months,Front_end,"Tailwind CSS, JavaScript","React, JavaScript",5,4,5,4,4,5,2,4,5
+124,124,The Code Base,4 months,Back_end,"Python, Node.js",Node.js,2,2,4,3,2,3,1,2,2
+125,125,Tech Tree Org,5 months,Database,"MySQL, PostgreSQL","MongoDB, MySQL, PostgreSQL",3,3,3,4,2,3,2,2,2
+126,126,Digital Roots,2 months,Front_end,"React, JavaScript, Tailwind CSS","Tailwind CSS, JavaScript, HTML",1,2,3,2,2,3,3,2,2
+127,127,Web Branch,4 months,Back_end,Python,Python,2,3,4,4,2,3,4,2,2
+128,128,Software Stem,5 months,Back_end,Python,".NET, Python",3,2,4,4,2,4,4,2,3
+129,129,Data Leaf,5 months,Front_end,"HTML, Tailwind CSS","JavaScript, CSS, Tailwind CSS",4,3,5,3,4,4,1,4,4
+130,130,Cloud Seed,6 months,Front_end,"HTML, Tailwind CSS","Tailwind CSS, JavaScript, React",5,4,5,4,4,5,3,4,5
+131,131,Tech Harvest,2 months,Database,"MongoDB, MySQL","Oracle, MySQL",1,2,2,3,1,2,3,1,1
+132,132,Dev Forest,3 months,Database,Oracle,"Oracle, MySQL",2,1,2,4,2,3,2,1,2
+133,133,Open Garden,5 months,Database,MongoDB,"MongoDB, PostgreSQL",3,2,2,4,3,3,1,2,2
+134,134,Future Bloom,5 months,Front_end,"React, CSS, JavaScript","React, Tailwind CSS",4,4,5,3,4,4,2,3,4
+135,135,Code Sprout,6 months,Database,"Oracle, MongoDB","MySQL, PostgreSQL, Oracle",5,2,3,5,3,3,5,3,3
+136,136,Tech Sapling,5 months,Back_end,Node.js,"PHP, Node.js",4,3,5,4,2,4,2,2,3
+137,137,Digital Branch,4 months,Back_end,Node.js,"Node.js, PHP",2,2,4,3,2,2,3,2,2
+138,138,Web Root,2 months,Back_end,"Laravel, PHP","PHP, Node.js, .NET",1,2,3,3,1,2,4,1,2
+139,139,Software Growth,6 months,Database,"PostgreSQL, Oracle, MongoDB",MongoDB,5,4,3,5,3,3,2,3,3
+140,140,Data Bloom,5 months,Back_end,"Python, Node.js","PHP, Node.js",3,2,4,4,3,3,5,3,3
+141,141,Cloud Field,5 months,Front_end,"CSS, JavaScript, HTML",HTML,4,2,4,3,3,4,5,3,4
+142,142,Tech Meadow,4 months,Database,PostgreSQL,"PostgreSQL, MongoDB",2,2,2,4,2,2,2,1,2
+143,143,Dev Plain,6 months,Back_end,"Python, Laravel","Python, Laravel",5,5,5,5,3,4,3,3,3
+144,144,Open Valley,2 months,Database,"MySQL, PostgreSQL","Oracle, PostgreSQL",1,1,2,3,1,2,2,1,1
+145,145,Future Peak,5 months,Back_end,"Python, .NET, Laravel","Node.js, Laravel, .NET",3,4,4,4,3,3,2,3,3
+146,146,Code Summit,5 months,Back_end,Python,"Python, PHP",4,1,4,4,2,3,1,2,3
+147,147,Tech Ridge,2 months,Back_end,"Node.js, Laravel","Laravel, PHP, Node.js",1,2,3,3,1,2,3,1,2
+148,148,Digital Slope,6 months,Front_end,"React, JavaScript","HTML, CSS, JavaScript",5,3,5,4,4,5,3,4,5
+149,149,Web Coast,4 months,Back_end,"Laravel, .NET","Laravel, .NET, PHP",2,2,4,3,2,3,1,2,2
+150,150,Software Tide,5 months,Database,PostgreSQL,"PostgreSQL, MySQL",3,3,2,5,2,3,2,1,2
+151,151,Data Wave,2 months,Database,"MySQL, PostgreSQL","Oracle, MongoDB, MySQL",1,1,1,3,1,2,5,1,1
+152,152,Cloud Stream,4 months,Back_end,Python,"Python, Laravel",2,2,4,3,2,2,2,2,2
+153,153,Tech River,5 months,Front_end,"React, HTML, Tailwind CSS","Tailwind CSS, CSS",3,4,5,3,4,4,1,4,4
+154,154,Dev Lake,5 months,Database,"Oracle, PostgreSQL","MySQL, Oracle",4,2,3,5,2,3,3,2,2
+155,155,Open Ocean,6 months,Front_end,"Tailwind CSS, CSS, JavaScript",JavaScript,5,5,5,4,4,5,5,4,5
+156,156,Future Sea,5 months,Front_end,"HTML, React, Tailwind CSS","HTML, CSS",4,3,4,3,3,4,2,3,4
+157,157,Code Shore,2 months,Database,"MySQL, PostgreSQL","Oracle, PostgreSQL",1,2,1,3,1,2,3,1,1
+158,158,Tech Sand,6 months,Back_end,"Python, Laravel, Node.js","Node.js, Laravel",5,5,5,4,3,4,4,3,3
+159,159,Digital Island,4 months,Front_end,"CSS, React, HTML","Tailwind CSS, CSS, HTML",2,1,4,3,3,3,2,3,4
+160,160,Web Port,5 months,Front_end,"React, JavaScript","JavaScript, HTML, CSS",3,2,4,3,4,4,4,4,4
+161,161,Software Anchor,5 months,Back_end,"Python, Laravel, PHP","Express, Laravel",4,4,4,4,2,3,2,2,3
+162,162,Data Ship,4 months,Back_end,"Python, .NET","Python, Node.js, .NET",2,2,4,3,2,3,3,2,2
+163,163,Cloud Sail,2 months,Back_end,"Node.js, Laravel, PHP","PHP, Python",1,2,3,2,1,2,3,1,1
+164,164,Tech Boat,6 months,Front_end,"React, Tailwind CSS, CSS","CSS, React, HTML",5,4,5,4,5,4,3,5,5
+165,165,Dev Fleet,5 months,Back_end,Laravel,"Laravel, .NET",3,3,4,4,3,3,1,3,3
+166,166,Open Vessel,5 months,Database,"Oracle, MySQL, PostgreSQL","MongoDB, MySQL",4,3,2,4,2,3,4,2,2
+167,167,Future Craft,2 months,Front_end,"JavaScript, Tailwind CSS","Tailwind CSS, React, HTML",1,2,3,2,2,3,2,2,3
+168,168,Code Ship,6 months,Back_end,"Laravel, PHP","PHP, Node.js, Python",5,4,5,4,3,4,2,3,3
+169,169,Tech Wave,4 months,Front_end,"JavaScript, CSS, Tailwind CSS","React, JavaScript",2,2,3,3,3,3,1,3,3
+170,170,Digital Tide,5 months,Database,"MySQL, MongoDB, Oracle","PostgreSQL, MySQL, Oracle",3,2,3,5,2,3,3,2,2
+171,171,Web Flow,5 months,Database,"MySQL, MongoDB","PostgreSQL, MongoDB",4,3,3,4,2,3,3,2,2
+172,172,Software Stream,6 months,Back_end,Node.js,"Node.js, Laravel",5,4,5,5,3,4,1,3,4
+173,173,Data Current,2 months,Back_end,PHP,"PHP, Laravel",1,2,3,2,1,2,3,1,2
+174,174,Cloud Surge,3 months,Back_end,Laravel,"Laravel, Python",2,2,4,3,2,2,2,1,2
+175,175,Tech Pulse,5 months,Back_end,"PHP, Laravel, Node.js","Java, Node.js, PHP",3,3,4,4,2,3,3,2,3
+176,176,Dev Heart,5 months,Back_end,"Python, Java","Laravel, Python, Node.js",4,5,4,4,3,3,2,3,3
+177,177,Open Soul,6 months,Back_end,"Node.js, .NET","PHP, Node.js, .NET",5,5,5,5,3,4,3,3,3
+178,178,Future Mind,2 months,Front_end,"Tailwind CSS, JavaScript","JavaScript, Tailwind CSS, HTML",1,2,3,2,2,3,2,2,2
+179,179,Code Brain,3 months,Database,"Oracle, MongoDB, MySQL","MySQL, PostgreSQL, MongoDB",2,3,2,3,1,3,5,1,1
+180,180,Tech Nerve,5 months,Front_end,"CSS, JavaScript",CSS,3,4,4,3,4,4,1,3,4
+181,181,Digital Cell,2 months,Front_end,"JavaScript, CSS, Tailwind CSS","HTML, CSS",1,1,3,2,2,3,2,2,2
+182,182,Web Atom,3 months,Back_end,"PHP, Python","Node.js, PHP, Java",2,2,3,3,2,3,1,2,2
+183,183,Software Core,5 months,Front_end,"React, CSS",CSS,3,2,4,3,4,4,5,4,4
+184,184,Data Center,5 months,Database,"PostgreSQL, Oracle, MongoDB",PostgreSQL,4,3,2,4,2,3,4,1,2
+185,185,Cloud Point,6 months,Database,"PostgreSQL, Oracle","MySQL, MongoDB, PostgreSQL",5,3,3,5,3,3,2,3,3
+186,186,Tech Spot,2 months,Front_end,"HTML, CSS","HTML, CSS, React",1,3,3,2,2,3,3,2,3
+187,187,Dev Site,3 months,Database,PostgreSQL,"PostgreSQL, MySQL",2,2,2,4,1,2,4,1,1
+188,188,Open Place,5 months,Back_end,"Python, Laravel, Express","PHP, Node.js, Laravel",3,2,5,4,2,3,3,2,3
+189,189,Future Zone,5 months,Front_end,Tailwind CSS,"Tailwind CSS, JavaScript",4,4,5,3,4,4,3,4,4
+190,190,Code Area,6 months,Database,Oracle,"Oracle, PostgreSQL",5,2,3,5,3,4,2,3,3
+191,191,Tech Region,5 months,Back_end,Node.js,"PHP, Node.js",4,4,4,4,2,3,1,2,3
+192,192,Digital Land,4 months,Front_end,"HTML, Tailwind CSS",Tailwind CSS,2,4,4,2,3,3,4,3,3
+193,193,Web World,6 months,Database,Oracle,"PostgreSQL, Oracle",5,2,3,5,3,3,5,3,3
+194,194,Software Galaxy,2 months,Database,"Oracle, PostgreSQL, MySQL","MySQL, MongoDB",1,2,1,3,1,2,3,1,1
+195,195,Data Universe,5 months,Back_end,"Laravel, Python, PHP","Python, Node.js, Laravel",3,4,5,4,3,4,2,3,3
+196,196,Cloud Cosmos,5 months,Database,"MongoDB, Oracle","PostgreSQL, Oracle",4,2,2,4,2,3,2,2,2
+197,197,Tech Space,4 months,Front_end,React,"React, CSS",2,3,4,2,2,3,4,2,3
+198,198,Dev Void,2 months,Front_end,"CSS, HTML","HTML, CSS, Tailwind CSS",1,3,3,2,2,3,4,2,3
+199,199,Open Path,6 months,Back_end,Node.js,"Node.js, PHP",5,4,5,5,3,4,4,3,3
+200,200,Future Way,5 months,Database,MongoDB,"PostgreSQL, MongoDB",3,3,3,4,2,3,4,2,2
+201,201,(201-300),5 months,Database,"MySQL, MongoDB, Oracle","PostgreSQL, MySQL",4,3,3,4,2,3,3,2,2
+202,202,Code Route,2 months,Front_end,"HTML, React",HTML,1,2,3,2,2,3,1,2,3
+203,203,Tech Lane,6 months,Back_end,"Node.js, Python",Node.js,5,5,5,5,3,4,2,3,4
+204,204,Digital Street,4 months,Database,"MySQL, Oracle","Oracle, PostgreSQL, MySQL",2,2,2,4,1,2,4,1,2
+205,205,Web Avenue,5 months,Database,"MySQL, MongoDB, PostgreSQL","MySQL, MongoDB",3,3,2,4,3,3,3,3,2
+206,206,Software Drive,5 months,Database,"MongoDB, PostgreSQL, MySQL","PostgreSQL, MongoDB, MySQL",4,3,3,4,2,3,1,2,2
+207,207,Data Plaza,4 months,Back_end,Laravel,"Laravel, PHP",2,2,4,3,2,2,1,2,2
+208,208,Cloud Square,6 months,Back_end,"Laravel, PHP","Python, Laravel",5,4,5,4,3,4,3,3,3
+209,209,Tech Park,2 months,Database,MongoDB,"PostgreSQL, MongoDB",1,3,1,3,1,2,1,1,1
+210,210,Dev Yard,5 months,Front_end,"Tailwind CSS, JavaScript, CSS","Tailwind CSS, React, HTML",3,2,4,3,4,4,2,4,4
+211,211,Open Field,5 months,Database,"MySQL, PostgreSQL, Oracle","Oracle, MySQL",4,4,2,5,2,3,3,2,2
+212,212,Future Ground,2 months,Back_end,"Python, Laravel","Laravel, PHP",1,1,3,3,2,2,3,2,2
+213,213,Code Earth,6 months,Database,"Oracle, MongoDB","PostgreSQL, MongoDB, MySQL",5,3,3,5,3,4,3,3,3
+214,214,Tech Soil,4 months,Back_end,"Laravel, PHP, Java",PHP,2,3,4,3,2,3,2,2,2
+215,215,Digital Rock,5 months,Back_end,"PHP, Python","Node.js, PHP",3,4,5,4,3,3,4,2,3
+216,216,Web Stone,2 months,Database,"PostgreSQL, Oracle, MySQL","PostgreSQL, Oracle",1,2,1,3,1,2,2,1,1
+217,217,Software Brick,4 months,Front_end,"HTML, JavaScript","JavaScript, Tailwind CSS, HTML",2,4,4,2,3,4,2,3,3
+218,218,Data Block,5 months,Front_end,"Tailwind CSS, CSS, HTML","React, CSS, HTML",3,4,5,3,4,4,4,4,4
+219,219,Cloud Cube,5 months,Back_end,"Node.js, Python",Python,4,4,4,4,2,4,3,2,3
+220,220,Tech Sphere,6 months,Back_end,"Node.js, Laravel, .NET",".NET, PHP, Python",5,5,5,5,3,4,4,3,4
+221,221,Dev Circle,2 months,Database,"PostgreSQL, MySQL, Oracle","PostgreSQL, MongoDB",1,1,2,3,1,2,3,1,1
+222,222,Open Oval,3 months,Back_end,"PHP, Node.js",Node.js,2,2,4,3,2,3,3,1,2
+223,223,Future Line,5 months,Front_end,"HTML, CSS","HTML, CSS, Tailwind CSS",3,2,4,3,4,4,1,4,4
+224,224,Code Point,5 months,Database,"Oracle, MongoDB","MongoDB, Oracle",4,5,3,5,2,3,2,1,2
+225,225,Tech Dot,6 months,Front_end,"JavaScript, HTML","CSS, JavaScript",5,4,5,4,4,4,2,4,5
+226,226,Digital Pixel,5 months,Database,"MySQL, PostgreSQL, Oracle","Oracle, PostgreSQL",4,3,2,5,2,3,2,2,2
+227,227,Web Bit,4 months,Front_end,"React, Tailwind CSS","JavaScript, CSS, React",2,2,4,2,3,4,5,3,3
+228,228,Software Byte,2 months,Back_end,"Laravel, PHP","Java, Laravel",1,1,3,3,1,2,2,1,1
+229,229,Data Node,6 months,Back_end,"Python, PHP, Laravel","Python, PHP",5,5,5,5,3,4,4,3,3
+230,230,Cloud Link,5 months,Back_end,Node.js,"Node.js, .NET",3,3,4,4,3,3,3,3,3
+231,231,Tech Wire,5 months,Front_end,"JavaScript, Tailwind CSS","HTML, Tailwind CSS",4,4,4,3,4,4,4,4,4
+232,232,Dev Cable,4 months,Back_end,"Laravel, Node.js, PHP","PHP, Node.js",2,3,4,3,2,2,3,2,2
+233,233,Open Port,6 months,Front_end,"Tailwind CSS, JavaScript, HTML","HTML, React",5,4,5,3,4,4,3,4,5
+234,234,Future Slot,2 months,Front_end,React,"JavaScript, React",1,2,3,2,2,3,3,2,3
+235,235,Code Key,5 months,Front_end,"React, Tailwind CSS, CSS",React,3,3,5,3,4,4,2,4,4
+236,236,Tech Lock,5 months,Database,PostgreSQL,"Oracle, PostgreSQL",4,3,2,4,3,3,4,2,2
+237,237,Digital Gate,2 months,Back_end,Laravel,"Node.js, Laravel",1,3,3,3,2,2,2,1,1
+238,238,Web Door,6 months,Database,"Oracle, PostgreSQL, MySQL","PostgreSQL, Oracle",5,5,3,5,3,3,1,2,3
+239,239,Software Window,4 months,Front_end,"CSS, JavaScript","HTML, CSS",2,4,4,3,3,3,3,2,3
+240,240,Data Screen,5 months,Front_end,"Tailwind CSS, CSS, React","CSS, Tailwind CSS",3,4,4,3,4,4,2,4,4
+241,241,Cloud Panel,2 months,Back_end,Node.js,"Node.js, .NET",1,1,3,2,2,2,5,1,1
+242,242,Tech Board,4 months,Database,"MongoDB, PostgreSQL, MySQL","Oracle, PostgreSQL",2,2,2,3,1,2,5,1,2
+243,243,Dev Card,5 months,Database,"Oracle, PostgreSQL, MongoDB","PostgreSQL, MySQL, MongoDB",3,3,3,4,2,3,5,2,2
+244,244,Open Chip,5 months,Front_end,React,"React, JavaScript",4,4,4,3,3,4,2,3,4
+245,245,Future Drive,6 months,Back_end,"Python, PHP","Python, Laravel, Node.js",5,3,5,5,3,4,1,3,4
+246,246,Code Disc,5 months,Front_end,HTML,"JavaScript, HTML",4,4,4,3,3,4,5,3,4
+247,247,Tech Tape,2 months,Back_end,"PHP, Laravel, Node.js","Laravel, PHP, Node.js",1,2,3,2,2,2,3,1,2
+248,248,Digital Reel,6 months,Front_end,"CSS, JavaScript, React","Tailwind CSS, CSS",5,4,5,4,5,4,5,4,5
+249,249,Web Film,4 months,Back_end,Laravel,"Python, Laravel",2,2,4,3,2,2,5,2,2
+250,250,Software Frame,5 months,Back_end,"Node.js, PHP, Laravel","Laravel, .NET, Python",3,1,4,4,2,4,4,2,3
+251,251,Data Shot,5 months,Back_end,"PHP, Node.js, Laravel","Python, Laravel",4,4,4,4,2,3,2,2,3
+252,252,Cloud View,4 months,Front_end,"JavaScript, HTML","JavaScript, HTML, CSS",2,3,3,2,3,3,2,3,3
+253,253,Tech Sight,2 months,Front_end,Tailwind CSS,"Tailwind CSS, React",1,1,3,2,2,3,4,2,2
+254,254,Dev Eye,6 months,Database,"MySQL, PostgreSQL","MongoDB, Oracle, PostgreSQL",5,2,3,5,3,3,2,3,3
+255,255,Open Lens,5 months,Front_end,"React, CSS, JavaScript","HTML, JavaScript, React",3,3,5,3,4,4,2,4,4
+256,256,Future Scope,5 months,Back_end,"Python, .NET","Python, .NET, Node.js",4,5,4,4,2,4,3,2,3
+257,257,Code Vision,2 months,Front_end,"React, JavaScript, HTML","JavaScript, CSS",1,1,3,2,2,3,5,2,3
+258,258,Tech Insight,6 months,Front_end,JavaScript,"JavaScript, CSS",5,3,5,3,4,5,3,4,5
+259,259,Digital Wisdom,4 months,Database,MySQL,"MySQL, PostgreSQL",2,2,2,4,2,3,3,1,2
+260,260,Web Mind,5 months,Front_end,"Tailwind CSS, HTML, JavaScript","Tailwind CSS, CSS",3,3,4,3,4,4,1,3,4
+261,261,Software Soul,5 months,Front_end,"React, CSS, HTML","Tailwind CSS, React",4,1,4,3,4,4,3,4,4
+262,262,Data Spirit,6 months,Database,"Oracle, MySQL, MongoDB","MongoDB, Oracle",5,4,3,5,3,4,5,3,3
+263,263,Cloud Ghost,2 months,Database,"PostgreSQL, Oracle, MongoDB",MongoDB,1,2,2,3,1,2,1,1,1
+264,264,Tech Phantom,3 months,Back_end,"Laravel, .NET",".NET, Laravel",2,3,4,3,2,3,3,2,2
+265,265,Dev Shadow,5 months,Database,"PostgreSQL, MongoDB","Oracle, MySQL, PostgreSQL",3,4,3,4,2,3,4,2,2
+266,266,Open Light,5 months,Back_end,"Node.js, Python, PHP","Python, Node.js, Laravel",4,4,4,4,3,3,4,2,3
+267,267,Future Flare,6 months,Front_end,Tailwind CSS,"JavaScript, Tailwind CSS",5,3,5,3,4,4,3,4,5
+268,268,Code Beam,2 months,Database,PostgreSQL,"PostgreSQL, MongoDB",1,1,1,3,1,2,4,1,1
+269,269,Tech Ray,3 months,Database,Oracle,"Oracle, MySQL",2,4,2,4,2,3,2,1,2
+270,270,Digital Spark,5 months,Back_end,"PHP, Python","PHP, Laravel, Java",3,3,4,4,3,4,2,3,3
+271,271,Web Glow,2 months,Database,"MongoDB, MySQL","MySQL, PostgreSQL",1,1,1,3,1,2,4,1,1
+272,272,Software Fire,3 months,Back_end,"Python, Node.js, PHP",Python,2,3,4,3,2,3,4,1,2
+273,273,Data Flame,5 months,Back_end,"Node.js, Laravel","Node.js, Python, PHP",3,2,4,4,2,3,4,2,3
+274,274,Cloud Heat,5 months,Back_end,Python,"Node.js, Python",4,3,5,4,2,4,5,2,3
+275,275,Tech Cool,6 months,Database,PostgreSQL,PostgreSQL,5,4,3,5,3,3,3,3,3
+276,276,Dev Chill,2 months,Back_end,PHP,"Laravel, PHP",1,1,3,3,2,2,3,1,2
+277,277,Open Frost,3 months,Database,MySQL,"MySQL, PostgreSQL",2,1,2,4,1,2,4,1,2
+278,278,Future Snow,5 months,Front_end,"Tailwind CSS, CSS, JavaScript",JavaScript,3,3,4,3,4,4,3,4,4
+279,279,Code Ice,5 months,Database,"MySQL, PostgreSQL","MongoDB, PostgreSQL",4,2,3,5,2,3,4,2,2
+280,280,Tech Hail,6 months,Database,"MongoDB, PostgreSQL","MySQL, PostgreSQL, MongoDB",5,4,3,5,3,4,4,3,3
+281,281,Digital Rain,5 months,Front_end,Tailwind CSS,"Tailwind CSS, HTML",4,3,4,3,3,4,4,3,4
+282,282,Web Storm,4 months,Database,"MySQL, PostgreSQL","PostgreSQL, MongoDB",2,3,2,4,2,2,2,1,2
+283,283,Software Wind,6 months,Back_end,"PHP, Python, Laravel","Node.js, PHP",5,2,5,4,3,4,2,3,3
+284,284,Data Cloud,2 months,Database,"PostgreSQL, MySQL, Oracle","PostgreSQL, Oracle",1,3,1,3,1,2,1,1,1
+285,285,Cloud Sky,5 months,Back_end,Laravel,"Laravel, Node.js",3,4,5,4,2,4,3,2,3
+286,286,Tech Star,5 months,Back_end,Laravel,"Python, Laravel",4,2,4,4,3,4,1,3,3
+287,287,Dev Moon,4 months,Database,MongoDB,"PostgreSQL, MongoDB",2,2,2,4,2,2,3,1,2
+288,288,Open Sun,2 months,Front_end,"React, Tailwind CSS, CSS",CSS,1,2,3,2,2,3,3,2,3
+289,289,Future Planet,6 months,Back_end,"Python, .NET","Python, .NET, Java",5,3,5,4,3,4,2,3,3
+290,290,Code Comet,5 months,Database,"Oracle, MongoDB","Oracle, MongoDB, PostgreSQL",3,2,3,4,3,3,3,2,2
+291,291,Tech Orbit,5 months,Front_end,React,"React, JavaScript",4,3,5,3,3,4,1,3,4
+292,292,Digital Gravity,2 months,Database,"MySQL, PostgreSQL","MySQL, MongoDB",1,3,1,3,1,2,1,1,1
+293,293,Web Force,6 months,Back_end,"Node.js, Python, Laravel","PHP, Python",5,4,5,4,3,4,4,3,3
+294,294,Software Power,4 months,Database,"PostgreSQL, MongoDB, Oracle","Oracle, MySQL, MongoDB",2,3,2,4,2,2,2,2,2
+295,295,Data Energy,5 months,Database,"Oracle, MySQL","PostgreSQL, Oracle, MongoDB",3,3,2,4,3,3,1,3,2
+296,296,Cloud Fuel,5 months,Front_end,"HTML, Tailwind CSS","React, JavaScript, Tailwind CSS",4,2,4,3,4,4,3,4,4
+297,297,Tech Gas,4 months,Back_end,"Node.js, PHP, Laravel","Laravel, PHP, Express",2,1,4,3,2,2,4,2,2
+298,298,Dev Oil,6 months,Front_end,CSS,"CSS, JavaScript",5,5,5,3,4,5,2,4,5
+299,299,Open Coal,2 months,Front_end,"HTML, CSS, JavaScript","JavaScript, Tailwind CSS",1,1,3,2,2,3,3,2,2
+300,300,Future Steam,5 months,Front_end,"HTML, CSS","JavaScript, React, CSS",3,4,4,3,4,4,1,4,4
+301,301,(301-400),5 months,Database,"PostgreSQL, MySQL, Oracle","MongoDB, MySQL",4,3,2,5,3,3,1,2,2
+302,302,Code Spark,2 months,Database,"Oracle, PostgreSQL, MySQL","PostgreSQL, Oracle",1,2,2,3,1,2,3,1,1
+303,303,Tech Pulse,6 months,Front_end,"CSS, JavaScript","React, CSS, HTML",5,5,5,4,5,5,3,4,5
+304,304,Digital Flow,4 months,Front_end,HTML,"HTML, CSS",2,2,4,3,3,3,3,2,4
+305,305,Web Matrix,5 months,Front_end,"JavaScript, Tailwind CSS, React",Tailwind CSS,3,3,4,3,3,4,4,3,4
+306,306,Software Core,2 months,Front_end,"JavaScript, Tailwind CSS, HTML","CSS, JavaScript, React",1,2,3,2,2,3,5,2,3
+307,307,Data Forge,4 months,Back_end,PHP,"Node.js, PHP",2,1,4,3,2,3,3,2,2
+308,308,Cloud Hive,5 months,Front_end,"HTML, JavaScript","Tailwind CSS, JavaScript, CSS",3,4,4,3,4,4,2,4,4
+309,309,Tech Nest,5 months,Database,"MongoDB, PostgreSQL, MySQL",PostgreSQL,4,4,2,4,2,3,4,2,2
+310,310,Dev Den,6 months,Back_end,"Laravel, Python","Laravel, Node.js, PHP",5,4,5,4,3,4,2,3,4
+311,311,Open Hub,2 months,Database,PostgreSQL,"PostgreSQL, MySQL",1,2,1,3,1,2,3,1,1
+312,312,Future Lab,3 months,Back_end,"Node.js, Python, PHP","Laravel, Node.js, PHP",2,2,4,3,2,3,1,1,2
+313,313,Code Factory,5 months,Front_end,"Tailwind CSS, HTML",Tailwind CSS,3,4,4,3,3,4,1,3,4
+314,314,Tech Mill,5 months,Back_end,Python,"Node.js, Python",4,2,4,4,2,3,5,2,3
+315,315,Digital Works,6 months,Front_end,"CSS, JavaScript, React","HTML, JavaScript",5,3,5,3,5,5,4,4,5
+316,316,Web Shop,5 months,Database,PostgreSQL,PostgreSQL,4,5,3,4,3,3,3,3,2
+317,317,Software Studio,4 months,Front_end,"Tailwind CSS, HTML, JavaScript","CSS, Tailwind CSS, HTML",2,2,4,3,3,3,3,3,3
+318,318,Data Atelier,2 months,Front_end,"Tailwind CSS, JavaScript, React","HTML, Tailwind CSS",1,1,3,2,2,3,2,2,3
+319,319,Cloud Gallery,6 months,Database,PostgreSQL,"PostgreSQL, MongoDB",5,3,3,5,3,3,2,3,3
+320,320,Tech Museum,5 months,Back_end,"PHP, Laravel, Python","Python, Express, Node.js",3,3,4,3,3,3,2,3,3
+321,321,Dev Archive,5 months,Front_end,React,"React, HTML",4,3,4,3,4,4,3,4,4
+322,322,Open Library,4 months,Back_end,"PHP, Node.js, Laravel","Laravel, Java",2,4,4,3,2,3,4,2,2
+323,323,Future Shelf,6 months,Database,PostgreSQL,"PostgreSQL, MongoDB",5,2,3,5,3,4,3,3,3
+324,324,Code Book,2 months,Back_end,"Python, Laravel, PHP","Node.js, PHP",1,3,3,2,1,2,2,1,2
+325,325,Tech Page,5 months,Back_end,"Node.js, .NET","Python, Laravel, .NET",3,3,5,4,3,4,5,3,3
+326,326,Digital Line,5 months,Back_end,Node.js,"PHP, Node.js",4,3,4,4,3,3,4,3,3
+327,327,Web Word,2 months,Back_end,"Python, Laravel","Node.js, Laravel",1,1,3,3,2,2,3,2,1
+328,328,Software Text,6 months,Front_end,"JavaScript, CSS, HTML","Tailwind CSS, React, CSS",5,4,5,3,5,5,3,4,5
+329,329,Data Script,4 months,Database,"Oracle, MySQL",Oracle,2,3,2,4,2,3,3,2,1
+330,330,Cloud Font,5 months,Front_end,"React, CSS, HTML","JavaScript, HTML, React",3,4,4,3,4,4,2,4,4
+331,331,Tech Type,2 months,Back_end,"Laravel, Express","Laravel, Python, PHP",1,1,3,2,2,2,2,2,2
+332,332,Dev Style,4 months,Front_end,React,"JavaScript, React",2,2,3,2,3,3,4,3,3
+333,333,Open Form,5 months,Front_end,"JavaScript, HTML","HTML, CSS",3,3,4,3,4,4,1,3,4
+334,334,Future Shape,5 months,Back_end,"Node.js, Python","Laravel, Python",4,3,4,4,2,3,1,2,3
+335,335,Code Solid,6 months,Front_end,"JavaScript, HTML, React",React,5,5,5,3,5,4,1,5,5
+336,336,Tech Fluid,5 months,Front_end,"JavaScript, Tailwind CSS","CSS, Tailwind CSS",4,2,4,3,4,4,1,4,4
+337,337,Digital Gas,2 months,Front_end,"HTML, Tailwind CSS, React","JavaScript, Tailwind CSS",1,1,3,2,2,3,4,2,2
+338,338,Web Plasma,6 months,Front_end,"React, CSS, JavaScript","CSS, JavaScript, React",5,5,5,3,4,5,4,4,5
+339,339,Software Mass,4 months,Back_end,"Node.js, Laravel","Python, .NET, Laravel",2,2,4,3,2,3,3,2,2
+340,340,Data Weight,5 months,Back_end,"Java, Laravel, Python","Python, Laravel, PHP",3,3,4,4,3,3,1,3,3
+341,341,Cloud Volume,5 months,Front_end,"JavaScript, HTML","Tailwind CSS, JavaScript",4,4,4,3,4,4,3,4,4
+342,342,Tech Size,4 months,Database,"MySQL, PostgreSQL, MongoDB","MongoDB, PostgreSQL",2,3,2,3,1,2,3,1,2
+343,343,Dev Large,2 months,Database,Oracle,Oracle,1,2,1,3,1,2,2,1,1
+344,344,Open Small,6 months,Front_end,CSS,"Tailwind CSS, CSS",5,3,5,3,4,4,3,4,5
+345,345,Future Micro,5 months,Front_end,HTML,"HTML, JavaScript",3,3,5,3,3,4,2,3,4
+346,346,Code Nano,5 months,Front_end,"CSS, React","Tailwind CSS, React, JavaScript",4,3,5,3,4,4,3,3,4
+347,347,Tech Pico,2 months,Database,"MySQL, PostgreSQL, Oracle","MongoDB, PostgreSQL, Oracle",1,2,2,3,1,2,3,1,1
+348,348,Digital Giga,6 months,Database,"Oracle, PostgreSQL, MongoDB","MongoDB, Oracle",5,3,3,5,3,4,1,2,3
+349,349,Web Tera,4 months,Database,"PostgreSQL, Oracle, MongoDB","PostgreSQL, Oracle, MongoDB",2,3,2,3,2,2,2,2,1
+350,350,Software Peta,5 months,Database,MongoDB,"MongoDB, PostgreSQL",3,3,3,4,2,3,3,1,2
+351,351,Data Exa,5 months,Database,"MongoDB, PostgreSQL","Oracle, MongoDB, PostgreSQL",4,3,3,4,3,3,3,3,2
+352,352,Cloud Zetta,6 months,Database,"PostgreSQL, MongoDB","Oracle, MongoDB",5,4,3,5,3,4,4,3,3
+353,353,Tech Yotta,2 months,Database,"MongoDB, Oracle","PostgreSQL, MongoDB",1,3,2,3,1,2,3,1,1
+354,354,Dev Mega,3 months,Front_end,"React, JavaScript","React, CSS, HTML",2,3,4,2,3,4,2,3,3
+355,355,Open Kilo,5 months,Front_end,"JavaScript, Tailwind CSS, HTML",Tailwind CSS,3,2,5,3,3,4,1,3,4
+356,356,Future Centi,5 months,Front_end,"Tailwind CSS, CSS, HTML",Tailwind CSS,4,3,5,3,4,4,3,3,4
+357,357,Code Milli,6 months,Back_end,Node.js,"PHP, Node.js",5,4,5,5,3,4,1,3,3
+358,358,Tech Micro,2 months,Front_end,"React, HTML","CSS, HTML, JavaScript",1,1,3,2,2,3,3,2,2
+359,359,Digital Unit,3 months,Back_end,Laravel,"Laravel, .NET",2,2,3,3,2,3,5,2,2
+360,360,Web Base,5 months,Database,PostgreSQL,"PostgreSQL, Oracle",3,2,2,4,2,3,3,2,2
+361,361,Software Foundation,2 months,Database,MySQL,"MySQL, MongoDB",1,2,1,3,1,2,2,1,1
+362,362,Data Pillar,3 months,Back_end,Laravel,"PHP, Laravel",2,2,4,3,2,2,3,2,2
+363,363,Cloud Column,5 months,Back_end,"Node.js, Python","PHP, Python",3,3,5,4,3,3,3,3,3
+364,364,Tech Arch,5 months,Back_end,"Laravel, PHP, Node.js","Laravel, Java",4,2,4,4,2,4,3,2,3
+365,365,Dev Beam,6 months,Back_end,Express,"Express, Java",5,3,5,5,3,4,5,3,3
+366,366,Open Bridge,2 months,Database,"MongoDB, PostgreSQL","PostgreSQL, Oracle",1,1,1,3,1,2,2,1,1
+367,367,Future Tower,3 months,Database,MySQL,"MySQL, PostgreSQL",2,1,2,4,2,2,5,1,2
+368,368,Code Wall,5 months,Back_end,Java,"Java, Express",3,3,5,4,2,4,5,2,3
+369,369,Tech Roof,5 months,Back_end,"PHP, Laravel","PHP, Node.js, .NET",4,3,4,4,2,4,2,2,3
+370,370,Digital Floor,6 months,Database,"PostgreSQL, MySQL",PostgreSQL,5,5,3,5,3,4,1,2,3
+371,371,Web Ceiling,5 months,Front_end,"CSS, React","JavaScript, Tailwind CSS, CSS",4,3,4,3,3,4,1,3,4
+372,372,Software Room,4 months,Front_end,"JavaScript, CSS","HTML, CSS",2,3,3,2,3,4,1,3,3
+373,373,Data Hall,6 months,Front_end,"CSS, React","Tailwind CSS, JavaScript, React",5,3,5,3,5,5,1,5,5
+374,374,Cloud Suite,2 months,Database,PostgreSQL,"PostgreSQL, MongoDB",1,2,1,3,1,2,3,1,1
+375,375,Tech Office,5 months,Back_end,"Node.js, Laravel","Laravel, Python, Node.js",3,3,4,4,3,3,1,3,3
+376,376,Dev Desk,5 months,Database,"Oracle, PostgreSQL, MySQL",MySQL,4,4,3,5,2,3,2,2,2
+377,377,Open Seat,4 months,Front_end,"React, JavaScript, HTML","HTML, Tailwind CSS, JavaScript",2,4,3,2,3,4,4,3,3
+378,378,Future Chair,2 months,Database,"MongoDB, PostgreSQL, MySQL",PostgreSQL,1,2,2,3,1,2,1,1,1
+379,379,Code Table,6 months,Database,"Oracle, MySQL, PostgreSQL","Oracle, MySQL, MongoDB",5,5,3,5,3,4,4,3,3
+380,380,Tech Lamp,5 months,Front_end,React,"Tailwind CSS, React",3,2,4,3,3,4,2,3,4
+381,381,Digital Light,5 months,Back_end,"Laravel, PHP","Laravel, Python, Node.js",4,3,4,4,2,4,1,2,3
+382,382,Web Bulb,2 months,Front_end,React,"React, HTML",1,3,3,2,2,3,3,2,3
+383,383,Software Switch,6 months,Database,Oracle,"Oracle, MySQL",5,3,3,5,3,4,3,3,3
+384,384,Data Wire,4 months,Back_end,Laravel,"Python, Laravel",2,3,3,3,2,3,4,2,2
+385,385,Cloud Plug,5 months,Database,MongoDB,"MongoDB, Oracle",3,3,2,4,2,3,4,2,2
+386,386,Tech Socket,5 months,Database,"Oracle, MongoDB",MongoDB,4,3,3,4,3,3,4,2,2
+387,387,Dev Cord,4 months,Back_end,"Python, PHP, Laravel","Laravel, Node.js, Python",2,3,3,3,2,3,2,2,2
+388,388,Open Battery,6 months,Front_end,HTML,"JavaScript, HTML",5,5,5,3,5,4,2,5,5
+389,389,Future Cell,2 months,Database,"Oracle, PostgreSQL, MongoDB",MongoDB,1,3,2,3,1,2,4,1,1
+390,390,Code Power,5 months,Database,"PostgreSQL, MySQL","MongoDB, PostgreSQL",3,1,2,4,2,3,4,2,2
+391,391,Tech Charge,5 months,Front_end,HTML,"HTML, React",4,3,5,3,4,4,5,4,4
+392,392,Digital Volt,2 months,Front_end,HTML,"Tailwind CSS, HTML",1,1,3,2,2,3,3,2,3
+393,393,Web Amp,6 months,Front_end,"Tailwind CSS, HTML",HTML,5,4,5,3,4,5,2,4,5
+394,394,Software Ohm,4 months,Front_end,"React, CSS","CSS, HTML, React",2,3,3,3,3,3,4,3,3
+395,395,Data Watt,5 months,Back_end,"Python, Node.js, Laravel","Python, Laravel, PHP",3,3,4,4,3,4,2,3,3
+396,396,Cloud Joule,2 months,Back_end,"Node.js, Java","Node.js, Python, PHP",1,1,3,2,1,2,5,1,1
+397,397,Tech Kelvin,4 months,Database,MongoDB,"MongoDB, Oracle",2,3,2,4,2,2,4,2,1
+398,398,Dev Celsius,5 months,Database,PostgreSQL,"PostgreSQL, Oracle",3,3,3,4,2,3,3,2,2
+399,399,Open Rankine,5 months,Back_end,"Laravel, Python, PHP","Laravel, Node.js",4,4,5,4,2,3,4,2,3
+400,400,Future Newton,6 months,Database,"Oracle, MySQL, PostgreSQL","MongoDB, Oracle",5,4,3,5,3,4,4,3,3
+401,401,(401-500),2 months,Database,Oracle,"MongoDB, Oracle",1,2,2,3,1,2,1,1,1
+402,402,Code Pascal,3 months,Database,PostgreSQL,PostgreSQL,2,3,2,4,2,2,5,2,2
+403,403,Tech Tesla,5 months,Front_end,"HTML, React, CSS","Tailwind CSS, CSS",3,3,5,3,4,4,3,3,4
+404,404,Digital Hertz,5 months,Front_end,HTML,"React, HTML",4,2,5,3,3,4,4,3,4
+405,405,Web Weber,6 months,Database,MongoDB,"MongoDB, Oracle",5,4,3,5,3,4,2,3,3
+406,406,Software Lumen,5 months,Database,"PostgreSQL, MySQL","MongoDB, PostgreSQL",4,3,2,4,2,3,4,2,2
+407,407,Data Lux,4 months,Front_end,"React, CSS, JavaScript","CSS, React, HTML",2,3,4,3,3,4,2,3,3
+408,408,Cloud Gray,2 months,Database,"PostgreSQL, MongoDB, Oracle","PostgreSQL, MongoDB",1,1,2,3,1,2,1,1,1
+409,409,Tech Sievert,6 months,Back_end,"Python, Laravel","PHP, Laravel",5,3,5,5,3,4,5,3,3
+410,410,Dev Becquerel,5 months,Front_end,"CSS, JavaScript","React, HTML, CSS",3,4,5,3,3,4,1,3,4
+411,411,Open Mole,5 months,Front_end,"CSS, HTML, Tailwind CSS","Tailwind CSS, React, CSS",4,3,4,3,3,4,2,3,4
+412,412,Future Candela,4 months,Back_end,Node.js,"Node.js, Laravel",2,2,4,3,2,3,5,2,2
+413,413,Code Meter,6 months,Database,"MongoDB, Oracle, PostgreSQL","Oracle, PostgreSQL",5,4,3,5,3,3,5,3,3
+414,414,Tech Gram,2 months,Database,"Oracle, MongoDB, MySQL","PostgreSQL, MySQL, Oracle",1,2,2,3,1,2,3,1,1
+415,415,Digital Second,5 months,Back_end,"Express, Laravel, PHP","PHP, Express, Laravel",3,5,5,4,3,3,3,3,3
+416,416,Web Liter,5 months,Back_end,"PHP, .NET, Node.js",Node.js,4,3,4,4,2,3,3,2,3
+417,417,Software Byte,2 months,Back_end,Node.js,Node.js,1,3,3,2,2,2,2,1,2
+418,418,Data Bit,6 months,Back_end,"Laravel, Python, PHP",".NET, Laravel, Python",5,4,5,5,3,4,2,3,3
+419,419,Cloud Frame,4 months,Database,"MySQL, Oracle","Oracle, MySQL, PostgreSQL",2,2,2,4,2,2,3,1,2
+420,420,Tech Packet,5 months,Database,"PostgreSQL, Oracle, MongoDB",Oracle,3,3,3,4,2,3,4,2,2
+421,421,Dev Segment,2 months,Back_end,PHP,"Java, PHP",1,2,3,2,2,2,4,2,1
+422,422,Open Header,4 months,Back_end,Node.js,"Node.js, Python",2,2,4,3,2,3,4,2,2
+423,423,Future Footer,5 months,Front_end,"React, HTML","React, Tailwind CSS",3,4,5,3,4,4,1,3,4
+424,424,Code Tag,5 months,Back_end,"Node.js, Python, Laravel","PHP, Laravel, .NET",4,2,4,4,3,3,3,2,3
+425,425,Tech Element,6 months,Front_end,"React, Tailwind CSS","React, HTML, JavaScript",5,4,5,3,5,5,1,5,5
+426,426,Digital Attribute,5 months,Back_end,Node.js,"Laravel, Node.js",4,3,4,4,2,3,3,2,3
+427,427,Web Property,2 months,Back_end,"Python, .NET, Express","Node.js, Python, .NET",1,3,3,2,2,2,3,1,1
+428,428,Software Value,6 months,Database,"Oracle, MongoDB, MySQL","PostgreSQL, MySQL",5,3,3,5,3,3,4,2,3
+429,429,Data Type,4 months,Database,"MySQL, Oracle, MongoDB",MongoDB,2,4,2,4,1,2,2,1,1
+430,430,Cloud Class,5 months,Back_end,"Node.js, Laravel, PHP","Node.js, Python",3,2,4,4,2,4,1,2,3
+431,431,Tech Object,5 months,Back_end,"Laravel, Python, Node.js","Node.js, PHP, Python",4,4,4,4,2,3,1,2,3
+432,432,Dev Method,4 months,Front_end,"JavaScript, HTML, React","CSS, HTML",2,3,3,2,2,4,4,2,4
+433,433,Open Function,2 months,Database,"Oracle, MongoDB","PostgreSQL, MongoDB",1,2,1,3,1,2,3,1,1
+434,434,Future Variable,6 months,Back_end,"Node.js, Python","Python, Laravel, Java",5,5,5,5,3,4,1,3,4
+435,435,Code Constant,5 months,Front_end,Tailwind CSS,"Tailwind CSS, CSS",3,3,4,3,4,4,1,4,4
+436,436,Tech Array,5 months,Front_end,"CSS, React","CSS, React, Tailwind CSS",4,5,4,3,4,4,4,4,4
+437,437,Digital List,2 months,Back_end,"PHP, Node.js","PHP, Python, Express",1,3,3,3,1,2,1,1,1
+438,438,Web Stack,6 months,Database,"PostgreSQL, MySQL",MySQL,5,4,3,5,3,3,4,2,3
+439,439,Software Queue,4 months,Front_end,React,"Tailwind CSS, React",2,2,4,3,3,4,4,3,3
+440,440,Data Tree,5 months,Database,MySQL,"PostgreSQL, MySQL",3,4,2,4,2,3,1,2,2
+441,441,Cloud Graph,5 months,Back_end,"Python, Node.js",Python,4,5,4,4,3,4,1,3,3
+442,442,Tech Map,6 months,Database,"Oracle, MySQL","MongoDB, PostgreSQL, MySQL",5,3,3,5,3,3,5,3,3
+443,443,Dev Set,2 months,Back_end,"Laravel, Node.js, PHP","Python, Node.js",1,1,3,2,1,2,2,1,1
+444,444,Open Bag,3 months,Back_end,PHP,"Laravel, PHP",2,2,3,3,2,3,2,1,2
+445,445,Future Heap,5 months,Back_end,"Python, .NET","Python, .NET",3,2,4,4,2,3,4,2,3
+446,446,Code Sort,5 months,Front_end,"CSS, React","Tailwind CSS, CSS, React",4,3,4,3,4,4,5,3,4
+447,447,Tech Search,6 months,Back_end,Node.js,"Node.js, PHP",5,3,5,4,3,4,5,3,3
+448,448,Digital Find,2 months,Database,"Oracle, MongoDB, PostgreSQL","Oracle, PostgreSQL",1,1,1,3,1,2,4,1,1
+449,449,Web Link,3 months,Database,"MongoDB, Oracle, PostgreSQL","MongoDB, Oracle, PostgreSQL",2,3,2,4,2,2,2,1,2
+450,450,Software Node,5 months,Front_end,React,"JavaScript, React",3,4,4,3,4,4,1,4,4
+451,451,Data Edge,2 months,Database,"MongoDB, Oracle, PostgreSQL","Oracle, MongoDB",1,4,2,3,1,2,4,1,1
+452,452,Cloud Path,3 months,Database,MongoDB,"MongoDB, PostgreSQL",2,1,2,4,1,2,3,1,2
+453,453,Tech Loop,5 months,Back_end,"Laravel, Node.js, .NET","PHP, Laravel",3,4,5,4,2,4,3,2,3
+454,454,Dev Break,5 months,Front_end,"React, CSS, JavaScript","CSS, JavaScript",4,4,4,3,3,4,5,3,4
+455,455,Open Continue,6 months,Front_end,"CSS, React, Tailwind CSS",React,5,5,5,3,5,5,1,5,5
+456,456,Future Switch,2 months,Front_end,"React, Tailwind CSS, JavaScript","React, HTML, CSS",1,2,3,2,2,3,3,2,3
+457,457,Code Case,3 months,Back_end,".NET, PHP, Laravel",".NET, Python, Java",2,1,4,3,2,2,1,2,2
+458,458,Tech Default,5 months,Database,"MySQL, PostgreSQL, MongoDB","Oracle, MySQL",3,3,2,5,2,3,3,1,2
+459,459,Digital If,5 months,Back_end,PHP,"PHP, Node.js",4,3,4,4,2,3,1,2,3
+460,460,Web Else,6 months,Front_end,"React, Tailwind CSS","Tailwind CSS, CSS, React",5,5,5,4,4,5,1,4,5
+461,461,Software While,5 months,Database,Oracle,"PostgreSQL, Oracle",4,3,3,4,2,3,1,2,2
+462,462,Data For,4 months,Database,MySQL,"MySQL, MongoDB",2,4,2,4,1,2,3,1,1
+463,463,Cloud Do,6 months,Database,"MongoDB, PostgreSQL","PostgreSQL, MongoDB",5,4,3,5,3,4,4,3,3
+464,464,Tech Try,2 months,Database,Oracle,"Oracle, MongoDB",1,1,2,3,1,2,3,1,1
+465,465,Dev Catch,5 months,Database,"MySQL, PostgreSQL",MySQL,3,3,2,4,2,3,5,2,2
+466,466,Open Finally,5 months,Front_end,"HTML, CSS","CSS, Tailwind CSS, JavaScript",4,3,4,3,4,4,2,4,4
+467,467,Future Throw,4 months,Front_end,JavaScript,"JavaScript, React",2,2,3,3,3,4,2,3,3
+468,468,Code Return,2 months,Front_end,"CSS, Tailwind CSS, JavaScript","React, Tailwind CSS, HTML",1,3,3,2,2,3,4,2,2
+469,469,Tech Yield,6 months,Database,"MongoDB, Oracle, PostgreSQL","MySQL, PostgreSQL",5,4,3,5,3,3,2,3,3
+470,470,Digital Static,5 months,Front_end,CSS,"CSS, HTML",3,2,4,3,4,4,5,4,4
+471,471,Web Public,5 months,Front_end,"JavaScript, CSS","HTML, JavaScript",4,2,4,3,3,4,1,3,4
+472,472,Software Private,2 months,Back_end,"Laravel, Python, Node.js","Express, Laravel",1,2,3,2,1,2,5,1,1
+473,473,Data Protected,6 months,Database,"MySQL, MongoDB, PostgreSQL","MongoDB, PostgreSQL",5,4,3,5,3,3,1,2,3
+474,474,Cloud Internal,4 months,Back_end,"Python, PHP, Laravel",Python,2,3,4,3,2,3,4,2,2
+475,475,Tech External,5 months,Front_end,CSS,"HTML, CSS",3,3,4,3,4,4,3,4,4
+476,476,Dev Global,5 months,Back_end,"Node.js, Laravel","Laravel, Node.js",4,3,4,4,2,4,5,2,3
+477,477,Open Local,4 months,Database,"Oracle, MongoDB, MySQL","MongoDB, PostgreSQL",2,4,2,3,2,2,1,1,1
+478,478,Future Scope,6 months,Database,Oracle,"Oracle, MongoDB",5,5,3,5,3,3,3,3,3
+479,479,Code Closure,2 months,Front_end,"Tailwind CSS, HTML","HTML, React",1,1,3,2,2,3,5,2,2
+480,480,Tech Lambda,5 months,Database,MongoDB,"Oracle, MongoDB",3,2,3,4,2,3,3,2,2
+481,481,Digital Stream,5 months,Database,"Oracle, MongoDB, PostgreSQL","MongoDB, MySQL",4,3,2,5,3,3,3,2,2
+482,482,Web Buffer,2 months,Back_end,"PHP, .NET, Laravel","Python, PHP, .NET",1,2,3,3,1,2,3,1,2
+483,483,Software Cache,6 months,Database,"PostgreSQL, MySQL, MongoDB","Oracle, PostgreSQL, MySQL",5,4,3,5,3,3,3,2,3
+484,484,Data Sync,4 months,Database,"MySQL, MongoDB, PostgreSQL","MySQL, PostgreSQL, MongoDB",2,4,2,4,2,2,3,1,2
+485,485,Cloud Async,5 months,Front_end,"CSS, React, HTML","CSS, JavaScript, HTML",3,3,4,3,3,4,3,3,4
+486,486,Tech Thread,2 months,Database,"PostgreSQL, MongoDB","Oracle, PostgreSQL",1,1,1,3,1,2,5,1,1
+487,487,Dev Process,4 months,Back_end,Node.js,"Node.js, .NET",2,1,4,3,2,3,1,2,2
+488,488,Open Task,5 months,Back_end,Express,"Express, Node.js",3,2,4,4,2,3,2,2,3
+489,489,Future Job,5 months,Back_end,.NET,".NET, Python",4,3,4,4,3,3,5,2,3
+490,490,Code Event,6 months,Back_end,"Laravel, Node.js","Python, .NET, Laravel",5,5,5,4,3,4,4,3,4
+491,491,Tech Signal,2 months,Front_end,"Tailwind CSS, HTML","React, Tailwind CSS",1,2,3,2,2,3,3,2,2
+492,492,Digital Slot,3 months,Database,"MongoDB, PostgreSQL",MongoDB,2,3,2,4,2,2,3,1,2
+493,493,Web Hook,5 months,Database,PostgreSQL,"Oracle, PostgreSQL",3,3,3,4,2,3,2,2,2
+494,494,Software Trigger,5 months,Back_end,Express,"Express, Java",4,4,5,4,3,3,2,3,3
+495,495,Data Action,6 months,Front_end,HTML,"HTML, Tailwind CSS",5,5,5,4,5,5,3,5,5
+496,496,Cloud Result,5 months,Database,"Oracle, MongoDB","MySQL, PostgreSQL, Oracle",4,3,3,5,2,3,2,2,2
+497,497,Tech Status,4 months,Front_end,"React, JavaScript, HTML","React, CSS, Tailwind CSS",2,2,3,2,3,4,3,3,3
+498,498,Dev Code,2 months,Front_end,React,"React, JavaScript",1,3,3,2,2,3,1,2,2
+499,499,Open Message,6 months,Database,"MongoDB, PostgreSQL, Oracle","MySQL, Oracle",5,4,3,5,3,3,5,2,3
+500,500,Code Success,5 months,Database,Oracle,"MySQL, Oracle",3,4,3,4,2,3,5,1,2

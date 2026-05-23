@@ -37,6 +37,7 @@ export interface StudentProfile extends User {
   softSkillsAssessment?: AssessmentResponse[];
   personalityAssessment?: AssessmentResponse[];
   savedOpportunities?: string[];
+  experienceYears?: number;
 }
 
 // Alias: Volunteer = Student
@@ -87,7 +88,10 @@ export interface Opportunity {
   status: 'pending' | 'approved' | 'rejected';
   createdAt: string;
   exam?: Assessment;
+  matchScore?: number | null;
+  matchReason?: string;
 }
+
 
 // Alias for backward compat
 export type Internship = Opportunity;
@@ -169,10 +173,33 @@ export const PERSONALITY_QUESTIONS: OnboardingQuestion[] = [
   { id: 'p10', text: 'I have a vivid imagination', category: 'Openness' },
   { id: 'p11', text: 'I double-check my work', category: 'Conscientiousness' },
   { id: 'p12', text: 'I avoid conflict when possible', category: 'Agreeableness' },
+  { id: 'p13', text: 'I express my ideas clearly when speaking to others', category: 'Communication_Skills' },
+  { id: 'p14', text: 'I feel confident presenting or explaining work to a group', category: 'Presentation_Skills' },
+  { id: 'p15', text: 'I tend to worry a lot about things going wrong', category: 'Neuroticism' },
 ];
 
 export const INTEREST_CATEGORIES = [
   { id: 'Frontend Development', label: '💻 Frontend Development', icon: '💻' },
   { id: 'Backend Development', label: '⚙️ Backend Development', icon: '⚙️' },
   { id: 'Database Development', label: '🗄️ Database Development', icon: '🗄️' },
+];
+
+export const SKILL_OPTIONS = [
+  'React',
+  'Node.js',
+  'JavaScript',
+  'TypeScript',
+  'HTML',
+  'CSS',
+  'Tailwind CSS',
+  'Express',
+  'MongoDB',
+  'MySQL',
+  'PostgreSQL',
+  'Python',
+  'PHP',
+  'Laravel',
+  'Java',
+  '.NET',
+  'Oracle',
 ];

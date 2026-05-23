@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/store/authStore';
 import { onboardingService } from '@/services/api';
-import { SOFT_SKILLS_QUESTIONS, PERSONALITY_QUESTIONS, INTEREST_CATEGORIES, OnboardingQuestion } from '@/types';
+import { SOFT_SKILLS_QUESTIONS, PERSONALITY_QUESTIONS, INTEREST_CATEGORIES, SKILL_OPTIONS, OnboardingQuestion, StudentProfile } from '@/types';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -20,11 +20,13 @@ export default function Onboarding() {
 
   // Step 1: Basic Info
   const [basicInfo, setBasicInfo] = useState({
-    username: user?.username || '',
+    username: (user as StudentProfile)?.username || '',
     phone: '',
     gender: 'other',
     availability: 'flexible',
-    interests: [] as string[]
+    interests: [] as string[],
+    skills: [] as string[],
+    experienceYears: 0,
   });
 
   // Step 2 & 3: Assessments
@@ -40,9 +42,22 @@ export default function Onboarding() {
     }));
   };
 
+  const toggleSkill = (skill: string) => {
+    setBasicInfo(prev => ({
+      ...prev,
+      skills: prev.skills.includes(skill)
+        ? prev.skills.filter(s => s !== skill)
+        : [...prev.skills, skill]
+    }));
+  };
+
   const handleStep1Submit = async () => {
     if (!basicInfo.username || basicInfo.interests.length === 0) {
       toast.error('Please enter your name and select at least one interest.');
+      return;
+    }
+    if (basicInfo.skills.length === 0) {
+      toast.error('Please select at least one technical skill.');
       return;
     }
     setIsSubmitting(true);
@@ -113,14 +128,45 @@ export default function Onboarding() {
     }
   };
 
-  // Mock radar chart data derived from answers
-  const radarData = [
-    { subject: 'Openness', A: 80, fullMark: 100 },
-    { subject: 'Conscientiousness', A: 90, fullMark: 100 },
-    { subject: 'Extraversion', A: 65, fullMark: 100 },
-    { subject: 'Agreeableness', A: 85, fullMark: 100 },
-    { subject: 'Teamwork', A: 75, fullMark: 100 },
-  ];
+  // Dynamic radar chart data — computed directly from real onboarding answers.
+  // No hardcoded values, no inflation, no smoothing, no minimum floor.
+  const radarData = useMemo(() => {
+    // These two questions are reverse-worded:
+    //   ss3 = "You avoid leadership roles" → high agreement means LOW leadership
+    //   ss7 = "You find networking with strangers difficult" → high agreement means LOW networking
+    // All other questions: high agreement = high trait level (raw score used as-is).
+    const REVERSE_IDS = new Set(['ss3', 'ss7']);
+
+    // Merge both answer maps and all question definitions into a single pass.
+    const allQuestions = [...PERSONALITY_QUESTIONS, ...SOFT_SKILLS_QUESTIONS];
+    const allAnswers: Record<string, number> = { ...personalityAnswers, ...softSkillsAnswers };
+
+    // Accumulate effective scores per trait category.
+    const traitAccumulator: Record<string, { sum: number; count: number }> = {};
+
+    for (const q of allQuestions) {
+      const raw = allAnswers[q.id];
+      if (raw === undefined) continue; // skip unanswered questions — no default inflation
+
+      // Apply reverse scoring where the question is negatively worded.
+      const effective = REVERSE_IDS.has(q.id) ? (6 - raw) : raw;
+
+      if (!traitAccumulator[q.category]) {
+        traitAccumulator[q.category] = { sum: 0, count: 0 };
+      }
+      traitAccumulator[q.category].sum += effective;
+      traitAccumulator[q.category].count += 1;
+    }
+
+    // Convert to chart format.
+    // Scale: (avg / 5) * 100  →  1 → 20,  2 → 40,  3 → 60,  4 → 80,  5 → 100
+    // No Math.max(), no offset, no clamping — low answers will produce low chart values.
+    return Object.entries(traitAccumulator).map(([subject, { sum, count }]) => ({
+      subject,
+      A: Math.round((sum / count / 5) * 100),
+      fullMark: 100,
+    }));
+  }, [personalityAnswers, softSkillsAnswers]);
 
   const renderAssessment = (
     title: string,
@@ -251,6 +297,38 @@ export default function Onboarding() {
                       </button>
                     ))}
                   </div>
+                </div>
+
+                <div className="space-y-4 pt-4 border-t border-border/50">
+                  <Label className="text-base">What programming languages or technologies do you know? <span className="text-destructive">*</span></Label>
+                  <div className="flex flex-wrap gap-3">
+                    {SKILL_OPTIONS.map(skill => (
+                      <button
+                        key={skill}
+                        onClick={() => toggleSkill(skill)}
+                        className={`interest-pill ${basicInfo.skills.includes(skill) ? 'selected' : ''}`}
+                      >
+                        {skill}
+                      </button>
+                    ))}
+                  </div>
+                  {basicInfo.skills.length === 0 && (
+                    <p className="text-xs text-muted-foreground">Select at least one skill to continue.</p>
+                  )}
+                </div>
+
+                <div className="space-y-2 pt-4 border-t border-border/50">
+                  <Label className="text-base">How many years of experience do you have in your field?</Label>
+                  <Select value={String(basicInfo.experienceYears)} onValueChange={v => setBasicInfo({ ...basicInfo, experienceYears: Number(v) })}>
+                    <SelectTrigger className="h-12 bg-muted/50"><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="0">Less than 1 year</SelectItem>
+                      <SelectItem value="1">1 year</SelectItem>
+                      <SelectItem value="2">2 years</SelectItem>
+                      <SelectItem value="3">3 years</SelectItem>
+                      <SelectItem value="5">5+ years</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               </CardContent>
             </Card>

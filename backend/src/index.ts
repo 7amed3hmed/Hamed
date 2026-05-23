@@ -18,6 +18,7 @@ import onboardingRoutes from './routes/onboardingRoutes';
 import notificationRoutes from './routes/notificationRoutes';
 import supportRoutes from './routes/supportRoutes';
 import volunteerRoutes from './routes/volunteerRoutes';
+import recommendationRoutes from './routes/recommendationRoutes';
 
 
 
@@ -129,6 +130,7 @@ app.use('/api/onboarding', onboardingRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/support', supportRoutes);
 app.use('/api/volunteers', volunteerRoutes);
+app.use('/api/recommendations', recommendationRoutes);
 
 // Global Error Handler
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {

@@ -63,14 +63,12 @@ export default function InternshipDetails() {
     }
   };
 
-  // Fake skill match percentage based on user interests vs category
+  // Return the backend computed match score, do not generate client-side mock percentages
   const getMatchScore = () => {
-    if (!user || user.role !== 'student' || !opportunity) return null;
-    const student = user as any;
-    if (student.interests?.includes(opportunity.category?.toLowerCase() || '')) {
-      return 95;
+    if (opportunity && opportunity.matchScore !== undefined && opportunity.matchScore !== null) {
+      return opportunity.matchScore;
     }
-    return 75; // Placeholder AI match
+    return null;
   };
 
   const matchScore = getMatchScore();

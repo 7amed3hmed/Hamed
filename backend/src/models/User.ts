@@ -32,6 +32,7 @@ export interface IUser extends Document {
   softSkillsAssessment?: IAssessmentResponse[];
   personalityAssessment?: IAssessmentResponse[];
   savedOpportunities?: string[];
+  experienceYears?: number;
 
   // Organization (Company) specific
   companyName?: string;
@@ -74,6 +75,7 @@ const UserSchema = new Schema<IUser>({
   softSkillsAssessment: { type: [AssessmentResponseSchema], default: [] },
   personalityAssessment: { type: [AssessmentResponseSchema], default: [] },
   savedOpportunities: { type: [String], default: [] },
+  experienceYears: { type: Number, default: 0, min: 0 },
 
   // Organization fields
   companyName: { type: String },

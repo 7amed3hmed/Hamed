@@ -75,33 +75,12 @@ export function OpportunityCard({ opportunity, onSaveToggle }: OpportunityCardPr
     }
   };
 
-  // Deterministic match percentage based on userId + opportunityId
+  // Return the backend computed match score, do not generate client-side mock percentages
   const getMatchScore = () => {
-    if (!user || user.role !== 'student') return null;
-    const student = user as any;
-    
-    const userIdStr = String(user.id || (user as any)._id || '');
-    const oppIdStr = String(opportunity.id || opportunity._id || '');
-    
-    // Simple deterministic hash
-    let hash = 0;
-    const seed = userIdStr + oppIdStr;
-    for (let i = 0; i < seed.length; i++) {
-      hash = ((hash << 5) - hash) + seed.charCodeAt(i);
-      hash |= 0;
+    if (opportunity.matchScore !== undefined && opportunity.matchScore !== null) {
+      return opportunity.matchScore;
     }
-    
-    const absHash = Math.abs(hash);
-    let score = 70 + (absHash % 21); // 70-90 range
-    
-    // Bonus for interest match
-    if (student.interests?.some((int: string) => 
-      opportunity.category?.toLowerCase().includes(int.toLowerCase())
-    )) {
-      score = Math.min(98, score + 8);
-    }
-    
-    return score;
+    return null;
   };
 
   const matchScore = getMatchScore();
@@ -155,9 +134,16 @@ export function OpportunityCard({ opportunity, onSaveToggle }: OpportunityCardPr
             ) : null}
           </div>
 
-          <p className="text-sm text-muted-foreground line-clamp-2 mb-6 flex-grow">
+          <p className="text-sm text-muted-foreground line-clamp-2 mb-4 flex-grow">
             {opportunity.description}
           </p>
+
+          {opportunity.matchReason && (
+            <div className="text-xs text-primary font-semibold flex items-center gap-1.5 mb-4 bg-primary/5 p-2 rounded-lg border border-primary/10">
+              <Sparkles className="h-3 w-3 shrink-0" />
+              <span className="line-clamp-2">{opportunity.matchReason}</span>
+            </div>
+          )}
 
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground font-medium border-t border-border/50 pt-4 mt-auto">
             <div className="flex items-center gap-1.5">

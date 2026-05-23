@@ -53,13 +53,45 @@ export const saveBasicInfo = async (req: AuthRequest, res: Response) => {
     const user = await User.findById(req.user?._id);
     if (!user) return sendError(res, 404, 'User not found');
 
-    const { interests, availability, phone, gender, username } = req.body;
+    const { interests, availability, phone, gender, username, skills, experienceYears } = req.body;
 
     if (username) user.username = username;
     if (phone) user.phone = phone;
     if (gender) user.gender = gender;
     if (interests) user.interests = interests;
     if (availability) user.availability = availability;
+
+    // Validate and normalize skills
+    if (skills !== undefined) {
+      if (!Array.isArray(skills)) {
+        return sendError(res, 400, 'Skills must be an array');
+      }
+      const normalized: string[] = [];
+      const seen = new Set<string>();
+      for (const s of skills) {
+        const trimmed = String(s).trim();
+        if (!trimmed) continue;
+        const key = trimmed.toLowerCase();
+        if (!seen.has(key)) {
+          seen.add(key);
+          normalized.push(trimmed);
+        }
+      }
+      if (normalized.length === 0) {
+        return sendError(res, 400, 'At least one skill is required');
+      }
+      user.skills = normalized;
+    }
+
+    // Validate and save experienceYears
+    if (experienceYears !== undefined) {
+      const yrs = Number(experienceYears);
+      if (isNaN(yrs) || yrs < 0) {
+        return sendError(res, 400, 'experienceYears must be a number >= 0');
+      }
+      user.experienceYears = yrs;
+    }
+
     user.onboardingStep = Math.max(user.onboardingStep || 0, 1);
 
     await user.save();

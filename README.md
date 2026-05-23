@@ -34,7 +34,7 @@ The architecture follows a modern **MERN**-inspired stack (MongoDB, Express, Rea
 ### 🏢 Organization / Company Features
 - **Opportunity Lifecycle**: Create, edit, and delete opportunities with detailed requirements and custom assessments.
 - **Applicant Management**: View detailed applicant profiles including radar charts for personality compatibility and skill match percentages.
-- **Verification System**: Track "Volunteer Hours" (1-140) per opportunity for automated leaderboard credit.
+- **Verification System**: Track "Volunteer Hours" (any positive amount, no maximum cap) per opportunity for automated leaderboard credit.
 - **Organization Branding**: Professional profiles with logo uploads and industry categorization.
 - **Notification Center**: Alerts for new applicants and admin moderation decisions.
 
@@ -107,7 +107,7 @@ inplace/
 | **supportmessages**| User Support | `name`, `email`, `subject`, `message` |
 
 > [!NOTE]
-> The system has transitioned from `duration` to `volunteerHours` (1-140) to support the automated ranking system.
+> The system uses `volunteerHours` as the official opportunity hours field. It must be a positive number with **no maximum cap**. The `duration` field is legacy/optional only.
 
 ---
 
@@ -135,14 +135,15 @@ Start-Service -Name MongoDB
    ```
 2. Create a `.env` file based on the following:
    ```env
-   PORT=8000
-   MONGODB_URI=mongodb://127.0.0.1:27017/inplace
-   JWT_SECRET=your_secret_key
-   JWT_EXPIRES_IN=30d
-   RESEND_API_KEY=your_resend_key
-   GEMINI_API_KEY=your_gemini_key
-   EMAIL_USER=your_email@gmail.com
-   EMAIL_PASS=your_app_password
+    PORT=8000
+    MONGODB_URI=mongodb://127.0.0.1:27017/inplace
+    JWT_SECRET=your_secret_key
+    JWT_EXPIRES_IN=30d
+    RESEND_API_KEY=your_resend_key
+    GEMINI_API_KEY=your_gemini_key
+    EMAIL_USER=your_email@gmail.com
+    EMAIL_PASS=your_app_password
+    PYTHON_BIN=python
    ```
    link RESEND_API_KEY: https://resend.com/
    
@@ -179,6 +180,7 @@ Start-Service -Name MongoDB
 | `/api/internships` | POST | Create new opportunity | Company |
 | `/api/admin/stats` | GET | Platform analytics | Admin |
 | `/api/volunteers/top-rank` | GET | Leaderboard data | Public |
+| `/api/recommendations/me` | GET | Get personalized opportunity recommendations | Student (JWT) |
 
 ---
 
@@ -224,3 +226,59 @@ This builds and bundles the React Vite client to optimized static assets under t
 
 ---
 © 2026 inPlace. Matching skills with service.
+
+---
+
+## 🤖 Recommendation System
+
+The inPlace recommendation engine uses a hybrid Python model combining TF-IDF skill matching with personality similarity scoring to suggest the best approved opportunities for each student.
+
+### Location
+```
+backend/recommendation-system/
+  data/fi.csv                    # Training dataset
+  models/tfidf_vectorizer.pkl    # Trained TF-IDF model
+  models/personality_scaler.pkl  # Trained personality scaler
+  models/final_dataset_processed.pkl
+  recommendation_engine.py       # CLI engine (JSON in → JSON out)
+  train_system.py                # Re-training script
+  requirements.txt               # Python dependencies
+```
+
+### Python Setup
+```powershell
+cd backend/recommendation-system
+pip install -r requirements.txt
+```
+
+### CLI Test
+```powershell
+python recommendation_engine.py '{"skills":["React"],"language_skills":"React","interests":["Frontend Development"],"preferredTracks":["Front_end"],"experienceYears":1,"personality":{"Openness":3,"Conscientiousness":4,"Extraversion":3,"Agreeableness":4,"Neuroticism":2,"Communication_Skills":4,"Presentation_Skills":3},"limit":5}'
+```
+Expected: valid JSON on stdout, all debug to stderr.
+
+### Environment Variable
+Add to `backend/.env`:
+```env
+PYTHON_BIN=python
+```
+If Python is named `python3` on your system, use `PYTHON_BIN=python3`.
+
+### How It Works
+1. A student completes onboarding (including skills selection).
+2. When they visit Browse Opportunities, the frontend calls `GET /api/recommendations/me`.
+3. The backend aggregates their personality scores, normalizes their skills, and calls the Python engine via `child_process.spawn`.
+4. Python scores all dataset entries using TF-IDF (tech match 60%) + personality similarity (40%).
+5. The top results are matched against **real, approved MongoDB opportunities** and returned to the frontend.
+
+### volunteerHours Policy
+- `volunteerHours` is the official field for opportunity hours.
+- It must be a **positive number** with **no maximum cap**.
+- The `duration` field is legacy/optional and must NOT be required.
+
+### Deployment Note
+The backend host must have Python installed and the requirements installed:
+```bash
+pip install -r backend/recommendation-system/requirements.txt
+```
+Set `PYTHON_BIN` in your `.env` to point to the correct Python binary.

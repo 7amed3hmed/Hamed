@@ -202,3 +202,8 @@ export const volunteerService = {
   getProfile: (id: string) => api.get(`/volunteers/${id}`),
 };
 
+// === Recommendation Service ===
+export const recommendationService = {
+  getMyRecommendations: () => api.get('/recommendations/me'),
+};
+
