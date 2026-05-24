@@ -87,30 +87,28 @@ export function OpportunityCard({ opportunity, onSaveToggle }: OpportunityCardPr
 
   return (
     <Link to={`/internships/${opportunity.id || opportunity._id}`}>
-      <Card className="card-premium group h-full flex flex-col hover:border-primary/30 transition-all cursor-pointer relative overflow-hidden">
+      <Card className="card-premium group h-full flex flex-col min-h-[340px] hover:border-primary/30 transition-all cursor-pointer relative overflow-hidden">
         {/* Match score badge (top right) */}
         {matchScore !== null && matchScore !== undefined && (
-          <div className="absolute top-4 right-4 flex flex-col items-end gap-1.5 z-10">
+          <div className="absolute top-3 right-4 flex flex-col items-end gap-1 z-10">
             <div className="bg-primary/10 text-primary text-xs font-bold px-2.5 py-1 rounded-full flex items-center gap-1 border border-primary/20 shadow-sm">
               <Sparkles className="h-3 w-3 text-primary" />
               <span>{matchScore}% Match</span>
             </div>
             {opportunity.techScore !== undefined && opportunity.techScore !== null && (
-              <div className="flex gap-1">
-                <span className="text-[10px] bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-semibold px-1.5 py-0.5 rounded border border-emerald-500/20">
-                  Tech: {opportunity.techScore}%
-                </span>
-                {opportunity.personalityScore !== undefined && opportunity.personalityScore !== null && (
-                  <span className="text-[10px] bg-purple-500/10 text-purple-600 dark:text-purple-400 font-semibold px-1.5 py-0.5 rounded border border-purple-500/20">
-                    Pers: {opportunity.personalityScore}%
-                  </span>
-                )}
-              </div>
+              <span className="text-[10px] bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-semibold px-1.5 py-0.5 rounded border border-emerald-500/20">
+                Tech: {opportunity.techScore}%
+              </span>
+            )}
+            {opportunity.personalityScore !== undefined && opportunity.personalityScore !== null && (
+              <span className="text-[10px] bg-purple-500/10 text-purple-600 dark:text-purple-400 font-semibold px-1.5 py-0.5 rounded border border-purple-500/20">
+                Pers: {opportunity.personalityScore}%
+              </span>
             )}
           </div>
         )}
 
-        <CardContent className="p-6 flex flex-col flex-grow">
+        <CardContent className="pt-7 pr-7 pb-6 pl-6 flex flex-col flex-grow">
           <div className="flex gap-4 mb-4">
             <div className="w-14 h-14 rounded-xl bg-accent flex items-center justify-center shrink-0 border border-border shadow-sm group-hover:scale-105 transition-transform overflow-hidden">
               {getImageUrl((opportunity as any).companyId?.logo || opportunity.companyLogo) && !logoError ? (
@@ -124,7 +122,7 @@ export function OpportunityCard({ opportunity, onSaveToggle }: OpportunityCardPr
                 <Briefcase className="h-6 w-6 text-muted-foreground" />
               )}
             </div>
-            <div>
+            <div className={matchScore !== null && matchScore !== undefined ? "pr-24" : ""}>
               <h3 className="font-semibold text-lg text-foreground group-hover:text-primary transition-colors line-clamp-1">
                 {opportunity.title}
               </h3>
