@@ -18,7 +18,7 @@ export interface IApplication extends Document {
   skills: string[];
   examScore?: number;
   examTimeTaken?: number;
-  status: 'pending' | 'accepted' | 'rejected';
+  status: 'pending' | 'accepted' | 'rejected' | 'reviewing';
   skillMatch?: number;
   appliedAt: Date;
   acceptedAt?: Date;
@@ -27,6 +27,9 @@ export interface IApplication extends Document {
   softSkillsSnapshot?: IPersonalitySnapshot[];
   personalitySnapshot?: IPersonalitySnapshot[];
   compatibilityScore?: number; // Placeholder for future AI scoring
+  matchScoreAtApply?: number;
+  techScoreAtApply?: number;
+  personalityScoreAtApply?: number;
 }
 
 const PersonalitySnapshotSchema = new Schema<IPersonalitySnapshot>({
@@ -47,7 +50,7 @@ const ApplicationSchema = new Schema<IApplication>({
   skills: { type: [String], default: [] },
   examScore: { type: Number },
   examTimeTaken: { type: Number },
-  status: { type: String, enum: ['pending', 'accepted', 'rejected'], default: 'pending' },
+  status: { type: String, enum: ['pending', 'accepted', 'rejected', 'reviewing'], default: 'pending' },
   skillMatch: { type: Number, default: 0 },
   appliedAt: { type: Date, default: Date.now },
   acceptedAt: { type: Date },
@@ -55,6 +58,9 @@ const ApplicationSchema = new Schema<IApplication>({
   softSkillsSnapshot: { type: [PersonalitySnapshotSchema], default: [] },
   personalitySnapshot: { type: [PersonalitySnapshotSchema], default: [] },
   compatibilityScore: { type: Number, default: 0 },
+  matchScoreAtApply: { type: Number },
+  techScoreAtApply: { type: Number },
+  personalityScoreAtApply: { type: Number },
 }, { timestamps: true });
 
 ApplicationSchema.index({ studentId: 1, internshipId: 1 }, { unique: true });

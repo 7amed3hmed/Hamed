@@ -127,21 +127,66 @@ export default function InternshipDetails() {
 
             {user?.role !== 'company' && user?.role !== 'admin' && (
               <div className="w-full md:w-auto flex flex-col items-center md:items-end gap-3 mt-4 md:mt-0">
-                {matchScore && (
-                  <div className="flex items-center gap-2 text-primary font-bold bg-primary/10 px-4 py-2 rounded-full border border-primary/20">
-                    <Sparkles className="h-5 w-5" />
-                    {matchScore}% Personality Match
+                {matchScore !== null && matchScore !== undefined && (
+                  <div className="flex flex-col gap-2.5 bg-card border border-border p-4 rounded-2xl shadow-sm w-full md:w-64 text-left">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-muted-foreground font-medium">Recommendation Fit</span>
+                      <span className="text-primary font-bold text-base flex items-center gap-1">
+                        <Sparkles className="h-4 w-4 text-primary" />
+                        {matchScore}%
+                      </span>
+                    </div>
+                    <div className="w-full bg-accent h-2 rounded-full overflow-hidden">
+                      <div className="bg-primary h-full rounded-full transition-all duration-500" style={{ width: `${matchScore}%` }} />
+                    </div>
+                    
+                    {opportunity.techScore !== undefined && opportunity.techScore !== null && (
+                      <div className="space-y-1.5 mt-2 pt-2 border-t border-border">
+                        <div className="flex justify-between text-xs font-semibold">
+                          <span className="text-muted-foreground">Tech Match</span>
+                          <span className="text-emerald-600 dark:text-emerald-400">{opportunity.techScore}%</span>
+                        </div>
+                        <div className="w-full bg-accent h-1.5 rounded-full overflow-hidden">
+                          <div className="bg-emerald-500 h-full rounded-full transition-all duration-500" style={{ width: `${opportunity.techScore}%` }} />
+                        </div>
+                      </div>
+                    )}
+                    
+                    {opportunity.personalityScore !== undefined && opportunity.personalityScore !== null && (
+                      <div className="space-y-1.5 mt-1.5">
+                        <div className="flex justify-between text-xs font-semibold">
+                          <span className="text-muted-foreground">Personality Match</span>
+                          <span className="text-purple-600 dark:text-purple-400">{opportunity.personalityScore}%</span>
+                        </div>
+                        <div className="w-full bg-accent h-1.5 rounded-full overflow-hidden">
+                          <div className="bg-purple-500 h-full rounded-full transition-all duration-500" style={{ width: `${opportunity.personalityScore}%` }} />
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
-                <Button 
-                  size="lg" 
-                  onClick={handleApply} 
-                  disabled={applying}
-                  className="w-full md:w-auto gradient-primary text-primary-foreground h-14 px-8 rounded-full shadow-xl hover:shadow-primary/40 transition-shadow text-lg"
-                >
-                  {applying ? 'Applying...' : opportunity.exam?.questions?.length ? 'Start Assessment' : 'Apply Now'}
-                  <Send className="ml-2 h-5 w-5" />
-                </Button>
+                {opportunity.hasApplied ? (
+                  <Button 
+                    disabled 
+                    size="lg" 
+                    className="w-full md:w-auto bg-muted/50 border border-border text-muted-foreground h-14 px-8 rounded-full shadow-sm text-lg cursor-not-allowed"
+                  >
+                    {opportunity.applicationStatus === 'accepted' ? 'Accepted' :
+                     opportunity.applicationStatus === 'rejected' ? 'Not Accepted' :
+                     opportunity.applicationStatus === 'reviewing' ? 'Under Review' :
+                     'Awaiting Response'}
+                  </Button>
+                ) : (
+                  <Button 
+                    size="lg" 
+                    onClick={handleApply} 
+                    disabled={applying}
+                    className="w-full md:w-auto gradient-primary text-primary-foreground h-14 px-8 rounded-full shadow-xl hover:shadow-primary/40 transition-shadow text-lg"
+                  >
+                    {applying ? 'Applying...' : opportunity.exam?.questions?.length ? 'Start Assessment' : 'Apply Now'}
+                    <Send className="ml-2 h-5 w-5" />
+                  </Button>
+                )}
               </div>
             )}
           </div>

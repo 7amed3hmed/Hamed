@@ -89,10 +89,24 @@ export function OpportunityCard({ opportunity, onSaveToggle }: OpportunityCardPr
     <Link to={`/internships/${opportunity.id || opportunity._id}`}>
       <Card className="card-premium group h-full flex flex-col hover:border-primary/30 transition-all cursor-pointer relative overflow-hidden">
         {/* Match score badge (top right) */}
-        {matchScore && (
-          <div className="absolute top-4 right-4 bg-primary/10 text-primary text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1 z-10 border border-primary/20">
-            <Sparkles className="h-3 w-3" />
-            {matchScore}% Match
+        {matchScore !== null && matchScore !== undefined && (
+          <div className="absolute top-4 right-4 flex flex-col items-end gap-1.5 z-10">
+            <div className="bg-primary/10 text-primary text-xs font-bold px-2.5 py-1 rounded-full flex items-center gap-1 border border-primary/20 shadow-sm">
+              <Sparkles className="h-3 w-3 text-primary" />
+              <span>{matchScore}% Match</span>
+            </div>
+            {opportunity.techScore !== undefined && opportunity.techScore !== null && (
+              <div className="flex gap-1">
+                <span className="text-[10px] bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-semibold px-1.5 py-0.5 rounded border border-emerald-500/20">
+                  Tech: {opportunity.techScore}%
+                </span>
+                {opportunity.personalityScore !== undefined && opportunity.personalityScore !== null && (
+                  <span className="text-[10px] bg-purple-500/10 text-purple-600 dark:text-purple-400 font-semibold px-1.5 py-0.5 rounded border border-purple-500/20">
+                    Pers: {opportunity.personalityScore}%
+                  </span>
+                )}
+              </div>
+            )}
           </div>
         )}
 
@@ -132,6 +146,23 @@ export function OpportunityCard({ opportunity, onSaveToggle }: OpportunityCardPr
                 Assessment Req.
               </Badge>
             ) : null}
+            {opportunity.hasApplied && (
+              <Badge 
+                variant="secondary" 
+                className={`text-xs font-semibold border ${
+                  opportunity.applicationStatus === 'accepted' ? 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20 dark:bg-emerald-500/20 dark:text-emerald-400' :
+                  opportunity.applicationStatus === 'rejected' ? 'bg-rose-500/10 text-rose-600 border-rose-500/20 dark:bg-rose-500/20 dark:text-rose-400' :
+                  opportunity.applicationStatus === 'reviewing' ? 'bg-purple-500/10 text-purple-600 border-purple-500/20 dark:bg-purple-500/20 dark:text-purple-400' :
+                  'bg-sky-500/10 text-sky-600 border-sky-500/20 dark:bg-sky-500/20 dark:text-sky-400'
+                }`}
+                aria-label={`Application Status: ${opportunity.applicationStatus || 'pending'}`}
+              >
+                {opportunity.applicationStatus === 'accepted' ? 'Accepted' :
+                 opportunity.applicationStatus === 'rejected' ? 'Not Accepted' :
+                 opportunity.applicationStatus === 'reviewing' ? 'Under Review' :
+                 'Awaiting Response'}
+              </Badge>
+            )}
           </div>
 
           <p className="text-sm text-muted-foreground line-clamp-2 mb-4 flex-grow">
@@ -142,6 +173,28 @@ export function OpportunityCard({ opportunity, onSaveToggle }: OpportunityCardPr
             <div className="text-xs text-primary font-semibold flex items-center gap-1.5 mb-4 bg-primary/5 p-2 rounded-lg border border-primary/10">
               <Sparkles className="h-3 w-3 shrink-0" />
               <span className="line-clamp-2">{opportunity.matchReason}</span>
+            </div>
+          )}
+
+          {opportunity.hasApplied && (
+            <div className={`text-xs font-medium p-2.5 rounded-lg border flex items-center gap-2 mb-4 ${
+              opportunity.applicationStatus === 'accepted' ? 'bg-emerald-500/5 text-emerald-600 border-emerald-500/10' :
+              opportunity.applicationStatus === 'rejected' ? 'bg-rose-500/5 text-rose-600 border-rose-500/10' :
+              opportunity.applicationStatus === 'reviewing' ? 'bg-purple-500/5 text-purple-600 border-purple-500/10' :
+              'bg-sky-500/5 text-sky-600 border-sky-500/10'
+            }`} aria-live="polite">
+              <div className={`w-1.5 h-1.5 rounded-full animate-pulse ${
+                opportunity.applicationStatus === 'accepted' ? 'bg-emerald-500' :
+                opportunity.applicationStatus === 'rejected' ? 'bg-rose-500' :
+                opportunity.applicationStatus === 'reviewing' ? 'bg-purple-500' :
+                'bg-sky-500'
+              }`} />
+              <span>
+                {opportunity.applicationStatus === 'accepted' ? 'You were accepted for this opportunity.' :
+                 opportunity.applicationStatus === 'rejected' ? 'Application not accepted.' :
+                 opportunity.applicationStatus === 'reviewing' ? 'Your application is under review.' :
+                 'You already applied — awaiting company response.'}
+              </span>
             </div>
           )}
 
@@ -168,17 +221,32 @@ export function OpportunityCard({ opportunity, onSaveToggle }: OpportunityCardPr
                 <span className="text-muted-foreground">Unpaid / Volunteer</span>
               )}
             </div>
-            {user?.role === 'student' && (
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className={`h-8 w-8 rounded-full ${isSaved ? 'text-primary bg-primary/10' : 'text-muted-foreground hover:text-primary hover:bg-primary/5'}`}
-                onClick={handleSaveToggle}
-                disabled={isSaving}
-              >
-                <Bookmark className={`h-4 w-4 ${isSaved ? 'fill-current' : ''}`} />
-              </Button>
-            )}
+            <div className="flex items-center gap-2">
+              {opportunity.hasApplied && (
+                <Button 
+                  disabled 
+                  variant="outline" 
+                  size="sm" 
+                  className="h-8 px-3 rounded-full text-xs font-semibold border-muted bg-muted/30 text-muted-foreground"
+                >
+                  {opportunity.applicationStatus === 'accepted' ? 'Accepted' :
+                   opportunity.applicationStatus === 'rejected' ? 'Not Accepted' :
+                   opportunity.applicationStatus === 'reviewing' ? 'Under Review' :
+                   'Awaiting Response'}
+                </Button>
+              )}
+              {user?.role === 'student' && (
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className={`h-8 w-8 rounded-full ${isSaved ? 'text-primary bg-primary/10' : 'text-muted-foreground hover:text-primary hover:bg-primary/5'}`}
+                  onClick={handleSaveToggle}
+                  disabled={isSaving}
+                >
+                  <Bookmark className={`h-4 w-4 ${isSaved ? 'fill-current' : ''}`} />
+                </Button>
+              )}
+            </div>
           </div>
         </CardContent>
       </Card>

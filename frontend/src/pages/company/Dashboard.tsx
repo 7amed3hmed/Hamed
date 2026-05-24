@@ -39,8 +39,13 @@ export default function CompanyDashboard() {
         opportunityService.getMyOpportunities(),
         applicationService.getCompanyApplications(),
       ]);
+      const sortedApps = (appRes.data ?? []).sort((a: any, b: any) => {
+        const scoreA = a.matchScoreAtApply !== undefined && a.matchScoreAtApply !== null ? a.matchScoreAtApply : -1;
+        const scoreB = b.matchScoreAtApply !== undefined && b.matchScoreAtApply !== null ? b.matchScoreAtApply : -1;
+        return scoreB - scoreA;
+      });
       setOpportunities(oppRes.data ?? []);
-      setApplications(appRes.data ?? []);
+      setApplications(sortedApps);
     } catch (err: any) {
       console.error('[CompanyDashboard] Failed to load:', err);
       toast.error(err.message || 'Failed to load dashboard data');
@@ -91,13 +96,17 @@ export default function CompanyDashboard() {
     (o) => o.status === 'approved' && new Date(o.applicationDeadline) > new Date()
   );
 
-  // Average match score based on real skill match data
+  // Average match score based on real snapshot match score data
+  const validAppsForAvg = applications.filter(
+    (a) => a.matchScoreAtApply !== undefined && a.matchScoreAtApply !== null
+  );
   const avgMatch =
-    applications.length > 0
+    validAppsForAvg.length > 0
       ? Math.round(
-          applications.reduce((sum, a) => sum + (a.skillMatch ?? 0), 0) / applications.length
+          validAppsForAvg.reduce((sum, a) => sum + (a.matchScoreAtApply ?? 0), 0) /
+            validAppsForAvg.length
         )
-      : 0;
+      : null;
 
   return (
     <AppLayout>
@@ -173,7 +182,9 @@ export default function CompanyDashboard() {
               <Star className="h-4 w-4 text-purple-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-purple-600">{loading ? '-' : `${avgMatch}%`}</div>
+              <div className="text-3xl font-bold text-purple-600">
+                {loading ? '-' : avgMatch !== null ? `${avgMatch}%` : 'Match unavailable'}
+              </div>
               <p className="text-xs text-muted-foreground mt-1">Skill compatibility average</p>
             </CardContent>
           </Card>
@@ -349,7 +360,9 @@ export default function CompanyDashboard() {
                       </div>
                       <div className="text-right">
                         <div className="text-sm font-medium text-primary bg-primary/10 px-2 py-0.5 rounded-md inline-block">
-                          {app.skillMatch ?? 0}% Match
+                          {app.matchScoreAtApply !== undefined && app.matchScoreAtApply !== null
+                            ? `${app.matchScoreAtApply}% Match`
+                            : 'Match unavailable'}
                         </div>
                       </div>
                     </div>

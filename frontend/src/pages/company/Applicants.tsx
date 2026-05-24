@@ -42,7 +42,12 @@ export default function ApplicantsView() {
     ])
     .then(([oppRes, appRes]) => {
       setOpportunity(oppRes.data);
-      setApplications(appRes.data);
+      const sortedApps = (appRes.data || []).sort((a: any, b: any) => {
+        const scoreA = a.matchScoreAtApply !== undefined && a.matchScoreAtApply !== null ? a.matchScoreAtApply : -1;
+        const scoreB = b.matchScoreAtApply !== undefined && b.matchScoreAtApply !== null ? b.matchScoreAtApply : -1;
+        return scoreB - scoreA;
+      });
+      setApplications(sortedApps);
     })
     .catch(err => {
       toast.error(err.message || 'Failed to load applicants');
@@ -126,7 +131,8 @@ export default function ApplicantsView() {
                   {/* Status Strip */}
                   <div className={`absolute top-0 left-0 w-full h-1 ${
                     app.status === 'accepted' ? 'bg-success' : 
-                    app.status === 'rejected' ? 'bg-destructive' : 'bg-warning'
+                    app.status === 'rejected' ? 'bg-destructive' : 
+                    app.status === 'reviewing' ? 'bg-purple-500' : 'bg-warning'
                   }`}></div>
 
                   <div className="flex justify-between items-start mb-4">
@@ -141,18 +147,19 @@ export default function ApplicantsView() {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-2 mb-4 bg-primary/5 p-3 rounded-lg">
-                    <div className="text-center border-r border-border/50">
-                      <div className="text-xs text-muted-foreground uppercase font-medium">Skill Match</div>
-                      <div className="text-xl font-bold text-primary">{app.skillMatch || 0}%</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-xs text-muted-foreground uppercase font-medium">Personality</div>
-                      <div className="text-xl font-bold text-purple-600">
-                        {app.personalitySnapshot?.length ? 'High' : 'N/A'}
+                  {app.matchScoreAtApply !== undefined && app.matchScoreAtApply !== null ? (
+                    <div className="flex flex-col items-center justify-center p-3 bg-primary/5 rounded-lg mb-4">
+                      <div className="text-xl font-extrabold text-primary">{app.matchScoreAtApply}% Match</div>
+                      <div className="flex justify-between w-full text-xs font-semibold text-muted-foreground mt-2 px-2 border-t border-border/50 pt-2">
+                        <span>Tech: {app.techScoreAtApply ?? 0}%</span>
+                        <span>Pers: {app.personalityScoreAtApply ?? 0}%</span>
                       </div>
                     </div>
-                  </div>
+                  ) : (
+                    <div className="flex items-center justify-center p-4 bg-muted/30 text-muted-foreground text-sm font-medium rounded-lg mb-4">
+                      Match unavailable
+                    </div>
+                  )}
 
                   {app.examScore !== undefined && opportunity?.exam?.questions && opportunity.exam.questions.length > 0 && (
                     <div className="mb-4">
@@ -170,12 +177,14 @@ export default function ApplicantsView() {
                     <Badge variant="outline" className={`capitalize ${
                       app.status === 'accepted' ? 'text-success border-success/30 bg-success/10' : 
                       app.status === 'rejected' ? 'text-destructive border-destructive/30 bg-destructive/10' : 
+                      app.status === 'reviewing' ? 'text-purple-600 border-purple-200 bg-purple-50 dark:text-purple-400 dark:border-purple-800/50 dark:bg-purple-950/20' :
                       'text-warning-foreground border-warning/30 bg-warning/10'
                     }`}>
                       {app.status === 'accepted' && <CheckCircle className="h-3 w-3 mr-1" />}
                       {app.status === 'rejected' && <XCircle className="h-3 w-3 mr-1" />}
+                      {app.status === 'reviewing' && <Clock className="h-3 w-3 mr-1 text-purple-600" />}
                       {app.status === 'pending' && <Clock className="h-3 w-3 mr-1" />}
-                      {app.status}
+                      {app.status === 'reviewing' ? 'under review' : app.status}
                     </Badge>
                     <Button variant="ghost" size="sm" className="text-primary">
                       View Full Profile
@@ -198,15 +207,39 @@ export default function ApplicantsView() {
                     <Badge variant="outline" className={`ml-2 capitalize ${
                       selectedApp.status === 'accepted' ? 'text-success border-success/30 bg-success/10' : 
                       selectedApp.status === 'rejected' ? 'text-destructive border-destructive/30 bg-destructive/10' : 
+                      selectedApp.status === 'reviewing' ? 'text-purple-600 border-purple-200 bg-purple-50 dark:text-purple-400 dark:border-purple-800/50 dark:bg-purple-950/20' :
                       'text-warning-foreground border-warning/30 bg-warning/10'
                     }`}>
-                      {selectedApp.status}
+                      {selectedApp.status === 'reviewing' ? 'under review' : selectedApp.status}
                     </Badge>
                   </DialogTitle>
                   <DialogDescription>
                     Applied on {new Date(selectedApp.appliedAt).toLocaleDateString()}
                   </DialogDescription>
                 </DialogHeader>
+
+                {selectedApp.matchScoreAtApply !== undefined && selectedApp.matchScoreAtApply !== null ? (
+                  <div className="bg-primary/5 p-4 rounded-xl border border-primary/10 flex flex-col sm:flex-row justify-around items-center gap-4 mt-2">
+                    <div className="text-center">
+                      <div className="text-xs text-muted-foreground uppercase font-semibold">Final Match</div>
+                      <div className="text-3xl font-extrabold text-primary">{selectedApp.matchScoreAtApply}%</div>
+                    </div>
+                    <div className="h-8 w-[1px] bg-border hidden sm:block"></div>
+                    <div className="text-center">
+                      <div className="text-xs text-muted-foreground uppercase font-semibold">Tech Match</div>
+                      <div className="text-3xl font-extrabold text-primary">{selectedApp.techScoreAtApply ?? 0}%</div>
+                    </div>
+                    <div className="h-8 w-[1px] bg-border hidden sm:block"></div>
+                    <div className="text-center">
+                      <div className="text-xs text-muted-foreground uppercase font-semibold">Personality Match</div>
+                      <div className="text-3xl font-extrabold text-purple-600">{selectedApp.personalityScoreAtApply ?? 0}%</div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="bg-muted/30 p-4 rounded-xl border border-border text-center text-muted-foreground text-sm font-medium mt-2">
+                    AI recommendation scores: Match unavailable
+                  </div>
+                )}
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 py-4">
                   {/* Left Column: Info & Skills */}
@@ -226,7 +259,12 @@ export default function ApplicantsView() {
 
                     <div>
                       <h4 className="font-semibold text-lg mb-2 flex justify-between items-center">
-                        Skills <span className="text-sm font-normal text-primary bg-primary/10 px-2 py-0.5 rounded-full">{selectedApp.skillMatch}% Match</span>
+                        Skills 
+                        {selectedApp.techScoreAtApply !== undefined && selectedApp.techScoreAtApply !== null && (
+                          <span className="text-sm font-normal text-primary bg-primary/10 px-2 py-0.5 rounded-full">
+                            Tech Match: {selectedApp.techScoreAtApply}%
+                          </span>
+                        )}
                       </h4>
                       <div className="flex flex-wrap gap-2">
                         {selectedApp.skills && selectedApp.skills.length > 0 ? (
@@ -312,6 +350,7 @@ export default function ApplicantsView() {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="pending">Pending</SelectItem>
+                        <SelectItem value="reviewing">Under Review</SelectItem>
                         <SelectItem value="accepted">Accept</SelectItem>
                         <SelectItem value="rejected">Reject</SelectItem>
                       </SelectContent>

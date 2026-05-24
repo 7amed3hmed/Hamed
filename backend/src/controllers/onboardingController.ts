@@ -3,6 +3,7 @@ import { AuthRequest } from '../middlewares/auth';
 import { sendSuccess, sendError } from '../utils/responseWrapper';
 import User from '../models/User';
 import Internship from '../models/Internship';
+import Application from '../models/Application';
 
 // Save soft skills assessment responses
 export const saveSoftSkills = async (req: AuthRequest, res: Response) => {
@@ -179,11 +180,25 @@ export const getSavedOpportunities = async (req: AuthRequest, res: Response) => 
     // If we want to return full objects instead of just IDs
     const internships = await Internship.find({
       _id: { $in: user.savedOpportunities }
-    }).sort({ createdAt: -1 });
+    }).populate('companyId', 'companyName logo').sort({ createdAt: -1 }).lean();
+
+    let enrichedInternships: any[] = internships;
+    if (req.user && req.user.role === 'student') {
+      const studentApplications = await Application.find({ studentId: req.user._id }).lean();
+      const appMap = new Map(studentApplications.map((app: any) => [app.internshipId.toString(), app.status]));
+      enrichedInternships = internships.map(opp => {
+        const oppId = String((opp as any)._id || (opp as any).id);
+        return {
+          ...opp,
+          hasApplied: appMap.has(oppId),
+          applicationStatus: appMap.get(oppId)
+        };
+      });
+    }
 
     return sendSuccess(res, 200, { 
       savedOpportunityIds: user.savedOpportunities || [],
-      savedOpportunities: internships 
+      savedOpportunities: enrichedInternships 
     }, 'Saved opportunities fetched');
   } catch (error: any) {
     return sendError(res, 500, error.message);

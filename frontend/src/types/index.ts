@@ -85,11 +85,17 @@ export interface Opportunity {
   volunteerHours: number;
   seatsAvailable: number;
   applicationDeadline: string;
-  status: 'pending' | 'approved' | 'rejected';
+  status: 'pending' | 'approved' | 'rejected' | 'reviewing';
   createdAt: string;
   exam?: Assessment;
   matchScore?: number | null;
+  techScore?: number | null;
+  effectiveTechScore?: number | null;
+  personalityScore?: number | null;
   matchReason?: string;
+  usedPersonalityFallback?: boolean;
+  hasApplied?: boolean;
+  applicationStatus?: 'pending' | 'reviewing' | 'accepted' | 'rejected';
 }
 
 
@@ -132,7 +138,7 @@ export interface Application {
   skills: string[];
   examScore?: number;
   examTimeTaken?: number;
-  status: 'pending' | 'accepted' | 'rejected';
+  status: 'pending' | 'accepted' | 'rejected' | 'reviewing';
   appliedAt: string;
   acceptedAt?: string;
   hoursEarned: number;
@@ -140,6 +146,9 @@ export interface Application {
   softSkillsSnapshot?: PersonalitySnapshot[];
   personalitySnapshot?: PersonalitySnapshot[];
   compatibilityScore?: number;
+  matchScoreAtApply?: number;
+  techScoreAtApply?: number;
+  personalityScoreAtApply?: number;
 }
 
 // Onboarding question definitions (frontend-managed)

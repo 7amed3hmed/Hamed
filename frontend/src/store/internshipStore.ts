@@ -12,7 +12,7 @@ interface InternshipState {
   fetchInternshipById: (id: string) => Promise<Internship | null>;
   addInternship: (data: Record<string, unknown>) => Promise<Internship | null>;
   applyToInternship: (application: Application) => void;
-  updateApplicationStatus: (id: string, status: 'accepted' | 'rejected') => Promise<void>;
+  updateApplicationStatus: (id: string, status: 'accepted' | 'rejected' | 'reviewing') => Promise<void>;
   fetchStudentApplications: () => Promise<void>;
   fetchMyApplications: () => Promise<void>; // alias for fetchStudentApplications
   fetchCompanyApplications: () => Promise<void>;
@@ -66,7 +66,7 @@ export const useInternshipStore = create<InternshipState>((set, get) => ({
     try {
       await applicationService.updateStatus(id, status);
       set(state => ({
-        applications: state.applications.map(a => a.id === id ? { ...a, status } : a),
+        applications: state.applications.map(a => (a.id === id || a._id === id) ? { ...a, status } : a),
       }));
     } catch { /* handled by caller */ }
   },

@@ -17,6 +17,7 @@ interface RecommendedOpp {
   companyName: string;
   matchScore?: number | null;
   techScore?: number | null;
+  personalityScore?: number | null;
   category?: string;
   requiredSkills?: string[];
 }
@@ -97,7 +98,7 @@ export default function StudentDashboard() {
 
   const stats = {
     total: applications.length,
-    pending: applications.filter(a => a.status === 'pending').length,
+    pending: applications.filter(a => a.status === 'pending' || a.status === 'reviewing').length,
     accepted: applications.filter(a => a.status === 'accepted').length,
     rejected: applications.filter(a => a.status === 'rejected').length,
   };
@@ -106,6 +107,7 @@ export default function StudentDashboard() {
     switch (status) {
       case 'accepted': return <CheckCircle className="h-5 w-5 text-success" />;
       case 'rejected': return <XCircle className="h-5 w-5 text-destructive" />;
+      case 'reviewing': return <Clock className="h-5 w-5 text-purple-600" />;
       default: return <Clock className="h-5 w-5 text-warning" />;
     }
   };
@@ -114,6 +116,7 @@ export default function StudentDashboard() {
     switch (status) {
       case 'accepted': return 'bg-success/10 text-success hover:bg-success/20';
       case 'rejected': return 'bg-destructive/10 text-destructive hover:bg-destructive/20';
+      case 'reviewing': return 'bg-purple-500/10 text-purple-600 dark:text-purple-400 hover:bg-purple-500/20';
       default: return 'bg-warning/10 text-warning-foreground hover:bg-warning/20';
     }
   };
@@ -221,22 +224,53 @@ export default function StudentDashboard() {
               ) : (
                 <div className="divide-y divide-border/50">
                   {applications.slice(0, 5).map(app => {
-                    // Try every possible ID shape the application object may carry
-                    // to match against the recommendation map.
-                    // Never display app.skillMatch — it uses a different naive formula.
-                    const candidateIds = [
-                      app.internshipId,
-                      (app as any).opportunityId,
-                      (app as any).internship?._id,
-                      (app as any).opportunity?._id,
-                      (app as any).internship?.id,
-                      (app as any).opportunity?.id,
-                    ].filter(Boolean).map(String);
+                    const matchScore = app.matchScoreAtApply;
 
-                    const matchScore = candidateIds.reduce<number | null | undefined>(
-                      (found, id) => found ?? recScoreById.get(id),
-                      undefined
-                    );
+                    const renderMatchBadge = () => {
+                      if (matchScore === undefined || matchScore === null) {
+                        return (
+                          <div
+                            className="text-xs font-semibold text-muted-foreground bg-muted/60 border border-border/50 px-2.5 py-1 rounded-md flex items-center gap-1.5 whitespace-nowrap"
+                            aria-label="AI Match unavailable for this application"
+                          >
+                            Match unavailable
+                          </div>
+                        );
+                      }
+
+                      if (matchScore >= 75) {
+                        return (
+                          <div
+                            className="text-xs font-bold text-purple-700 bg-purple-500/10 border border-purple-200/50 dark:text-purple-300 dark:bg-purple-500/20 dark:border-purple-800/50 px-2.5 py-1 rounded-md flex items-center gap-1.5 whitespace-nowrap"
+                            aria-label={`High Match: ${matchScore}% compatibility`}
+                          >
+                            <Sparkles className="h-3 w-3 text-emerald-600 dark:text-emerald-400" />
+                            {matchScore}% Match
+                          </div>
+                        );
+                      }
+
+                      if (matchScore >= 60) {
+                        return (
+                          <div
+                            className="text-xs font-bold text-amber-700 bg-amber-500/10 border border-amber-200/50 dark:text-amber-300 dark:bg-amber-500/20 dark:border-amber-800/50 px-2.5 py-1 rounded-md flex items-center gap-1.5 whitespace-nowrap"
+                            aria-label={`Medium Match: ${matchScore}% compatibility`}
+                          >
+                            <Sparkles className="h-3 w-3 text-amber-600 dark:text-amber-400" />
+                            {matchScore}% Match
+                          </div>
+                        );
+                      }
+
+                      return (
+                        <div
+                          className="text-xs font-semibold text-muted-foreground bg-muted/60 border border-border/50 px-2.5 py-1 rounded-md flex items-center gap-1.5 whitespace-nowrap"
+                          aria-label="Low Match: Not recommended by AI"
+                        >
+                          Not Recommended
+                        </div>
+                      );
+                    };
 
                     return (
                       <div key={app._id} className="p-6 hover:bg-accent/30 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -248,14 +282,8 @@ export default function StudentDashboard() {
                             <span>Applied {new Date(app.appliedAt).toLocaleDateString()}</span>
                           </p>
                         </div>
-                        <div className="flex items-center gap-4">
-                          {/* Only show badge if this opportunity is in current recommendations */}
-                          {matchScore != null && (
-                            <div className="text-sm font-medium text-primary bg-primary/10 px-2 py-1 rounded-md flex items-center gap-1">
-                              <Sparkles className="h-3 w-3" />
-                              {matchScore}% Match
-                            </div>
-                          )}
+                        <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+                          {renderMatchBadge()}
                           <Badge variant="secondary" className={`capitalize px-3 py-1 text-sm ${getStatusColor(app.status)}`}>
                             {getStatusIcon(app.status)}
                             <span className="ml-1.5">{app.status}</span>
@@ -318,6 +346,18 @@ export default function StudentDashboard() {
                               <p className="text-xs text-muted-foreground mt-0.5 truncate">
                                 {rec.requiredSkills.slice(0, 3).join(', ')}
                               </p>
+                            )}
+                            {rec.techScore !== undefined && rec.techScore !== null && (
+                              <div className="flex gap-1.5 mt-1.5">
+                                <span className="text-[9px] bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-semibold px-1 py-0.5 rounded">
+                                  Tech: {rec.techScore}%
+                                </span>
+                                {rec.personalityScore !== undefined && rec.personalityScore !== null && (
+                                  <span className="text-[9px] bg-purple-500/10 text-purple-600 dark:text-purple-400 font-semibold px-1 py-0.5 rounded">
+                                    Pers: {rec.personalityScore}%
+                                  </span>
+                                )}
+                              </div>
                             )}
                           </div>
                           {rec.matchScore != null && (

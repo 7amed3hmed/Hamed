@@ -213,70 +213,125 @@ export default function StudentProfile() {
           </CardContent>
         </Card>
 
-        {student.hasCompletedOnboarding && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card className="border-border/50 bg-primary/5">
-              <CardHeader><CardTitle className="text-lg">Personality Profile</CardTitle></CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {student.personalityAssessment && student.personalityAssessment.length > 0 ? (
-                    // Group by category and average the scores
-                    Object.entries(
-                      student.personalityAssessment.reduce((acc, curr) => {
-                        if (!acc[curr.category]) acc[curr.category] = { sum: 0, count: 0 };
-                        acc[curr.category].sum += curr.score;
-                        acc[curr.category].count += 1;
-                        return acc;
-                      }, {} as Record<string, { sum: number; count: number }>)
-                    ).map(([trait, data]) => {
-                      const avg = data.sum / data.count;
-                      const percentage = (avg / 5) * 100;
-                      return (
-                        <div key={trait} className="space-y-1">
-                          <div className="flex justify-between text-sm">
-                            <span className="font-medium">{trait}</span>
-                            <span className="text-muted-foreground">{Math.round(percentage)}%</span>
-                          </div>
-                          <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
-                            <div className="h-full gradient-primary rounded-full" style={{ width: `${percentage}%` }}></div>
-                          </div>
-                        </div>
-                      );
-                    })
-                  ) : (
-                    <p className="text-sm text-muted-foreground">No personality data available.</p>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+        {student.hasCompletedOnboarding && (() => {
+          const criticalCategories = ['Teamwork', 'Leadership', 'Resilience', 'Conscientiousness', 'Empathy'];
+          const traitAverages: Record<string, number> = {};
+          const traitCounts: Record<string, number> = {};
 
-            <Card className="border-border/50 bg-primary/5">
-              <CardHeader><CardTitle className="text-lg">Soft Skills Profile</CardTitle></CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {student.softSkillsAssessment && student.softSkillsAssessment.length > 0 ? (
-                    student.softSkillsAssessment.map((skill) => {
-                      const percentage = (skill.score / 5) * 100;
-                      return (
-                        <div key={skill.category} className="space-y-1">
-                          <div className="flex justify-between text-sm">
-                            <span className="font-medium">{skill.category}</span>
-                            <span className="text-muted-foreground">{skill.score}/5</span>
-                          </div>
-                          <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
-                            <div className="h-full bg-accent-foreground rounded-full" style={{ width: `${percentage}%` }}></div>
-                          </div>
-                        </div>
-                      );
-                    })
-                  ) : (
-                    <p className="text-sm text-muted-foreground">No soft skills data available.</p>
-                  )}
+          if (student.personalityAssessment) {
+            student.personalityAssessment.forEach(p => {
+              const cat = p.category;
+              if (!traitAverages[cat]) {
+                traitAverages[cat] = 0;
+                traitCounts[cat] = 0;
+              }
+              traitAverages[cat] += p.score;
+              traitCounts[cat] += 1;
+            });
+          }
+
+          if (student.softSkillsAssessment) {
+            student.softSkillsAssessment.forEach(s => {
+              const cat = s.category;
+              if (!traitAverages[cat]) {
+                traitAverages[cat] = 0;
+                traitCounts[cat] = 0;
+              }
+              traitAverages[cat] += s.score;
+              traitCounts[cat] += 1;
+            });
+          }
+
+          let weakCriticalCount = 0;
+          criticalCategories.forEach(cat => {
+            const sum = traitAverages[cat];
+            const count = traitCounts[cat];
+            const avg = count > 0 ? sum / count : 3;
+            if (avg <= 1) {
+              weakCriticalCount++;
+            }
+          });
+
+          const isLowReadiness = weakCriticalCount >= 3;
+
+          return (
+            <div className="space-y-6">
+              {isLowReadiness && (
+                <div className="bg-destructive/10 border border-destructive/20 text-destructive dark:text-red-400 p-5 rounded-[2rem] flex flex-col gap-2">
+                  <h4 className="font-extrabold flex items-center gap-2 text-base">
+                    ⚠️ Low Behavioral Readiness Alert
+                  </h4>
+                  <p className="text-sm font-medium leading-relaxed">
+                    Several of your critical collaboration and resiliency traits (such as Teamwork, Leadership, or Resilience) currently show catastrophically low scores. 
+                    This behavioral imbalance heavily suppresses your AI matching metrics and limits your overall compatibility rating with professional opportunities.
+                  </p>
                 </div>
-              </CardContent>
-            </Card>
-          </div>
-        )}
+              )}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Card className="border-border/50 bg-primary/5">
+                  <CardHeader><CardTitle className="text-lg">Personality Profile</CardTitle></CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      {student.personalityAssessment && student.personalityAssessment.length > 0 ? (
+                        // Group by category and average the scores
+                        Object.entries(
+                          student.personalityAssessment.reduce((acc, curr) => {
+                            if (!acc[curr.category]) acc[curr.category] = { sum: 0, count: 0 };
+                            acc[curr.category].sum += curr.score;
+                            acc[curr.category].count += 1;
+                            return acc;
+                          }, {} as Record<string, { sum: number; count: number }>)
+                        ).map(([trait, data]) => {
+                          const avg = data.sum / data.count;
+                          const percentage = (avg / 5) * 100;
+                          return (
+                            <div key={trait} className="space-y-1">
+                              <div className="flex justify-between text-sm">
+                                <span className="font-medium">{trait}</span>
+                                <span className="text-muted-foreground">{Math.round(percentage)}%</span>
+                              </div>
+                              <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
+                                <div className="h-full gradient-primary rounded-full" style={{ width: `${percentage}%` }}></div>
+                              </div>
+                            </div>
+                          );
+                        })
+                      ) : (
+                        <p className="text-sm text-muted-foreground">No personality data available.</p>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-border/50 bg-primary/5">
+                  <CardHeader><CardTitle className="text-lg">Soft Skills Profile</CardTitle></CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      {student.softSkillsAssessment && student.softSkillsAssessment.length > 0 ? (
+                        student.softSkillsAssessment.map((skill) => {
+                          const percentage = (skill.score / 5) * 100;
+                          return (
+                            <div key={skill.category} className="space-y-1">
+                              <div className="flex justify-between text-sm">
+                                <span className="font-medium">{skill.category}</span>
+                                <span className="text-muted-foreground">{skill.score}/5</span>
+                              </div>
+                              <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
+                                <div className="h-full bg-accent-foreground rounded-full" style={{ width: `${percentage}%` }}></div>
+                              </div>
+                            </div>
+                          );
+                        })
+                      ) : (
+                        <p className="text-sm text-muted-foreground">No soft skills data available.</p>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          );
+        })()}
       </div>
     </AppLayout>
   );

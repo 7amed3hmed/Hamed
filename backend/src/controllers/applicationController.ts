@@ -5,6 +5,8 @@ import User from '../models/User';
 import { AuthRequest } from '../middlewares/auth';
 import { sendSuccess, sendError } from '../utils/responseWrapper';
 import { createNotification } from './notificationController';
+import { NotificationType } from '../models/Notification';
+import { getOpportunityMatchScore } from '../utils/recommendationUtils';
 
 export const submitExamAndApply = async (req: AuthRequest, res: Response) => {
   try {
@@ -55,6 +57,14 @@ export const submitExamAndApply = async (req: AuthRequest, res: Response) => {
       score: a.score,
     })) || [];
 
+    // Capture recommendation scores snapshot (failure/timeout must not block application lifecycle)
+    let aiScores = null;
+    try {
+      aiScores = await getOpportunityMatchScore(user, internship);
+    } catch (err) {
+      console.error('[Application Creation] Failed to get AI compatibility scores snapshot:', err);
+    }
+
     const application = await Application.create({
       internshipId: internshipId as string,
       internshipTitle: internship.title,
@@ -72,6 +82,9 @@ export const submitExamAndApply = async (req: AuthRequest, res: Response) => {
       softSkillsSnapshot,
       personalitySnapshot,
       compatibilityScore: 0,
+      matchScoreAtApply: aiScores?.matchScore,
+      techScoreAtApply: aiScores?.techScore,
+      personalityScoreAtApply: aiScores?.personalityScore,
     });
 
     // Notify the organization
@@ -129,6 +142,14 @@ export const applyWithoutExam = async (req: AuthRequest, res: Response) => {
       score: a.score,
     })) || [];
 
+    // Capture recommendation scores snapshot (failure/timeout must not block application lifecycle)
+    let aiScores = null;
+    try {
+      aiScores = await getOpportunityMatchScore(user, internship);
+    } catch (err) {
+      console.error('[Application Creation] Failed to get AI compatibility scores snapshot:', err);
+    }
+
     const application = await Application.create({
       internshipId: internshipId as string,
       internshipTitle: internship.title,
@@ -145,6 +166,9 @@ export const applyWithoutExam = async (req: AuthRequest, res: Response) => {
       softSkillsSnapshot,
       personalitySnapshot,
       compatibilityScore: 0,
+      matchScoreAtApply: aiScores?.matchScore,
+      techScoreAtApply: aiScores?.techScore,
+      personalityScoreAtApply: aiScores?.personalityScore,
     });
 
     // Notify the organization
@@ -171,7 +195,12 @@ export const applyWithoutExam = async (req: AuthRequest, res: Response) => {
 
 export const getMyApplications = async (req: AuthRequest, res: Response) => {
   try {
-    const apps = await Application.find({ studentId: req.user?._id }).sort({ appliedAt: -1 });
+    const apps = await Application.find({ studentId: req.user?._id })
+      .populate({
+        path: 'internshipId',
+        populate: { path: 'companyId', select: 'companyName logo' }
+      })
+      .sort({ appliedAt: -1 });
     return sendSuccess(res, 200, apps, 'Applications fetched');
   } catch (error: any) {
     return sendError(res, 500, error.message);
@@ -185,7 +214,27 @@ export const getCompanyApplications = async (req: AuthRequest, res: Response) =>
     const apps = await Application.find({ internshipId: { $in: internshipIds } })
       .populate('studentId', 'username profileImage')
       .sort({ appliedAt: -1 });
-    return sendSuccess(res, 200, apps, 'Company applications fetched');
+    const hardenedApps = apps.filter(app => app.studentId !== null && app.studentId !== undefined);
+
+    // Sort applications descending by matchScoreAtApply, putting legacy/null match scores at the bottom
+    const sortedApps = hardenedApps.sort((a, b) => {
+      const scoreA = a.matchScoreAtApply !== undefined && a.matchScoreAtApply !== null ? a.matchScoreAtApply : -1;
+      const scoreB = b.matchScoreAtApply !== undefined && b.matchScoreAtApply !== null ? b.matchScoreAtApply : -1;
+      return scoreB - scoreA;
+    });
+
+    // Logging requirement for debugging recruiter return payload
+    sortedApps.forEach(app => {
+      console.log(JSON.stringify({
+        student: app.studentName,
+        internship: app.internshipTitle,
+        matchScoreAtApply: app.matchScoreAtApply,
+        techScoreAtApply: app.techScoreAtApply,
+        personalityScoreAtApply: app.personalityScoreAtApply
+      }, null, 2));
+    });
+
+    return sendSuccess(res, 200, sortedApps, 'Company applications fetched');
   } catch (error: any) {
     return sendError(res, 500, error.message);
   }
@@ -196,16 +245,37 @@ export const getInternshipApplications = async (req: AuthRequest, res: Response)
     const apps = await Application.find({ internshipId: req.params.internshipId })
       .populate('studentId', 'username profileImage')
       .sort({ appliedAt: -1 });
-    return sendSuccess(res, 200, apps, 'Applications fetched');
+    const hardenedApps = apps.filter(app => app.studentId !== null && app.studentId !== undefined);
+
+    // Sort applications descending by matchScoreAtApply, putting legacy/null match scores at the bottom
+    const sortedApps = hardenedApps.sort((a, b) => {
+      const scoreA = a.matchScoreAtApply !== undefined && a.matchScoreAtApply !== null ? a.matchScoreAtApply : -1;
+      const scoreB = b.matchScoreAtApply !== undefined && b.matchScoreAtApply !== null ? b.matchScoreAtApply : -1;
+      return scoreB - scoreA;
+    });
+
+    // Logging requirement for debugging recruiter return payload
+    sortedApps.forEach(app => {
+      console.log(JSON.stringify({
+        student: app.studentName,
+        internship: app.internshipTitle,
+        matchScoreAtApply: app.matchScoreAtApply,
+        techScoreAtApply: app.techScoreAtApply,
+        personalityScoreAtApply: app.personalityScoreAtApply
+      }, null, 2));
+    });
+
+    return sendSuccess(res, 200, sortedApps, 'Applications fetched');
   } catch (error: any) {
     return sendError(res, 500, error.message);
   }
 };
 
+
 export const updateApplicationStatus = async (req: AuthRequest, res: Response) => {
   try {
     const { status } = req.body;
-    if (!['pending', 'accepted', 'rejected'].includes(status)) {
+    if (!['pending', 'accepted', 'rejected', 'reviewing'].includes(status)) {
       return sendError(res, 400, 'Invalid status value');
     }
 
@@ -236,18 +306,30 @@ export const updateApplicationStatus = async (req: AuthRequest, res: Response) =
     await application.save();
 
     // Notify the volunteer when their status changes (not from pending to pending)
-    if (status !== oldStatus && (status === 'accepted' || status === 'rejected')) {
-      const notificationType = status === 'accepted' ? 'application_accepted' : 'application_rejected';
-      const notificationTitle = status === 'accepted' ? '🎉 Application Accepted!' : 'Application Not Selected';
-      const notificationMessage = status === 'accepted'
-        ? `Congratulations! Your application for "${internship.title}" at ${internship.companyName} has been accepted.`
-        : `Your application for "${internship.title}" at ${internship.companyName} was not selected this time.`;
+    if (status !== oldStatus && (status === 'accepted' || status === 'rejected' || status === 'reviewing')) {
+      let notificationType: NotificationType = 'application_reviewing';
+      let notificationTitle = 'Application Status Update';
+      let notificationMessage = `Your application for "${internship.title}" is now under review.`;
+
+      if (status === 'accepted') {
+        notificationType = 'application_accepted';
+        notificationTitle = '🎉 Application Accepted!';
+        notificationMessage = `Congratulations! Your application for "${internship.title}" at ${internship.companyName} has been accepted.`;
+      } else if (status === 'rejected') {
+        notificationType = 'application_rejected';
+        notificationTitle = 'Application Not Selected';
+        notificationMessage = `Your application for "${internship.title}" at ${internship.companyName} was not selected this time.`;
+      } else if (status === 'reviewing') {
+        notificationType = 'application_reviewing';
+        notificationTitle = 'Application Under Review';
+        notificationMessage = `Your application for "${internship.title}" at ${internship.companyName} is now under review.`;
+      }
 
       await createNotification({
         recipientId: application.studentId.toString(),
         recipientRole: 'student',
         senderId: req.user?._id?.toString(),
-        senderName: req.user?.companyName,
+        senderName: req.user?.companyName || (req.user as any)?.companyName,
         type: notificationType,
         title: notificationTitle,
         message: notificationMessage,

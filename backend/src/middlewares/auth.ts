@@ -51,7 +51,8 @@ export const optionalProtect = async (req: AuthRequest, _res: Response, next: Ne
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { id: string };
     const user = await User.findById(decoded.id).select('-password');
     if (user) req.user = user;
-  } catch {
+  } catch (error: any) {
+    console.error('[optionalProtect] Error:', error.message);
     // Invalid/expired token — treat as unauthenticated, continue anyway
   }
   next();

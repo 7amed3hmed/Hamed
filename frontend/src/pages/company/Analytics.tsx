@@ -52,9 +52,10 @@ export default function CompanyAnalytics() {
     applicants: applications.filter(a => a.internshipId === (opp._id || opp.id)).length,
   })).slice(0, 5); // top 5
 
-  const averageSkillMatch = applications.length > 0 
-    ? Math.round(applications.reduce((acc, curr) => acc + (curr.skillMatch || 70), 0) / applications.length)
-    : 0;
+  const validAppsForAvg = applications.filter(a => a.matchScoreAtApply !== undefined && a.matchScoreAtApply !== null);
+  const averageSkillMatch = validAppsForAvg.length > 0 
+    ? Math.round(validAppsForAvg.reduce((acc, curr) => acc + (curr.matchScoreAtApply || 0), 0) / validAppsForAvg.length)
+    : null;
 
   return (
     <AppLayout>
@@ -100,7 +101,9 @@ export default function CompanyAnalytics() {
               <Star className="h-4 w-4 text-purple-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-purple-600">{averageSkillMatch}%</div>
+              <div className="text-3xl font-bold text-purple-600">
+                {averageSkillMatch !== null ? `${averageSkillMatch}%` : 'Match unavailable'}
+              </div>
             </CardContent>
           </Card>
         </div>

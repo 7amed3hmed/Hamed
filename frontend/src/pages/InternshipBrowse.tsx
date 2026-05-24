@@ -110,7 +110,23 @@ export default function InternshipBrowse() {
     return matchesSearch && matchesCategory && matchesMode && matchesPaid;
   });
 
-  const showRecommendations = isStudent && hasCompletedOnboarding && !recState.error && recState.recommendations.length > 0;
+  // Derived filtered opportunity sub-collections
+  const interactedOpportunities = isStudent ? filteredOpportunities.filter(o => o.hasApplied) : [];
+  const visibleBrowseOpportunities = isStudent ? filteredOpportunities.filter(o => !o.hasApplied) : filteredOpportunities;
+  const visibleRecommendations = recState.recommendations.filter(opp => {
+    const matchesSearch = 
+      opp.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      opp.companyName.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesCategory = categoryFilter === 'all' || opp.category === categoryFilter;
+    const matchesMode = modeFilter === 'all' || opp.mode === modeFilter;
+    const matchesPaid = paidFilter === 'all' || (paidFilter === 'paid' ? opp.isPaid : !opp.isPaid);
+    const matchesNotApplied = !opp.hasApplied;
+
+    return matchesSearch && matchesCategory && matchesMode && matchesPaid && matchesNotApplied;
+  });
+
+  const showRecommendations = isStudent && hasCompletedOnboarding && !recState.error && visibleRecommendations.length > 0;
   const showProfileBanner = isStudent && !recState.loading && !recState.error && recState.needsProfileCompletion;
   const showOnboardingBanner = isStudent && !hasCompletedOnboarding;
 
@@ -206,9 +222,9 @@ export default function InternshipBrowse() {
             <div className="flex items-center gap-2 mb-6">
               <Sparkles className="h-5 w-5 text-primary" />
               <h2 className="text-2xl font-bold">Recommended for You</h2>
-              {!recState.loading && recState.recommendations.length > 0 && (
+              {!recState.loading && visibleRecommendations.length > 0 && (
                 <span className="text-sm font-medium text-muted-foreground bg-primary/10 px-2 py-0.5 rounded-full">
-                  {recState.recommendations.length} match{recState.recommendations.length !== 1 ? 'es' : ''}
+                  {visibleRecommendations.length} match{visibleRecommendations.length !== 1 ? 'es' : ''}
                 </span>
               )}
             </div>
@@ -219,9 +235,9 @@ export default function InternshipBrowse() {
                   <div key={i} className="h-80 rounded-[1rem] bg-accent/50 animate-pulse border border-border" />
                 ))}
               </div>
-            ) : recState.recommendations.length > 0 ? (
+            ) : visibleRecommendations.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {recState.recommendations.map((opp: RecommendedOpportunity) => (
+                {visibleRecommendations.map((opp: RecommendedOpportunity) => (
                   <OpportunityCard key={String(opp._id || opp.id)} opportunity={opp as Opportunity} />
                 ))}
               </div>
@@ -234,11 +250,37 @@ export default function InternshipBrowse() {
           </div>
         )}
 
+        {/* Section 2: Opportunities You Interacted With */}
+        {isStudent && (
+          <div>
+            <div className="flex items-center gap-2 mb-6">
+              <Briefcase className="h-5 w-5 text-primary" />
+              <h2 className="text-2xl font-bold">Opportunities You Interacted With</h2>
+              <span className="text-sm font-medium text-muted-foreground bg-primary/10 px-2 py-0.5 rounded-full" aria-label={`${interactedOpportunities.length} interacted opportunities`}>
+                {interactedOpportunities.length} interacted
+              </span>
+            </div>
+            {interactedOpportunities.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in">
+                {interactedOpportunities.map(opp => (
+                  <OpportunityCard key={opp._id || opp.id} opportunity={opp} />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12 bg-accent/10 rounded-[1rem] border border-border/50 max-w-2xl mx-auto space-y-2 animate-fade-in">
+                <Briefcase className="h-8 w-8 text-muted-foreground mx-auto mb-3" />
+                <p className="font-semibold text-foreground">You haven't interacted with any opportunities yet.</p>
+                <p className="text-muted-foreground text-sm max-w-md mx-auto">Explore custom recommendations above or browse the feed below to start making a real-world impact.</p>
+              </div>
+            )}
+          </div>
+        )}
+
         {/* All Opportunities */}
         <div>
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-2xl font-bold">
-              {filteredOpportunities.length} {filteredOpportunities.length === 1 ? 'Opportunity' : 'Opportunities'} Found
+              {visibleBrowseOpportunities.length} {visibleBrowseOpportunities.length === 1 ? 'Opportunity' : 'Opportunities'} Found
             </h2>
             <div className="flex items-center gap-2">
               <Filter className="h-4 w-4 text-muted-foreground" />
@@ -261,7 +303,7 @@ export default function InternshipBrowse() {
                 <div key={i} className="h-80 rounded-[1rem] bg-accent/50 animate-pulse border border-border"></div>
               ))}
             </div>
-          ) : filteredOpportunities.length === 0 ? (
+          ) : visibleBrowseOpportunities.length === 0 ? (
             <div className="text-center py-24 bg-accent/20 rounded-[1rem] border border-border/50">
               <Briefcase className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
               <h3 className="text-xl font-bold mb-2">No opportunities found</h3>
@@ -277,7 +319,7 @@ export default function InternshipBrowse() {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredOpportunities.map(opp => (
+              {visibleBrowseOpportunities.map(opp => (
                 <OpportunityCard key={opp._id || opp.id} opportunity={opp} />
               ))}
             </div>

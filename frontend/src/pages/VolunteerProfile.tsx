@@ -88,6 +88,50 @@ export default function VolunteerProfilePage() {
 
   const { profile, applications, rank, totalHours, opportunitiesCount } = data;
 
+  const checkLowReadiness = () => {
+    const criticalCategories = ['Teamwork', 'Leadership', 'Resilience', 'Conscientiousness', 'Empathy'];
+    const traitAverages: Record<string, number> = {};
+    const traitCounts: Record<string, number> = {};
+
+    if (profile.personalityAssessment) {
+      profile.personalityAssessment.forEach((p: any) => {
+        const cat = p.category;
+        if (!traitAverages[cat]) {
+          traitAverages[cat] = 0;
+          traitCounts[cat] = 0;
+        }
+        traitAverages[cat] += p.score;
+        traitCounts[cat] += 1;
+      });
+    }
+
+    if (profile.softSkillsAssessment) {
+      profile.softSkillsAssessment.forEach((s: any) => {
+        const cat = s.category;
+        if (!traitAverages[cat]) {
+          traitAverages[cat] = 0;
+          traitCounts[cat] = 0;
+        }
+        traitAverages[cat] += s.score;
+        traitCounts[cat] += 1;
+      });
+    }
+
+    let weakCriticalCount = 0;
+    criticalCategories.forEach(cat => {
+      const sum = traitAverages[cat];
+      const count = traitCounts[cat];
+      const avg = count > 0 ? sum / count : 3;
+      if (avg <= 1) {
+        weakCriticalCount++;
+      }
+    });
+
+    return weakCriticalCount >= 3;
+  };
+
+  const isLowReadiness = checkLowReadiness();
+
   const getBadgeInfo = (r: number) => {
     if (r === 1) return { label: 'Platinum Rank', icon: <Medal className="h-5 w-5 text-slate-500" />, color: 'bg-slate-100 text-slate-800 border-slate-300' };
     if (r === 2) return { label: 'Gold Rank', icon: <Trophy className="h-5 w-5 text-amber-500" />, color: 'bg-amber-100 text-amber-800 border-amber-300' };
@@ -169,6 +213,16 @@ export default function VolunteerProfilePage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Left: Stats & Skills */}
             <div className="space-y-8 animate-slide-up">
+              {isLowReadiness && (
+                <div className="bg-destructive/10 border border-destructive/20 text-destructive dark:text-red-400 p-6 rounded-[2.5rem] flex flex-col gap-2">
+                  <h4 className="font-extrabold flex items-center gap-2 text-base uppercase tracking-tight">
+                    ⚠️ Low Readiness Warning
+                  </h4>
+                  <p className="text-xs font-bold leading-relaxed">
+                    This profile exhibits severe behavioral trait imbalances in key collaborative areas (such as Teamwork, Leadership, or Resilience), which may impact professional stability and collaborative readiness.
+                  </p>
+                </div>
+              )}
               <Card className="rounded-[2.5rem] border-border/50 shadow-sm overflow-hidden">
                 <div className="bg-violet-50/50 px-8 py-6 border-b border-border/50">
                   <h3 className="text-lg font-black flex items-center gap-2">

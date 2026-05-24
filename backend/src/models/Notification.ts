@@ -6,7 +6,8 @@ export type NotificationType =
   | 'opportunity_rejected'
   | 'application_received'
   | 'application_accepted'
-  | 'application_rejected';
+  | 'application_rejected'
+  | 'application_reviewing';
 
 export interface INotification extends Document {
   recipientId: mongoose.Types.ObjectId;
@@ -32,6 +33,7 @@ const NotificationSchema = new Schema<INotification>({
     enum: [
       'opportunity_submitted', 'opportunity_approved', 'opportunity_rejected',
       'application_received', 'application_accepted', 'application_rejected',
+      'application_reviewing',
     ],
     required: true,
   },

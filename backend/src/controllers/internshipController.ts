@@ -28,8 +28,24 @@ export const getInternships = async (req: AuthRequest, res: Response) => {
 
     const internships = await Internship.find(filters)
       .populate('companyId', 'companyName logo')
-      .sort({ createdAt: -1 });
-    return sendSuccess(res, 200, internships, 'Opportunities fetched successfully');
+      .sort({ createdAt: -1 })
+      .lean();
+
+    let enrichedInternships: any[] = internships;
+    if (req.user && req.user.role === 'student') {
+      const studentApplications = await Application.find({ studentId: req.user._id }).lean();
+      const appMap = new Map(studentApplications.map((app: any) => [app.internshipId.toString(), app.status]));
+      enrichedInternships = internships.map(opp => {
+        const oppId = String((opp as any)._id || (opp as any).id);
+        return {
+          ...opp,
+          hasApplied: appMap.has(oppId),
+          applicationStatus: appMap.get(oppId)
+        };
+      });
+    }
+
+    return sendSuccess(res, 200, enrichedInternships, 'Opportunities fetched successfully');
   } catch (error: any) {
     return sendError(res, 500, error.message);
   }
@@ -67,7 +83,15 @@ export const getInternshipById = async (req: AuthRequest, res: Response) => {
       }) as any;
     }
 
-    return sendSuccess(res, 200, internship, 'Internship fetched successfully');
+    const internshipObj: any = internship.toObject();
+
+    if (req.user && req.user.role === 'student') {
+      const application = await Application.findOne({ studentId: req.user._id, internshipId: req.params.id }).lean();
+      internshipObj.hasApplied = !!application;
+      internshipObj.applicationStatus = application?.status;
+    }
+
+    return sendSuccess(res, 200, internshipObj, 'Internship fetched successfully');
   } catch (error: any) {
     return sendError(res, 500, error.message);
   }

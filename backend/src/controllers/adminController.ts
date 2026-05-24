@@ -1,8 +1,10 @@
 import { Response } from 'express';
+import mongoose from 'mongoose';
 import { AuthRequest } from '../middlewares/auth';
 import User from '../models/User';
 import Application from '../models/Application';
 import Internship from '../models/Internship';
+import Notification from '../models/Notification';
 import { sendSuccess, sendError } from '../utils/responseWrapper';
 import { createNotification } from './notificationController';
 
@@ -72,9 +74,117 @@ export const suspendUser = async (req: AuthRequest, res: Response) => {
   }
 };
 
+export const deleteUserCascade = async (userId: string) => {
+  const user = await User.findById(userId);
+  if (!user) return;
+
+  const session = await mongoose.startSession();
+  try {
+    session.startTransaction();
+
+    if (user.role === 'student') {
+      // 1. collect application IDs
+      const apps = await Application.find({ studentId: userId }).session(session);
+      const appIds = apps.map(app => app._id.toString());
+
+      // 2. delete notifications
+      await Notification.deleteMany({
+        $or: [
+          { recipientId: userId },
+          { senderId: userId },
+          { relatedType: 'application', relatedId: { $in: appIds } }
+        ]
+      }).session(session);
+
+      // 3. delete applications
+      await Application.deleteMany({ studentId: userId }).session(session);
+
+      // 4. delete bookmarks (savedOpportunities) - stored in student document itself and deleted in step 7
+
+      // 5. invalidate caches - no DB cache exists, log cache invalidation
+      console.log(`[Cache Invalidation] Invalidate recommendation cache for student: ${userId}`);
+
+      // 6. cleanup references - no other database tables refer to studentId
+
+      // 7. delete user
+      await User.findByIdAndDelete(userId).session(session);
+    } else if (user.role === 'company') {
+      const internships = await Internship.find({ companyId: userId }).session(session);
+      const internshipIds = internships.map(i => i._id.toString());
+
+      const apps = await Application.find({ internshipId: { $in: internshipIds } }).session(session);
+      const appIds = apps.map(app => app._id.toString());
+
+      await Notification.deleteMany({
+        $or: [
+          { recipientId: userId },
+          { senderId: userId },
+          { relatedType: 'opportunity', relatedId: { $in: internshipIds } },
+          { relatedType: 'application', relatedId: { $in: appIds } }
+        ]
+      }).session(session);
+
+      await Application.deleteMany({ internshipId: { $in: internshipIds } }).session(session);
+      await Internship.deleteMany({ companyId: userId }).session(session);
+      await User.findByIdAndDelete(userId).session(session);
+    } else {
+      await User.findByIdAndDelete(userId).session(session);
+    }
+
+    await session.commitTransaction();
+  } catch (error: any) {
+    await session.abortTransaction();
+    
+    // Fallback for local standalone MongoDB deployment without replica sets
+    const isTransError = error.message.includes('replica set') || error.message.includes('transaction');
+    if (isTransError) {
+      console.warn('[Transactions] Standalone MongoDB detected. Falling back to non-transactional cascade delete.');
+      
+      if (user.role === 'student') {
+        const apps = await Application.find({ studentId: userId });
+        const appIds = apps.map(app => app._id.toString());
+
+        await Notification.deleteMany({
+          $or: [
+            { recipientId: userId },
+            { senderId: userId },
+            { relatedType: 'application', relatedId: { $in: appIds } }
+          ]
+        });
+        await Application.deleteMany({ studentId: userId });
+        await User.findByIdAndDelete(userId);
+      } else if (user.role === 'company') {
+        const internships = await Internship.find({ companyId: userId });
+        const internshipIds = internships.map(i => i._id.toString());
+
+        const apps = await Application.find({ internshipId: { $in: internshipIds } });
+        const appIds = apps.map(app => app._id.toString());
+
+        await Notification.deleteMany({
+          $or: [
+            { recipientId: userId },
+            { senderId: userId },
+            { relatedType: 'opportunity', relatedId: { $in: internshipIds } },
+            { relatedType: 'application', relatedId: { $in: appIds } }
+          ]
+        });
+        await Application.deleteMany({ internshipId: { $in: internshipIds } });
+        await Internship.deleteMany({ companyId: userId });
+        await User.findByIdAndDelete(userId);
+      } else {
+        await User.findByIdAndDelete(userId);
+      }
+    } else {
+      throw error;
+    }
+  } finally {
+    session.endSession();
+  }
+};
+
 export const deleteUser = async (req: AuthRequest, res: Response) => {
   try {
-    await User.findByIdAndDelete(req.params.id);
+    await deleteUserCascade(req.params.id as string);
     return sendSuccess(res, 200, null, 'User deleted successfully');
   } catch (error: any) {
     return sendError(res, 500, error.message);

@@ -1,4 +1,6 @@
 import { IAssessmentResponse, IUser } from '../models/User';
+import { spawn } from 'child_process';
+import path from 'path';
 
 // ─── Personality aggregation ────────────────────────────────────────────────
 
@@ -10,6 +12,13 @@ const PERSONALITY_TRAITS = [
   'Neuroticism',
   'Communication_Skills',
   'Presentation_Skills',
+  'Leadership',
+  'Teamwork',
+  'Resilience',
+  'Networking',
+  'Emotional_Reasoning',
+  'Empathy',
+  'Spontaneity',
 ] as const;
 
 type PersonalityVector = Record<(typeof PERSONALITY_TRAITS)[number], number>;
@@ -24,8 +33,11 @@ export function aggregatePersonality(
   const groups: Record<string, number[]> = {};
 
   for (const resp of assessment ?? []) {
-    const cat = resp.category?.trim();
+    let cat = resp.category?.trim();
     if (!cat) continue;
+    if (cat === 'Emotional Reasoning') {
+      cat = 'Emotional_Reasoning';
+    }
     if (!groups[cat]) groups[cat] = [];
     groups[cat].push(resp.score);
   }
@@ -156,7 +168,11 @@ export function buildRecommendationInput(user: IUser): RecommendationInput {
     .map(normalizeTrack)
     .filter((t): t is string => t !== null);
 
-  const personality = aggregatePersonality(user.personalityAssessment);
+  const mergedAssessments = [
+    ...(user.personalityAssessment ?? []),
+    ...(user.softSkillsAssessment ?? []),
+  ];
+  const personality = aggregatePersonality(mergedAssessments);
 
   return {
     skills,
@@ -168,3 +184,142 @@ export function buildRecommendationInput(user: IUser): RecommendationInput {
     limit: 10,
   };
 }
+
+const PYTHON_TIMEOUT_MS = 15_000;
+const SCRIPT_PATH = path.join(
+  __dirname,
+  '../../recommendation-system/recomendation_engine.py'
+);
+
+export interface PythonRecommendation {
+  opportunityId?: string;
+  programming_track?: string;
+  required_language?: string;
+  organization_name?: string;
+  hybrid_score?: number;
+  matchScore: number;
+  techScore?: number;
+  effectiveTechScore?: number;
+  personalityScore?: number;
+  matchReason?: string;
+  recommendationSource?: string;
+  userId?: string;
+}
+
+export interface PythonResult {
+  success: boolean;
+  recommendations?: PythonRecommendation[];
+  message?: string;
+  error?: string;
+}
+
+/** Call Python engine and parse stdout as JSON. */
+export function callPython(payload: object): Promise<PythonResult> {
+  return new Promise((resolve) => {
+    const pythonBin = process.env.PYTHON_BIN || 'python';
+    const inputJson = JSON.stringify(payload);
+
+    let stdout = '';
+    let stderr = '';
+    let timedOut = false;
+
+    const child = spawn(pythonBin, [SCRIPT_PATH, inputJson]);
+
+    const timer = setTimeout(() => {
+      timedOut = true;
+      child.kill('SIGTERM');
+      resolve({ success: false, message: 'Python process timed out', error: 'timeout' });
+    }, PYTHON_TIMEOUT_MS);
+
+    child.stdout.on('data', (d: Buffer) => { stdout += d.toString(); });
+    child.stderr.on('data', (d: Buffer) => { stderr += d.toString(); });
+
+    child.on('close', (code) => {
+      clearTimeout(timer);
+      if (timedOut) return;
+
+      if (stderr.trim()) {
+        console.error('[Recommendations] Python stderr:', stderr.trim().substring(0, 1000));
+      }
+
+      if (code !== 0) {
+        console.error(`[Recommendations] Python exited with code ${code}`);
+        resolve({ success: false, message: 'Python process failed', error: `exit code ${code}` });
+        return;
+      }
+
+      try {
+        const parsed = JSON.parse(stdout.trim()) as PythonResult;
+        resolve(parsed);
+      } catch {
+        console.error('[Recommendations] Failed to parse Python stdout:', stdout.substring(0, 500));
+        resolve({ success: false, message: 'Invalid Python output', error: 'json parse failure' });
+      }
+    });
+
+    child.on('error', (err) => {
+      clearTimeout(timer);
+      console.error('[Recommendations] Spawn error:', err.message);
+      resolve({ success: false, message: 'Failed to start Python', error: err.message });
+    });
+  });
+}
+
+/** Scores a single opportunity using the Python recommendation engine. */
+export async function getOpportunityMatchScore(
+  user: IUser,
+  internship: any
+): Promise<{ matchScore: number; techScore: number; effectiveTechScore?: number; personalityScore: number } | null> {
+  try {
+    const mergedSkills = normalizeSkills([
+      ...(user.skills ?? []),
+      ...(user.extractedSkills ?? []),
+    ]);
+
+    // If onboarding is not completed or no skills, we cannot calculate recommendation scores.
+    if (!user.hasCompletedOnboarding || mergedSkills.length === 0) {
+      return null;
+    }
+
+    const opportunities = [{
+      opportunityId:     String(internship._id),
+      title:             internship.title,
+      required_language: normalizeSkills(internship.requiredSkills ?? []).join(', '),
+      programming_track: normalizeTrack(internship.category ?? '') ?? 'Other',
+      Openness:            3,
+      Conscientiousness:   3,
+      Extraversion:        3,
+      Agreeableness:       3,
+      Neuroticism:         3,
+      Communication_Skills:3,
+      Presentation_Skills: 3,
+    }];
+
+    const inputPayload  = buildRecommendationInput(user);
+    const pythonPayload = { mode: 'student', ...inputPayload, opportunities };
+
+    const pythonResult = await callPython(pythonPayload);
+
+    if (pythonResult.success && pythonResult.recommendations && pythonResult.recommendations.length > 0) {
+      const rec = pythonResult.recommendations[0];
+
+      // Safeguard: Ensure scores are valid, normalized, and clamped within [0, 100]
+      const matchScore = Math.max(0, Math.min(100, Math.round(rec.matchScore)));
+      const techScore = Math.max(0, Math.min(100, Math.round(rec.techScore ?? 0)));
+      const effectiveTechScore = Math.max(0, Math.min(100, Math.round(rec.effectiveTechScore ?? 0)));
+      const personalityScore = Math.max(0, Math.min(100, Math.round(rec.personalityScore ?? 50)));
+
+      return {
+        matchScore,
+        techScore,
+        effectiveTechScore,
+        personalityScore,
+      };
+    }
+    return null;
+  } catch (error) {
+    console.error('[Recommendations] getOpportunityMatchScore error:', error);
+    return null;
+  }
+}
+

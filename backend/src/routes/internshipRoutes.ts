@@ -19,7 +19,7 @@ router.get('/', optionalProtect, getInternships);
 // Protected: company's own opportunities (all statuses) — used by dashboard & manage pages
 router.get('/mine', protect, authorize('company'), getMyInternships);
 
-router.get('/:id', getInternshipById);
+router.get('/:id', optionalProtect, getInternshipById);
 router.post('/', protect, authorize('company'), createInternship);
 router.put('/:id', protect, authorize('company'), updateInternship);
 router.delete('/:id', protect, authorize('company', 'admin'), deleteInternship);

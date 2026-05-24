@@ -26,6 +26,11 @@ export default function ExamPage() {
       opportunityService.getById(internshipId)
         .then(res => {
           const opp = res.data;
+          if (opp.hasApplied) {
+            toast.error('You have already applied to this opportunity.');
+            navigate('/internships');
+            return;
+          }
           if (!opp.exam || !opp.exam.questions || opp.exam.questions.length === 0) {
             toast.error('This opportunity does not require an assessment.');
             navigate('/internships');
@@ -55,7 +60,7 @@ export default function ExamPage() {
     });
 
     try {
-      await applicationService.apply(opportunity._id || opportunity.id!, { answers: answersObj });
+      await applicationService.submitExamAndApply(opportunity._id || opportunity.id!, { answers: answersObj });
       toast.success('Assessment submitted and application complete!');
       navigate('/student/dashboard');
     } catch (err: any) {
